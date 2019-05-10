@@ -1,20 +1,57 @@
 \documentclass[10pt,conference]{IEEEtran} 
-\usepackage[utf8]{inputenc}
-\usepackage{xcolor}
-\usepackage{todonotes}
-\usepackage{xspace}
-\usepackage{amsmath}
-\usepackage{multirow}
-\usepackage{balance}
-\usepackage{array}
+\usepackage{amssymb,amsmath}
+
 \usepackage{boxedminipage}
-\usepackage{textcomp}
+\usepackage{xspace}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{hyperref} 
+
+\usepackage{xcolor}
+%\usepackage{todonotes}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% ONLINE COMMENTS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{ifthen}
+\usepackage{xcolor, color}
+\newboolean{showcomments}
+\setboolean{showcomments}{true} % toggle to show or hide comments
+\ifthenelse{\boolean{showcomments}} 
+{\newcommand{\nb}[2]{
+\fcolorbox{gray}{yellow}{\bfseries\sffamily #1}
+{$\blacktriangleright$#2$\blacktriangleleft$}
+}
+\newcommand{\version}{\emph{\scriptsize$-$working$-$}}
+}
+{\newcommand{\nb}[2]{} 
+\newcommand{\version}{}
+}
+
+\newcommand\levi[1]{\nb{Dominique}{\textcolor{teal}{#1}}}
+\newcommand\moussa[1]{\nb{Moussa}{\textcolor{blue}{#1}}} 
+\newcommand\adrien[1]{\nb{Robert}{\textcolor{red}{#1}}}
+\newcommand\arend[1]{\nb{Arend}{\textcolor{green}{#1}}}
+\newcommand\andreas[1]{\nb{Andreas}{\textcolor{gray}{#1}}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-\let\defi\emph % definiendum
-\let\dref\relax %Use of a defi
-\let\abbrv\textsf %Use of an abbreviation
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% ABBREVIATIONS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\etal}{\emph{et al.{}\xspace}}
+\newcommand{\PS}{\ensuremath{\mathbb{P}\!\mathbb{S}}\xspace}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\usepackage[utf8]{inputenc}
+\usepackage{balance}
 
 \begin{document}
 \title{Towards a Formal Specification of Multi-Paradigm Modelling}
@@ -55,6 +92,7 @@ City, Country \\
 
 \input{Abstract}
 \input{Introduction}
+\input{Formalisation}
 
 %\newpage
 % \balance
