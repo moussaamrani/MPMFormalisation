@@ -1,6 +1,6 @@
 \documentclass[10pt,conference]{IEEEtran} 
 \usepackage{amssymb,amsmath}
-
+\usepackage{stmaryrd}
 \usepackage{boxedminipage}
 \usepackage{xspace}
 \usepackage{tabularx}
@@ -37,14 +37,16 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
+\newtheorem{Definition}{Definition  }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% ABBREVIATIONS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\etal}{\emph{et al.{}\xspace}}
 \newcommand{\PS}{\ensuremath{\mathbb{P}\!\mathbb{S}}\xspace}
-
+\newcommand{\AS}{\ensuremath{\mathbb{A}\!\mathbb{S}}\xspace}
+\newcommand{\CS}{\ensuremath{\mathbb{C}\!\mathbb{S}}\xspace}
+\newcommand{\SMapping}{\ensuremath{\llbracket \cdot \rrbracket     }}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -95,8 +97,8 @@ City, Country \\
 \input{Formalisation}
 
 %\newpage
-% \balance
-% \bibliographystyle{./IEEEtran}
-% \bibliography{./MPMFormalisation}
+\balance
+\bibliographystyle{ieeetran}
+\bibliography{./MPMFormalism}
 
 \end{document}

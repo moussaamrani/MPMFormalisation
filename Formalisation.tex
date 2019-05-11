@@ -24,3 +24,69 @@ mechanism between objects.
 \moussa{Maybe factor out this description in a previous section dedicated to 
 provide the intuition about paradigms?}. 
 
+\subsection{Formalism \& Language}
+\label{sec:Formalism-Language}
+
+\begin{Definition}[Formalism]
+   A \emph{formalism} $F\in\mathbb{F}$ is a triple $F = (\mathsf{AS}, 
+\SMapping, \mathsf{SD})$, where $\mathsf{AS}\in\AS$ is an \emph{abstract 
+syntax}; $\mathsf{SD}\in\mathbb{D}$ is a \emph{semantic domain}; and $\SMapping 
+\colon \mathsf{AS} \to \mathsf{SD}$ is a \emph{semantic mapping} that uniquely 
+associates to each valid abstract syntax instance a meaning (or interpretation) 
+in terms of the semantic domain.
+\end{Definition}
+A formalism is a mathematical construction that captures the \emph{essence}, 
+the \emph{core concepts} of a software language. For example, Finite State 
+Automata (\textsc{Fsa}), as originally defined by Moore \cite{J:Moore:1956}, 
+define the 
+state-transition computations. However, to be useful in practice, a 
+\emph{concrete syntax} is needed in order to manipulate concrete instances, 
+allowing the definition of languages.
+
+ \begin{Definition}[Language]
+   A \emph{language} $L\in\mathcal{L}$ is a tuple $L = (\mathsf{CS}, 
+\mathsf{AS}, \SMapping, \mathsf{SD})$ where $\mathsf{CS}\in\CS$ is a 
+\emph{concrete syntax} for representing elements of the language;  
+$\mathsf{AS}\in\AS$ is an \emph{abstract syntax}; $\mathsf{SD}\in\mathbb{D}$ is 
+a \emph{semantic domain}; and $\SMapping \colon \mathsf{AS} \to \mathsf{SD}$ is 
+a \emph{semantic mapping}. 
+\end{Definition}
+A language, also known as a \emph{concrete formalism} \cite{P:MPM:2006}, is ``a 
+concrete implementation of formalism(s)`` with a slightly different semantics  
+\cite{Broman-etAl:2012}. For example, an \textsc{Fsa} \emph{language} may 
+introduce multiple accepting states and tolerate reactions on transitions, 
+while adopting the well-known graph-like concrete syntax with dedicated 
+notations for initial and final states. It is often not trivial to retrieve the 
+formalisms used within a given language. For example, the \textsc{Uml} State 
+Machines language clearly implements on the \textsc{Fsa} formalism, but adds 
+several new concepts (like hierarchical and orthogonal states, reactions over 
+transitions, etc.)
+
+Note that our previous definitions are \emph{extentional} in nature, as 
+illustrated in Figure \ref{fig:FrameworkSets}. In practice in the Model-Driven 
+Approach, a metamodelling framework must be selected in order to concretely 
+define the abstract (and concrete) syntax(es) as well as the semantic domain, 
+and a transformation framework must be used to actually specify the semantic 
+mapping in a useable fashion. This leads to the usual distinction between 
+\emph{linguisting} and \emph{ontological} instantiation \cite{J:Kuhne:2006}: the 
+linguistic instantiation checks that an element $\mathsf{cs}$ is well-formed 
+regarding the concrete syntax $\mathsf{CS}$; while the ontological 
+instantiation checks the validity of $\mathsf{cs}$ regarding the concrete 
+definition of the abstract syntax $\mathsf{AS}$.
+
+
+\subsection{Workflow}
+\label{sec:Workflow}
+
+\moussa{Would it be easier to define the xFTG+PM with \emph{languages} instead 
+of \emph{formalisms}? This is what occurs in all FTG+PM I've seen anyway!}
+
+\subsection{Paradigmatic Structure}
+\label{sec:PS}
+
+\begin{Definition}[Paradigmatic Structure]
+   A \emph{paradigmatic structure} $\mathsf{PS}\in \PS$ is a pair $\mathsf{PS} 
+= (\mathsf{F}, \mathsf{W})$ where $\mathsf{F}\in \wp(\mathbb{F})$ is a set of 
+formalisms and $\mathsf{W}\in\wp(\mathbb{W})$ is a set of workflows.
+\end{Definition}
+
