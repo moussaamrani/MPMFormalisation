@@ -24,6 +24,23 @@ mechanism between objects.
 \moussa{Maybe factor out this description in a previous section dedicated to 
 provide the intuition about paradigms?}. 
 
+
+\begin{Definition}[Names]
+   The sorted set \textsf{Name} of \emph{names} defines namespaces over 
+\emph{items}.
+   \begin{displaymath}
+   \begin{small}
+     \begin{array}{rcl}
+		\mathsf{Item} & \eqdef & \{\mathsf{Language}, \mathsf{Transformation}, \\
+                    &        & \mathsf{LangInstance}, \mathsf{TransInstance}\}\\
+		\mathsf{Name}    & \eqdef & (\mathsf{Name}_{_{\mathsf{e}}})_{_{\mathsf{e} 
+\in \mathsf{Item}}}
+      \end{array}
+   \end{small}
+\end{displaymath}
+\end{Definition}
+
+
 \subsection{Formalism \& Language}
 \label{sec:Formalism-Language}
 
@@ -52,27 +69,32 @@ a \emph{semantic domain}; and $\SMapping \colon \mathsf{AS} \to \mathsf{SD}$ is
 a \emph{semantic mapping}. 
 \end{Definition}
 A language, also known as a \emph{concrete formalism} \cite{P:MPM:2006}, is ``a 
-concrete implementation of formalism(s)`` with a slightly different semantics  
-\cite{Broman-etAl:2012}. For example, an \textsc{Fsa} \emph{language} may 
-introduce multiple accepting states and tolerate reactions on transitions, 
-while adopting the well-known graph-like concrete syntax with dedicated 
-notations for initial and final states. It is often not trivial to retrieve the 
-formalisms used within a given language. For example, the \textsc{Uml} State 
-Machines language clearly implements on the \textsc{Fsa} formalism, but adds 
-several new concepts (like hierarchical and orthogonal states, reactions over 
-transitions, etc.)
+concrete implementation of formalism(s)``: according to Broman \emph{et al.} 
+\cite{Broman-etAl:2012}, a language may rely on several formalisms, and may 
+deviate slightly from the formalisms' semantics it implements. 
+
+Pursuing on our \textsc{Fsa} example, the \textsc{Uml} State Machines language
+\cite{} offers one concrete syntax to the \textsc{Fsa} formalism (by defining 
+how to represent initial, final and ''normal`` states), but also adds several 
+new concepts like hierarchical / orthogonal states, and reactions over 
+transitions (for facilitating design and integration with other \textsc{Uml} 
+languages, among other reasons) that impose to change the \textsc{Fsa} 
+semantics to take them into account.
 
 Note that our previous definitions are \emph{extentional} in nature, as 
-illustrated in Figure \ref{fig:FrameworkSets}. In practice in the Model-Driven 
-Approach, a metamodelling framework must be selected in order to concretely 
-define the abstract (and concrete) syntax(es) as well as the semantic domain, 
-and a transformation framework must be used to actually specify the semantic 
-mapping in a useable fashion. This leads to the usual distinction between 
-\emph{linguisting} and \emph{ontological} instantiation \cite{J:Kuhne:2006}: the 
-linguistic instantiation checks that an element $\mathsf{cs}$ is well-formed 
-regarding the concrete syntax $\mathsf{CS}$; while the ontological 
-instantiation checks the validity of $\mathsf{cs}$ regarding the concrete 
-definition of the abstract syntax $\mathsf{AS}$.
+illustrated in Figure \ref{fig:FrameworkSets}. In practice, several languages 
+shall be selected for the purpose of concretely defining of a formalism and 
+of a language. In the Model-Driven Engineering approach, metamodelling
+languages (based on graphs or the \textsc{Omg Mof} standard) are preferred for 
+the abstract syntax (although grammars are another valid choice), together 
+with model transformations for expressing semantic mappings.  
+
+% This leads to the usual distinction between 
+% \emph{linguisting} and \emph{ontological} instantiation \cite{J:Kuhne:2006}: the 
+% linguistic instantiation checks that an element $\mathsf{cs}$ is well-formed 
+% regarding the concrete syntax $\mathsf{CS}$; while the ontological 
+% instantiation checks the validity of $\mathsf{cs}$ regarding the concrete 
+% definition of the abstract syntax $\mathsf{AS}$.
 
 
 \subsection{Workflow}
@@ -80,6 +102,24 @@ definition of the abstract syntax $\mathsf{AS}$.
 
 \moussa{Would it be easier to define the xFTG+PM with \emph{languages} instead 
 of \emph{formalisms}? This is what occurs in all FTG+PM I've seen anyway!}
+
+\begin{Definition}{Transformation}
+   
+\end{Definition}
+
+
+
+\begin{Definition}[Process Model]
+   A \emph{process model} $\mathsf{PM}\in\PM$ is an instance of a 
+\textsc{Uml} Activity Diagram where \textsf{ActionNode}s are labelled by 
+transformation instance names, and may be \emph{hierarchical} and may contain 
+input/output \textsf{Pins}; and \textsf{ObjectNode}s are labelled by language 
+instance names; and \textsf{ControlNode}s include 
+\textsf{Decision}/\textsf{Merge}, \textsf{Fork}/\textsf{Join} and 
+\textsf{Init}/\textsf{Finals} nodes.
+\end{Definition}
+
+
 
 \subsection{Paradigmatic Structure}
 \label{sec:PS}
@@ -90,3 +130,5 @@ of \emph{formalisms}? This is what occurs in all FTG+PM I've seen anyway!}
 formalisms and $\mathsf{W}\in\wp(\mathbb{W})$ is a set of workflows.
 \end{Definition}
 
+\moussa{Since Workflows are defined over languages, rather than formalisms, it 
+makes sense here to adapt the definition accordingly.}
