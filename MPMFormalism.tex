@@ -37,16 +37,29 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%% DEF/EXAMPLE ENVS
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsthm} 
 \newtheorem{Definition}{Definition}
+% \newtheoremstyle{example}{}{}{}{}{\bfseries}{}{\newline}{}
+\theoremstyle{remark}
+\newtheorem{Example}{Example}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% ABBREVIATIONS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newcommand{\etal}{\emph{et al.{}\xspace}}
 \newcommand{\PS}{\ensuremath{\mathbb{P}\!\mathbb{S}}\xspace}
+\newcommand{\TE}{\ensuremath{\mathbb{T}\!\mathbb{E}}\xspace}
 \newcommand{\PM}{\ensuremath{\mathbb{P}\!\mathbb{M}}\xspace}
 \newcommand{\AS}{\ensuremath{\mathbb{A}\!\mathbb{S}}\xspace}
 \newcommand{\CS}{\ensuremath{\mathbb{C}\!\mathbb{S}}\xspace}
+\newcommand{\FTG}{\ensuremath{\mathbb{F}\!\mathbb{T}\!\mathbb{G}}\xspace}
 \newcommand{\SMapping}{\ensuremath{\llbracket \cdot \rrbracket}}
 \newcommand{\eqdef}{\ensuremath{\triangleq}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -102,6 +115,7 @@ City, Country \\
 
 \input{Abstract}
 \input{Introduction}
+\input{Examples}
 \input{Formalisation}
 
 %\newpage

@@ -68,16 +68,16 @@ capabilities and implementation choices.
 \begin{Definition}[Names]
    The sorted set $\mathsf{Name}$ of \emph{names} defines namespaces over 
 \emph{items}.
-   \begin{displaymath}
    \begin{small}
+   \begin{displaymath}
      \begin{array}{rcl}
 		\mathsf{Item} & \eqdef & \{\mathsf{Language}, \mathsf{Transformation}, \\
                     &        & \mathsf{LangInstance}, \mathsf{TransInstance}\}\\
 		\mathsf{Name}    & \eqdef & (\mathsf{Name}_{_{\mathsf{e}}})_{_{\mathsf{e} 
 \in \mathsf{Item}}}
       \end{array}
-   \end{small}
 \end{displaymath}
+   \end{small}
 \end{Definition}
 To avoid the subscripted notation, we introduce a more compact notation for 
 referring to names: for example, the set of class names 
@@ -155,10 +155,17 @@ $\mathsf{F_1}, \ldots, \mathsf{F_n}\in\mathbb{F}$.
 Automatically checking the implementation relation is difficult, and requires a 
 mathematical machinerie way beyond the scope of this paper: software language 
 designers use intricate combinations of formalism(s) to reach the current 
-requirements for language usability, efficiency, readability, etc. Since the 
-formalisms implemented by a language are transparent for the end-users, we 
-focus our formalisation on languages rather than the formalisms: the 
-implementation relation allows to retrieve them if needed.
+requirements for language usability, efficiency, readability, etc., blurring 
+this relations along the way. 
+Since the formalisms implemented by a language are transparent for the 
+end-users, we focus our formalisation on languages rather than the formalisms: 
+the implementation relation allows to retrieve them if needed.
+
+\begin{Example}{Variations over \textsc{Fsm}s.}
+   
+\end{Example}
+
+
 
 \subsection{Transformations}
 \label{sec:Formalisation-Transformation}
@@ -169,7 +176,7 @@ different variations depending on their features \cite{J:Mens-VonGorp:2006} and
 properties and intents \cite{J:Lucio-Amrani-etAl:2014}. As usual, we 
 distinguish between transformation \emph{specifications} and \emph{executions}.
 
-\begin{Definition}[Transformation]
+\begin{Definition}[Transformation\label{def:Transformation}]
    A \emph{transformation specification} $\mathsf{T}\in\mathbb{T}$ is a triple 
 $\mathsf{T} = ((\mathsf{L_s^{i}})_{\mathsf{i}\in [1..n]}, 
 (\mathsf{L_t^{j}})_{\mathsf{j}\in[1..m]}, \mathsf{spec})$ where  
@@ -178,11 +185,15 @@ $(\mathsf{L_t^{j}})_{\mathsf{j}\in [1..m]}$ are indexed sets of source and
 target languages, respectively, and $\mathsf{spec}$ is a well-formed 
 transformation definition written in a transformation language.
 
-   A \emph{transformation execution} $\mathsf{TE_{T}}$ is a general computation 
-performed on (a) language instance(s) that conform(s) to the source language(s) 
-of the transformation $\mathsf{T}\in\mathbb{T}$.
+   A \emph{transformation execution} $\mathsf{TE_{T}}\in\TE$ is a general 
+computation performed on (a) language instance(s) that conform(s) to the source 
+language(s) of the transformation $\mathsf{T}\in\mathbb{T}$.
 \end{Definition}
-
+For the purpose of formalising the notion of paradigm, the details on how 
+$\mathsf{spec}$ is written have less importance than the ''signature`` of 
+a transformation, i.e. which languages are taken as sources and produced as 
+targets. We then simplify the notation by defining a transformation as pair, 
+without $\mathsf{spec}$.
 
 % Pursuing on our \textsc{Fsa} example, the \textsc{Uml} State Machines language
 % \cite{} offers one concrete syntax to the \textsc{Fsa} formalism (by defining 
@@ -200,22 +211,73 @@ of the transformation $\mathsf{T}\in\mathbb{T}$.
 % instantiation checks the validity of $\mathsf{cs}$ regarding the concrete 
 % definition of the abstract syntax $\mathsf{AS}$.
 
+\begin{Example}
+   
+\end{Example}
+
 
 \subsection{Workflow}
 \label{sec:Workflow}
 
+Workflows constitute the essence of a paradigm: they describe precisely how 
+formalisms (or more precisely, languages) are related to each other through 
+transformations. A workflow is composed of two elements: a \emph{Formalism 
+Transformation Graph} (\textsc{Ftg}) describes explicitly the links between 
+formalisms / languages, stating what possible transformations may be used; and 
+a \emph{Process Model} (\textsc{Pm}) describes how language instances are 
+combined together to achieve the intent $\iota$. Combining both elements 
+results in the \textsc{Ftg+Pm} formalism and language that has already been 
+described in \cite{}.
+
+Before providing a definition of \textsc{Ftg+Pm}, we need to introduce a naming 
+mechanism: instead of directly manipulating languages and transformations, a 
+repository links the names used by an \textsc{Ftg+Pm} to their actual items. 
+This linking is formally captured by the following definition:
 
 
 \moussa{Would it be easier to define the xFTG+PM with \emph{languages} instead 
 of \emph{formalisms}? This is what occurs in all FTG+PM I've seen anyway!}
 
-\begin{Definition}{Transformation}
-   
+\begin{Definition}[Naming]
+   Two \emph{naming functions} associate (sorted) names to their actual item:
+   \begin{displaymath}
+      \begin{array}{rcl}
+         name_{\mathsf{T}} &\colon& \mathsf{TransformationN} \to \mathbb{T}\\
+         name_{\mathsf{L}} &\colon& \mathsf{LanguageN} \to \mathbb{L}
+      \end{array}
+   \end{displaymath}
 \end{Definition}
+From now on and when clear from context, we simplify the notation by using 
+$name$ as a polymorphic function and rely on the name sort to dispatch 
+appropriately.
 
+An \textsc{Ftg} can be seen as a collection of transformations that are 
+considered useful for a given context. Since transformation names are actually 
+used, we use a functional definition.
+\begin{Definition}{Formalism Transformation Graph (\textsc{Ftg})}
+   A \emph{Formalism Transformation Graph} $\mathsf{FTG} \in \FTG(L, T)$ is a 
+function  $\mathsf{FTG} \colon T \to \langle L \rangle \times \langle L \rangle 
+\times \mathbb{B}$ restricted to specific subsets of languages $L \subseteq 
+\mathsf{LanguageN}$ and transformations $T\subseteq \mathsf{TransformationN}$, 
+and the boolean value indicates whether the transformation is automatic or not 
+(meaning that it becomes a human activity).
+\end{Definition}
+Note that the definition uses sequences of source and target languages to 
+ensure that a specific transformation execution correctly instantiate its 
+specification (cf. Def. \ref{def:Transformation}).
 
+In practice, we represent \textsf{FTG} with colored rounds for transformations 
+(names) to distinguish between automatic and manual ones, and shared rectangles 
+for languages (names).
 
-\begin{Definition}[Process Model]
+\medskip
+As its name indicates, a \textsc{Pm} describes a process, i.e. a set of 
+activities that are combined together towards achieving a particular goal. 
+Instead of reinventing a Domain-Specific Language for this well-studied domain, 
+we simply specialise one standard and well-known language that covers our 
+needs, namely \textsc{Uml}'s Activity Diagrams.
+
+\begin{Definition}[Process Model (\textsc{Pm})]
    A \emph{process model} $\mathsf{PM}\in\PM$ is an instance of a 
 \textsc{Uml} Activity Diagram where \textsf{ActionNode}s are labelled by 
 transformation instance names, and may be \emph{hierarchical} and may contain 
@@ -223,6 +285,25 @@ input/output \textsf{Pins}; and \textsf{ObjectNode}s are labelled by language
 instance names; and \textsf{ControlNode}s include 
 \textsf{Decision}/\textsf{Merge}, \textsf{Fork}/\textsf{Join} and 
 \textsf{Init}/\textsf{Finals} nodes.
+\end{Definition}
+We may distinguish in the concrete syntax \textsf{ControlFlow}s from 
+\textsf{ObjectFlow}s to emphasize the control and make the process more 
+proeminent.  
+
+\medskip
+\moussa{Define the typing relation for a \textsc{Pm} relatively to an 
+\textsc{Ftg}.}
+
+\moussa{Define the extended version x\textsc{Ftg} and explore the implications.}
+
+\medskip
+The following definition simply puts things together: a workflow is composed of 
+an \textsc{Ftg} together with several well-typed \textsc{Pm}s. 
+
+\begin{Definition}[Workflow]
+   A \emph{workflow} $\mathsf{W}\in\mathbb{W}$ is a pair $\mathsf{W} = 
+(\mathsf{FTG}), P)$ where $\mathsf{FTG}\in\FTG$ and $P\in\wp(\PM)$, such that 
+all $\mathsf{P}\in P$ is well-typed: $\mathsf{P} ? \mathsf{FTG}$.
 \end{Definition}
 
 
@@ -232,9 +313,7 @@ instance names; and \textsf{ControlNode}s include
 
 \begin{Definition}[Paradigmatic Structure]
    A \emph{paradigmatic structure} $\mathsf{PS}\in \PS$ is a pair $\mathsf{PS} 
-= (\mathsf{F}, \mathsf{W})$ where $\mathsf{F}\in \wp(\mathbb{F})$ is a set of 
-formalisms and $\mathsf{W}\in\wp(\mathbb{W})$ is a set of workflows.
+= (L, W)$ where $L\in \wp(\mathbb{L})$ is a set of languages and 
+$W \in \wp(\mathbb{W})$ is a set of workflows.
 \end{Definition}
 
-\moussa{Since Workflows are defined over languages, rather than formalisms, it 
-makes sense here to adapt the definition accordingly.}
