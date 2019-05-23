@@ -1,13 +1,63 @@
 \section{Examples}
 \label{sec:Examples}
 
-\subsection{Finite-State Machines}
+\subsection{Finite-State Automata}
 \label{sec:FSM}
 
+Finite State Automata (\textsc{Fsa}), as originally defined by Moore 
+\cite{J:Moore:1956}, link states with transitions that carry a label. 
+\textsc{Fsa} describe discrete state-based computations. Many variations of 
+\textsc{Fsa} exist together with various semantics, among which the 
+``word-accepting'' semantics is one of the most used \cite{}. 
+
+The \UML State Machines \cite{TR:UML-2.5:2015} is the language used by many 
+tools for expressing, among other possibilities, the behaviour of a \UML 
+object. Beyond state-based computations, \UML State Machines add several new 
+concepts like hierarchical and orthogonal states, history, and the possibility 
+to interact with the environment through outputs.
 
 \subsection{Java}
 \label{sec:Java}
 
+Java \cite{B:Java:2019} is a modern object-oriented programming language that 
+has become widely used for a large variety of applications. 
+
+Wegner criteria for OO \cite{Wegner:1987}
 
 \subsection{Poor-Man Computer Aided Design (\textsc{Pcad)}}
 \label{sec:PCAD}
+
+The \textsc{PCad} (the Poor-Man Computer-Aided Design) formalism is a toy 
+example designed to capture simple two-dimensional drawings. The following 
+definition formalises \textsc{PCad}'s structure.
+
+\begin{Definition}[\textsc{Pcad} Formalism\label{def:PCAD}]
+   A \textsc{PCad} object $o\in \PCAD$ is a set of lines. A \emph{line} $l 
+\in L$ is defined as a set of exactly two points. A \emph{point} $p\in P$ is a 
+pair of integers. The function $\SMapping$ maps an object $o\in \PCAD$ to the 
+unions of points the lines constituting the objects are made of. A \emph{color} 
+$c\in C$ is a triple of integers corresponding to its RGB encoding.
+\begin{displaymath}
+   \begin{array}{rcl}
+      \PCAD &\eqdef& \wp(L)\\
+      L     &\eqdef& \{ \{p, p'\} \;|\; p, p' \in P \}\\
+      P     &\eqdef& \mathbb{N} \times \mathbb{N}\\
+      C     &\eqdef& \{ (r, g, b) \;|\; r, g, b \in [0..255] \}\\
+      \\
+      \SMapping & \colon & \!\!\!\begin{array}[t]{rcl}
+         \PCAD &\to& P\\
+         o &\mapsto& \bigcup o
+      \end{array}
+   \end{array}
+\end{displaymath}
+\end{Definition}
+Figure \ref{fig:PCAD} describes a metamodel for the \textsc{PCad} formalism in 
+a \MOF-like language. 
+
+\begin{figure}[t]
+   \centering
+   \includegraphics[width=0.98\columnwidth]{PCAD}
+   \caption{A Simple Metamodel for \textsc{PCad} (cf. Definition 
+\ref{def:PCAD}).}%
+   \label{fig:PCAD}%
+\end{figure}
