@@ -210,10 +210,11 @@ without $\mathsf{spec}$.
 
 Workflows constitute the essence of a paradigm: they describe precisely how 
 formalisms (or more precisely, languages) are related to each other through 
-transformations. A workflow is composed of two elements: a \emph{Formalism 
-Transformation Graph} (\textsc{Ftg}) describes explicitly the links between 
-formalisms / languages, stating what possible transformations may be used; and 
-a \emph{Process Model} (\textsc{Pm}) describes how language instances are 
+transformations, in order to achieve an expected intent. 
+A workflow is composed of two elements: a \emph{Formalism Transformation Graph} 
+(\textsc{Ftg}) describes explicitly the links between formalisms / languages, 
+stating what possible transformations may be used; and a \emph{Process Model} 
+(\textsc{Pm}) describes how language instances are 
 combined together to achieve the intent $\iota$. Combining both elements 
 results in the \textsc{Ftg+Pm} formalism and language that has already been 
 described in \cite{}.
@@ -231,14 +232,11 @@ of \emph{formalisms}? This is what occurs in all FTG+PM I've seen anyway!}
    Two \emph{naming functions} associate (sorted) names to their actual item:
    \begin{displaymath}
       \begin{array}{rcl}
-         name_{\mathsf{T}} &\colon& \mathsf{TransformationN} \to \mathbb{T}\\
-         name_{\mathsf{L}} &\colon& \mathsf{LanguageN} \to \mathbb{L}
+         trans &\colon& \mathsf{TransformationN} \to \mathbb{T}\\
+         lang  &\colon& \mathsf{LanguageN} \to \mathbb{L}
       \end{array}
    \end{displaymath}
 \end{Definition}
-From now on and when clear from context, we simplify the notation by using 
-$name$ as a polymorphic function and rely on the name sort to dispatch 
-appropriately.
 
 An \textsc{Ftg} can be seen as a collection of transformations that are 
 considered useful for a given context. Since transformation names are actually 
@@ -268,16 +266,35 @@ needs, namely \textsc{Uml}'s Activity Diagrams.
 
 \begin{Definition}[Process Model (\textsc{Pm})]
    A \emph{process model} $\mathsf{PM}\in\PM$ is an instance of a 
-\textsc{Uml} Activity Diagram where \textsf{ActionNode}s are labelled by 
-transformation instance names, and may be \emph{hierarchical} and may contain 
-input/output \textsf{Pins}; and \textsf{ObjectNode}s are labelled by language 
-instance names; and \textsf{ControlNode}s include 
-\textsf{Decision}/\textsf{Merge}, \textsf{Fork}/\textsf{Join} and 
-\textsf{Init}/\textsf{Finals} nodes.
+\textsc{Uml} Activity Diagram where 
+\begin{itemize}
+   \item \textsf{ActionNode}s are labelled by transformation instance names 
+typed by their conforming transformation specifications, and may be 
+\emph{hierarchical} and may contain input/output \textsf{Pins}; and 
+   \item \textsf{ObjectNode}s are labelled by language instance names typed by 
+their conforming languages; and 
+   \item \textsf{ControlNode}s include \textsf{Decision}/\textsf{Merge}, 
+\textsf{Fork}/\textsf{Join} and \textsf{Init}/\textsf{Finals} nodes.   
+\end{itemize}
 \end{Definition}
 We may distinguish in the concrete syntax \textsf{ControlFlow}s from 
 \textsf{ObjectFlow}s to emphasize the control and make the process more 
-proeminent.  
+proeminent. We assume that \textsf{ActionNode} names and \textsf{ObjectNode} 
+names are distinct and unique. We also require that \textsc{Pm}s are 
+well-formed wrt. their \textsc{Ftg}.
+
+\begin{Deifnition}[\textsc{Pm} Well-Formedness]
+   A process model $\mathsf{PM}\in\PM$ is \emph{well-formed} wrt. a 
+transformation graph $\mathsf{FTG} \in \FTG(L, T)$ iff:
+\begin{itemize}
+   \item the type names of transformation instances appearing in 
+\textsf{ActionNode}s (resp. language instances appearing in \textsf{ObjectNode}) 
+belongs to $T$ (resp. $L$);
+   \item all transformation instances names appearing in \textsf{ActionNode}s
+\end{itemize}
+
+\end{Deifnition}
+
 
 \medskip
 \moussa{Define the typing relation for a \textsc{Pm} relatively to an 
