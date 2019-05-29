@@ -67,7 +67,8 @@ capabilities and implementation choices.
    \begin{small}
    \begin{displaymath}
      \begin{array}{rcl}
-		\mathsf{Item} & \eqdef & \{\mathsf{Language}, \mathsf{Transformation}, \\
+		\mathsf{Item} & \eqdef & \{\mathsf{Language}, \mathsf{Transformation}, 
+\mathsf{Intent}\\
                     &        & \mathsf{LangInstance}, \mathsf{TransInstance}\}\\
 		\mathsf{Name}    & \eqdef & (\mathsf{Name}_{_{\mathsf{e}}})_{_{\mathsf{e} 
 \in \mathsf{Item}}}
@@ -270,6 +271,10 @@ Instead of reinventing a Domain-Specific Language for this well-studied domain,
 we simply specialise one standard and well-known language that covers our 
 needs, namely \textsc{Uml}'s Activity Diagrams.
 
+\moussa{Currently, we don't use actors, as it is the case in UML AD with 
+swimlanes, which provide some context about how actions (in our case, 
+transformations) are performed: who, where, etc.}
+
 \begin{Definition}[Process Model (\textsc{Pm})]
    A \emph{process model} $\mathsf{PM}\in\PM$ is an instance of a 
 \textsc{Uml} Activity Diagram where 
@@ -312,6 +317,11 @@ compatible with the type of the $\mathsf{ObjectNode}$s
 connected to the $\mathsf{ActionNode}$'s input $\mathsf{Pin}$s. 
 \end{itemize}
 \end{Definition}
+\noindent
+When clear from context, or unnecessarily detailed, we simply note the set of 
+workflows $\mathbb{W}$, without any indication of languages or 
+transformations (sets).
+
 Well-formedness does not impose anything about the process itself, but rather 
 requires that transformations are properly used wrt. input and output models 
 (or language instances). This opens the possibility to reuse transformations 
@@ -323,18 +333,70 @@ goal.
 \subsection{Paradigm}
 \label{sec:PS}
 
+From our viewpoint, a paradigm is a set of properties that captures 
+certain specific characteristics that shall hold over languages and/or 
+processes. To simplify the checking, we define a \emph{paradigmatic structure} 
+as a potential candidate holding a particular paradigm.
+
 \begin{Definition}[Paradigmatic Structure]
    A \emph{paradigmatic structure} $\mathsf{PS}\in \PS$ is a pair $\mathsf{PS} 
 = (L, W)$ where $L\in \wp(\mathbb{L})$ is a set of languages and 
 $W \in \wp(\mathbb{W})$ is a set of workflows.
 \end{Definition}
 
-\begin{Definition}{Properties}
-   
+Table \ref{tab:Properties} already described some interesting properties 
+related to three well-known paradigms. As easily noticeable, properties span 
+over all elements constituting a paradigmatic structure: the components of the 
+languages involved (and potentially, properties that require certain 
+combinations of languages); transformations; and also the processes. Some 
+paradigms may also have ''sanity-check`` properties that characterise the 
+paradigm iself. We will call these properties capturing the essence of a 
+paradigm \emph{paradigmatic properties}.
+
+Following the mantra of modelling ''at the most appropriate 
+level of abstraction``, it becomes impossible at the abstraction level of this 
+presentation to formally (i.e. intensionally) define the nature of such a large 
+class of properties. We therefore provide an extensional definition: we note 
+$\mathcal{P}(S)$ the set of all possible properties expressible over a 
+structure $S$. 
+
+
+\begin{Definition}{Paradigmatic Properties}
+   A \emph{paradigmatic property} is a tuple 
+$\pi = (\pi_{\mathsf{L}},\pi_{\mathsf{W}},\pi_{\mathsf{PS}}) \in \Pi$ where
+\begin{itemize}
+   \item $\pi_{\mathsf{L}} \in \mathcal{P}(\mathbb{L})$ is a set of properties 
+over languages;
+   \item $\pi_{\mathsf{W}} \in \mathcal{P}(\mathbb{W})$ is a set of properties 
+over workflows;
+   \item $\pi_{\mathsf{PS}}\in\mathcal{P}(\PS)$ is a set of 
+properties spanning over all components of paradigmatic structures).
+\end{itemize}
 \end{Definition}
+\noindent
+Paradigmatic properties may be expressed through \emph{pattern languages}, e.g. 
+for ensuring the presence of certain concepts, or through \emph{dedicated 
+logics}, e.g. for ensuring semantic properties. We detail later in the examples 
+how some properties described in Table \ref{tab:Properties} may be captured 
+precisely.
 
+\begin{Definition}{Intent --- Paradigm}
+   We define an \emph{intent} $\iota$ as a \emph{named} paradigmatic property, 
+i.e. $\iota \in [\mathsf{IntentN} \to \Pi]$.
 
-\begin{Definition}{Paradigm}
-   
+   Let $\mathsf{PS} = (L, W)\in\PS$ be a paradigmatic structure and 
+$\mathsf{p}$ an intent (name) captured by a predefined $\iota$ (i.e. 
+$\mathsf{p}\in \mathsf{Dom}(\iota)$ such that 
+$\iota(\mathsf{p}) = (\pi_{\mathsf{L}}(\mathsf{p}), 
+                     \pi_{\mathsf{W}}(\mathsf{p}), 
+                     \pi_{\mathsf{PS}}(\mathsf{p}))$). 
+$\mathsf{PS}$ is said to \emph{embody} $\mathsf{p}$ (alternatively, 
+$\mathsf{PS}$ \emph{follows} $\mathsf{p}$) iff 
+\begin{itemize}
+   \item the properties $\pi_{\mathsf{L}}(\mathsf{p})$ hold on $L$;
+   \item the properties $\pi_{\mathsf{W}}(\mathsf{p})$ hold on $W$; and
+   \item the properties $ \pi_{\mathsf{PS}}(\mathsf{p}))$ hold on $\mathsf{PS}$.
+\end{itemize}
+
 \end{Definition}
 
