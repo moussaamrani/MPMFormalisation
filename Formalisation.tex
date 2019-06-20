@@ -157,8 +157,29 @@ However, since the formalisms implemented by a language are transparent for the
 end-users, we focus our formalisation on languages rather than the formalisms: 
 the implementation relation allows to retrieve them if needed.
 
-\begin{Example}{Variations over \textsc{Fsm}s.}
-   
+\begin{Example}[(Colored) \textsc{PCad} Formalism and Language]
+      We define $\mathsf{PCAD, PCADC} \in 
+\mathsf{Name}_{_{\mathsf{Language}}}$. Definition \ref{def:PCAD} defines the 
+(colored) Poor-Man \textsc{Cad} formalism mathematically: the abstract syntax 
+\textsf{AS}$_{_{\mathsf{PCAD}}}$ is captured by the defining set $\PCAD$ (resp. 
+\textsf{AS}$_{_{\mathsf{PCADC}}} \eqdef \PCADC$); the semantic domain 
+\textsf{SD}$_{_{\mathsf{PCAD}}}$ identifies to $L$ (resp. 
+\textsf{SD}$_{_{\mathsf{PCADC}}} \eqdef \PCADC$); and the semantic mapping is 
+captured by the (overloaded) function(s) $\SMapping$ in Def. \ref{def:PCAD}. A 
+language for (colored) \textsc{PCad} may use the metamodel(s) of Figure 
+\ref{fig:PCAD-MM}: in yellow for \textsc{PCad} and yellow/purple for colored 
+\textsc{PCad}. Figure \ref{fig:PCAD-Visual} defines an instance 
+$\mathsf{Form}\in\mathsf{Name}_{_{\mathsf{LangInstance}}}$ in a visual concrete 
+syntax. We can easily manually check that $\mathsf{Form}\rhd \mathsf{PCADC}$.
+
+\begin{figure}[t]
+   \centering
+   \includegraphics[width=0.98\columnwidth]{PCAD}
+   \caption{A Simple Metamodel for \textsc{PCad} (cf. Definition 
+\ref{def:PCAD}).}%
+   \label{fig:PCAD-MM}%
+\end{figure}
+
 \end{Example}
 
 

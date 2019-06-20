@@ -1,18 +1,98 @@
-\section{Running Example: Poor-Man Computer-Aided Design}
+\section{Running Example: Poor-Man CAD}
 \label{sec:Examples}
 
-\moussa{\begin{enumerate}
-   \item Explain the following concepts:
-      \begin{itemize}
-      \item Design
-      \item Computer-Aided
-      \item CAD Common Processes
-      \end{itemize}
-   \item Present PCAD informally: visual and mathematical syntax + 
-mathematical semantics.
-   \item Retrieve processes identified during CAMPaM and try to express them as 
-FTG+PM.
-\end{enumerate}}
+Many engineering disciplines (civil, mechanical, electrical, among others) 
+require an \emph{a priori} \emph{design}, i.e. a kind of specification, or plan, 
+of the final object, be it a bridge, a car's clutcher, or a complex electronic 
+card. From an \textsc{Mpm} viewpoint, designs play the role of \emph{models}: 
+they abstract from the real product while still possessing interesting 
+properties, making them cheaper to produce and easier to analyse. To support 
+designers, Computer-Aided Design (\textsc{Cad}) promotes the use of computers to 
+help create, modify, and analyse designs, but also optimise against known 
+constraints from a given domain. \textsc{Cad} has significantly improved many 
+engineering disciplines by improving the designs quality and increase the 
+designers' productivity, and even becoming standard development tools for 
+disciplines like electronics. \textsc{Cad} tools allow the \emph{visually} 
+design in 2D, 3D and even 4D (adding the time dimension), based on various 
+techniques such as Finite Element Methods, thus manipulating complex 
+Differential Equations. 
+
+For the purpose of this introductory work, we propose the Poor-Man \textsc{Cad} 
+(abbreviated as \textsc{PCad}), a (toy) (multi-)formalism that allows designing 
+2D geometric lines (noted $L$) representing arbitrary shapes, based on the 
+definition of points (noted $P$) placed on a cartesian plan (defined by integer 
+X- and Y-coordinates). When required, lines may be colored to emphasize 
+surfaces of a shape or parts of a design. Colors (noted as $C$) are encoding as 
+RGB integer triples for simplicity. The following Definition and Example 
+provides a formal specification and a visual representation of a possible 
+design.
+
+\begin{Definition}[\label{def:PCAD}\textsc{Pcad} Designs]
+   A \textsc{PCad} object (or design) $o\in \PCAD$ is a set of lines. A 
+\emph{line} $l \in L$ is defined as a set of exactly two points. A \emph{point} 
+$p\in P$ is a pair of integers. Similarly, a \emph{colored} \textsc{PCad} object 
+$o\in \PCADC$ is a set of lines defined over \emph{colored} points.
+
+
+The function $\SMapping$ maps an object $o\in \PCAD$ to the 
+unions of points the lines constituting the objects are made of. A \emph{color} 
+$c\in C$ is a triple of integers corresponding to its RGB encoding.
+\begin{displaymath}
+   \begin{small}
+     \begin{array}{rcl rcl}
+      \PCAD &\eqdef& \wp(L) & \PCADC &\eqdef& \wp(CL)\\
+      L     &\eqdef& \{ \{p, p'\} \;|\; & CL &\eqdef& \{ (\{p, 
+p'\}, c) \;|\;  \\
+            &      & \quad p, p' \in P \} & & & p, p' \in P, c\in C\}\\
+      P     &\eqdef& \mathbb{N} \times \mathbb{N} & C     &\eqdef& 
+[[0..255]]^3
+   \end{array}
+   \end{small}
+\end{displaymath}
+
+The semantics of a \textsc{Pcad} object is captured by the function 
+$\SMapping$, that maps each object to the points the lines constituting the 
+objects are built upon. The semantics of a colored \textsc{Pcad} object is 
+similar, except that lines defined with points of different colors are 
+blackened.
+
+\begin{displaymath}
+   \begin{small}
+     \begin{array}{rcl}
+\SMapping & \colon & \!\!\!\begin{array}[t]{rcl}
+         \PCAD &\to& L\\
+         o &\mapsto& \bigcup o
+      \end{array}\\\\
+\SMapping & \colon & \!\!\!\begin{array}[t]{rcl}
+         \PCADC &\to& (P \nrightarrow C)\\
+         o &\mapsto& \left\{ \begin{array}{rclcl}
+            (p, p') &\mapsto& c & \mathrm{if} & c = c'\\
+            (p, p') &\mapsto& (0,0,0) & \mathrm{if} & c \neq c'\\ 
+         \end{array}\right. \\
+         & \multicolumn{2}{l}{\forall (\{p, p'\}, c), (\{p, p'\}, c') \in o}\\
+      \end{array}
+   \end{array}
+   \end{small}
+\end{displaymath}
+\end{Definition}
+
+\begin{Example}[PCAD]
+   Figure \ref{fig:PCAD-Visual} presents a visual representation of a very 
+simple \textsc{Pcad} object. 
+
+\begin{figure}[t]
+   \centering
+%    \includegraphics[width=0.98\columnwidth]{}
+   \caption{A simple PCAD Object named $\mathsf{Form}$.}%
+   \label{fig:PCAD-Visual}%
+\end{figure}
+\end{Example}
+
+As minimal activities on \textsc{Pcad} designs, one shall evidently 
+\emph{create} designs, \emph{check} for ensuring they represent valid, viable 
+physical objects, and ultimately \emph{manufacture} the physical objects from 
+the designs.
+
 
 % \subsection{Finite-State Automata}
 % \label{sec:Examples-FSM}
@@ -43,43 +123,7 @@ FTG+PM.
 % \cite{B:Brambilla-Cabot-Wimmer:2012}
 
 
-% \subsection{Poor-Man Computer Aided Design (\textsc{Pcad)}}
-% \label{sec:Examples-PCAD}
 
-The \textsc{PCad} (the Poor-Man Computer-Aided Design) formalism is a toy 
-example designed to capture simple two-dimensional drawings. The following 
-definition formalises \textsc{PCad}'s structure.
-
-\begin{Definition}[\textsc{Pcad} Formalism\label{def:PCAD}]
-   A \textsc{PCad} object $o\in \PCAD$ is a set of lines. A \emph{line} $l 
-\in L$ is defined as a set of exactly two points. A \emph{point} $p\in P$ is a 
-pair of integers. The function $\SMapping$ maps an object $o\in \PCAD$ to the 
-unions of points the lines constituting the objects are made of. A \emph{color} 
-$c\in C$ is a triple of integers corresponding to its RGB encoding.
-\begin{displaymath}
-   \begin{array}{rcl}
-      \PCAD &\eqdef& \wp(L)\\
-      L     &\eqdef& \{ \{p, p'\} \;|\; p, p' \in P \}\\
-      P     &\eqdef& \mathbb{N} \times \mathbb{N}\\
-      C     &\eqdef& \{ (r, g, b) \;|\; r, g, b \in [0..255] \}\\
-      \\
-      \SMapping & \colon & \!\!\!\begin{array}[t]{rcl}
-         \PCAD &\to& P\\
-         o &\mapsto& \bigcup o
-      \end{array}
-   \end{array}
-\end{displaymath}
-\end{Definition}
-Figure \ref{fig:PCAD} describes a metamodel for the \textsc{PCad} formalism in 
-a \MOF-like language. 
-
-\begin{figure}[t]
-   \centering
-   \includegraphics[width=0.98\columnwidth]{PCAD}
-   \caption{A Simple Metamodel for \textsc{PCad} (cf. Definition 
-\ref{def:PCAD}).}%
-   \label{fig:PCAD}%
-\end{figure}
 
 
 
