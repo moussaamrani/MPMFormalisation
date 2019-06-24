@@ -22,7 +22,7 @@ using \emph{models} conformant to \emph{metamodels}, themselves explicitly
 modelled (using a \emph{meta-metamodel}). The following definition introduces 
 precise notations for these notions.
 
-\begin{Definition}[(Meta-)Models \& Conformance]
+\begin{Definition}[\label{def:MMM}(Meta-)Models \& Conformance]
    Let $\mathbb{M}$ and $\mathcal{M}$ be the sets of all models and metamodels 
 respectively, as defined by meta-metamodels. For a model $\mathsf{M} \in 
 \mathbb{M}$ and a metamodel $\mathsf{MM} \in \mathcal{M}$, we write $\mathsf{M} 
@@ -127,8 +127,8 @@ definition of both syntaxes, abstract and concrete: explicitly defining an
 instance $\mathsf{LI}$ requires a language defining $\mathsf{CS}$, and checking 
 the conformance requires a language defining $\mathsf{AS}$, making 
 $\mathsf{AS}$ and $\mathsf{CS}$ \emph{linguistic} instances of their respective 
-\emph{languages}. Depending on the flavour of $\mathsf{CS}$, $\mathsf{L}$ is 
-also coined as a \emph{visual} / \emph{diagrammatic} vs. \emph{textual} 
+\emph{languages}. Depending on the $\mathsf{CS}$'s \emph{style}, $\mathsf{L}$ 
+is also coined as a \emph{visual} / \emph{diagrammatic} vs. \emph{textual} 
 language.
 
 According to Broman \emph{et al.} \cite{Broman-etAl:2012}, a language 
@@ -157,6 +157,18 @@ However, since the formalisms implemented by a language are transparent for the
 end-users, we focus our formalisation on languages rather than the formalisms: 
 the implementation relation allows to retrieve them if needed.
 
+Technological spaces used for meta-metamodelling, such as grammarware or 
+graphs (cf. Def. \ref{def:MMM}), constitute proper formalisms that were 
+extensively studied mathematically (cf. 
+\cite{B:Rozenberg:1997,B:Aho-etAl:2006}, 
+among others). However, in practice, a metamodeller uses a specific language 
+framework that implements such technological spaces and provides facilities for 
+manipulating (meta-)models. As a result, when creating a language $\mathsf{L}$,
+the concrete concrete $\mathsf{CS}$ and abstract $\mathsf{AS}$ syntaxes are 
+expressed as (linguistic) instances of the technological spaces' languages. 
+This allows us to define a \emph{canonical semantics} for any language: the set 
+of all valid (linguistic) sentences allowed by the metamodel $\mathsf{AS}$. 
+
 \begin{Example}[(Colored) \textsc{PCad} Formalism and Language]
       We define $\mathsf{PCAD, PCADC} \in 
 \mathsf{Name}_{_{\mathsf{Language}}}$. Definition \ref{def:PCAD} defines the 
@@ -179,7 +191,6 @@ syntax. We can easily manually check that $\mathsf{Form}\rhd \mathsf{PCADC}$.
 \ref{def:PCAD}).}%
    \label{fig:PCAD-MM}%
 \end{figure}
-
 \end{Example}
 
 
@@ -227,10 +238,6 @@ without $\mathsf{spec}$.
 % regarding the concrete syntax $\mathsf{CS}$; while the ontological 
 % instantiation checks the validity of $\mathsf{cs}$ regarding the concrete 
 % definition of the abstract syntax $\mathsf{AS}$.
-
-\begin{Example}
-   
-\end{Example}
 
 
 \subsection{Workflow}
@@ -357,6 +364,10 @@ requires that transformations are properly used wrt. input and output models
 (or language instances). This opens the possibility to reuse transformations 
 and language instances freely along the workflow towards achieving the final 
 goal.
+
+\begin{Example}[]
+   
+\end{Example}
 
 
 
