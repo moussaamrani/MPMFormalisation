@@ -67,9 +67,10 @@ capabilities and implementation choices.
    \begin{small}
    \begin{displaymath}
      \begin{array}{rcl}
-		\mathsf{Item} & \eqdef & \{\mathsf{Language}, \mathsf{Transformation}, 
-\mathsf{Intent}\\
-                    &        & \mathsf{LangInstance}, \mathsf{TransInstance}\}\\
+		\mathsf{Item} & \eqdef & \{\mathsf{AbstractFormalism}, \mathsf{Language}, 
+\mathsf{Transformation}\\
+                    &        & \mathsf{Intent}, \mathsf{LangInstance}, 
+\mathsf{TransInstance}\}\\
 		\mathsf{Name}    & \eqdef & (\mathsf{Name}_{_{\mathsf{e}}})_{_{\mathsf{e} 
 \in \mathsf{Item}}}
       \end{array}
@@ -87,7 +88,7 @@ We first introduce a distinction between \emph{formalisms} and \emph{languages}:
 a \emph{formalism} is a mathematical construction built for capturing the 
 \emph{essence} and the \emph{core concepts} of a software \emph{language}. 
 
-\begin{Definition}[Formalism]
+\begin{Definition}[\label{def:Formalism}Formalism]
    A \emph{formalism} $F\in\mathbb{F}$ is a triple $F = (\mathsf{AS}, 
 \SMapping, \mathsf{SD})$, where $\mathsf{AS}\in\mathcal{M}$ is a metamodel 
 defining an \emph{abstract syntax}; $\mathsf{SD}\in\mathbb{D}$ is a 
@@ -102,7 +103,7 @@ language requires the definition of a \emph{concrete semantics} for
 users/modellers to manipulate language instances.
 
 
- \begin{Definition}[Language]
+ \begin{Definition}[\label{def:Language}Language]
    A \emph{language specification} (or \emph{language} 
 for short) $\mathsf{L}\in\mathbb{L}$ is a tuple $\mathsf{L} = (\mathsf{CS}, 
 \mathsf{AS}, \SMapping, \mathsf{SD})$ where $\mathsf{CS}\in\mathcal{M}$ is a 
@@ -139,7 +140,7 @@ formalisms, and may introduce semantics variations wrt. the formalism's
 semantics it implements. We formally capture the \emph{implementation} 
 relationship between languages and formalisms.
 
-\begin{Definition}[Implementation $\rightsquigarrow$]
+\begin{Definition}[\label{def:Implementation}Implementation $\rightsquigarrow$]
    We write $\mathsf{L} \rightsquigarrow \mathsf{F_1}, \ldots, \mathsf{F_n}$ 
 when the language $\mathsf{L}\in\mathbb{L}$ \emph{implements} the formalisms 
 $\mathsf{F_1}, \ldots, \mathsf{F_n}\in\mathbb{F}$.
@@ -157,19 +158,8 @@ However, since the formalisms implemented by a language are transparent for the
 end-users, we focus our formalisation on languages rather than the formalisms: 
 the implementation relation allows to retrieve them if needed.
 
-Technological spaces used for meta-metamodelling, such as grammarware or 
-graphs (cf. Def. \ref{def:MMM}), constitute proper formalisms that were 
-extensively studied mathematically (cf. 
-\cite{B:Rozenberg:1997,B:Aho-etAl:2006}, 
-among others). However, in practice, a metamodeller uses a specific language 
-framework that implements such technological spaces and provides facilities for 
-manipulating (meta-)models. As a result, when creating a language $\mathsf{L}$,
-the concrete concrete $\mathsf{CS}$ and abstract $\mathsf{AS}$ syntaxes are 
-expressed as (linguistic) instances of the technological spaces' languages. 
-This allows us to define a \emph{canonical semantics} for any language: the set 
-of all valid (linguistic) sentences allowed by the metamodel $\mathsf{AS}$. 
-
-\begin{Example}[(Colored) \textsc{PCad} Formalism and Language]
+\begin{Example}[\label{ex:PCADC}(Colored) \textsc{PCad} Formalism and 
+Language]
       We define $\mathsf{PCAD, PCADC} \in 
 \mathsf{Name}_{_{\mathsf{Language}}}$. Definition \ref{def:PCAD} defines the 
 (colored) Poor-Man \textsc{Cad} formalism mathematically: the abstract syntax 
@@ -194,6 +184,31 @@ syntax. We can easily manually check that $\mathsf{Form}\rhd \mathsf{PCADC}$.
 \end{Example}
 
 
+Technological spaces used for meta-metamodelling, such as grammarware or 
+graphs (cf. Def. \ref{def:MMM}), constitute proper formalisms that were 
+extensively studied mathematically (cf. 
+\cite{B:Rozenberg:1997,B:Aho-etAl:2006}, 
+among others). However, in practice, a metamodeller uses a specific language 
+framework that implements such technological spaces and provides facilities for 
+manipulating (meta-)models. As a result, when creating a language $\mathsf{L}$,
+the concrete concrete $\mathsf{CS}$ and abstract $\mathsf{AS}$ syntaxes are 
+expressed as (linguistic) instances of the technological spaces' languages. 
+This allows us to define a \emph{canonical semantics} for any language: the set 
+of all valid (linguistic) sentences allowed by the metamodel $\mathsf{AS}$. 
+
+\begin{Definition}[\label{def:AbstractFormalism}Abstract Formalism]
+   An \emph{abstract formalism} $F^\star = 
+(\mathsf{AS}, \SMapping, \mathsf{SD}) \in\mathbb{F}$ is a formalism without an 
+explicit, user-defined semantics, but rather equipped with the canonical 
+semantics of the language $\mathsf{AS}\in\mathcal{M}$ is an instance of.
+\end{Definition}
+Being regular formalisms (according to Def. \ref{def:Formalism}), the 
+implementation relationship naturally extends to abstract formalisms, although 
+it may be more precisely defined, e.g. using \emph{a posteriori typing} 
+\cite{J:deLara-Guerra:2017}.
+
+
+
 
 \subsection{Transformations}
 \label{sec:Formalisation-Transformation}
@@ -201,13 +216,16 @@ syntax. We can easily manually check that $\mathsf{Form}\rhd \mathsf{PCADC}$.
 Transformations are the primary tool for capturing manipulations of language 
 instances as part of a workflow. They may be arbitrarily complex, and come in 
 different variations depending on their features \cite{J:Mens-VonGorp:2006} and 
-properties and intents \cite{J:Lucio-Amrani-etAl:2014}. As usual, we 
-distinguish between transformation \emph{specifications} and \emph{executions}.
+properties and intents \cite{J:Lucio-Amrani-etAl:2014}. What is relevant in 
+this work is the transformation's \emph{signature}, i.e. which source / target 
+languages the transformation operates on, rather than how it is specified. As 
+usual however, we distinguish between the transformation \emph{specification} 
+and its actual \emph{execution}(s).
 
 \begin{Definition}[Transformation\label{def:Transformation}]
-   A \emph{transformation specification} $\mathsf{T}\in\mathbb{T}$ is a triple 
+   A \emph{transformation specification} $\mathsf{T}\in\mathbb{T}$ is a pair
 $\mathsf{T} = ((\mathsf{L_s^{i}})_{\mathsf{i}\in [1..n]}, 
-(\mathsf{L_t^{j}})_{\mathsf{j}\in[1..m]}, \mathsf{spec})$ where  
+(\mathsf{L_t^{j}})_{\mathsf{j}\in[1..m]})$ where  
 $(\mathsf{L_s^{i}})_{\mathsf{i}\in [1..n]}$ and
 $(\mathsf{L_t^{j}})_{\mathsf{j}\in [1..m]}$ are indexed sets of source and
 target languages, respectively, and $\mathsf{spec}$ is a well-formed 
@@ -217,11 +235,6 @@ transformation definition written in a transformation language.
 computation performed on (a) language instance(s) that conform(s) to the source 
 language(s) of the transformation $\mathsf{T}\in\mathbb{T}$.
 \end{Definition}
-For the purpose of formalising the notion of paradigm, the details on how 
-$\mathsf{spec}$ is written have less importance than the ''signature`` of 
-a transformation, i.e. which languages are taken as sources and produced as 
-targets. We then simplify the notation by defining a transformation as pair, 
-without $\mathsf{spec}$.
 
 % Pursuing on our \textsc{Fsa} example, the \textsc{Uml} State Machines language
 % \cite{} offers one concrete syntax to the \textsc{Fsa} formalism (by defining 
@@ -252,7 +265,8 @@ stating what possible transformations may be used; and a \emph{Process Model}
 (\textsc{Pm}) describes how language instances are 
 combined together to achieve the intent $\iota$. Combining both elements 
 results in the \textsc{Ftg+Pm} formalism and language that has already been 
-described in \cite{}.
+described in 
+\cite{Mustafiz-etAl:2012,Lucio-Mustafiz-etAl:2013,TR:Lucio-Mustafiz-etAl:2012}.
 
 Before providing a definition of \textsc{Ftg+Pm}, we need to introduce a naming 
 mechanism: instead of directly manipulating languages and transformations, a 
@@ -272,10 +286,11 @@ establish, it ultimately does not change much in the definitions: IMO, it even
 makes them more natural and understable than those falsely relying on 
 formalisms. FEEL FREE TO ARGUMENT OTHERWISE!}
 
-\begin{Definition}[Naming]
+\begin{Definition}[\label{def:Naming}Naming]
    Two \emph{naming functions} associate (sorted) names to their actual item:
    \begin{displaymath}
       \begin{array}{rcl}
+         form  &\colon& \mathsf{AbstractFormalismN} \to \mathbb{F}\\
          trans &\colon& \mathsf{TransformationN} \to \mathbb{T}\\
          lang  &\colon& \mathsf{LanguageN} \to \mathbb{L}
       \end{array}
@@ -285,17 +300,22 @@ formalisms. FEEL FREE TO ARGUMENT OTHERWISE!}
 An \textsc{Ftg} can be seen as a collection of transformations that are 
 considered useful for a given context. Since transformation names are actually 
 used, we use a functional definition.
-\begin{Definition}{Formalism Transformation Graph (\textsc{Ftg})}
-   A \emph{Formalism Transformation Graph} $\mathsf{FTG} \in \FTG(L, T)$ is a 
-function  $\mathsf{FTG} \colon T \to \langle L \rangle \times \langle L \rangle 
-\times \mathbb{B}$ restricted to specific subsets of language names $L 
-\subseteq \mathsf{LanguageN}$ and transformation names $T\subseteq 
+\begin{Definition}{(Extended) Formalism Transformation Graph (x\textsc{Ftg})}
+   Let $\mathsf{AFL} \eqdef \mathsf{AbstractFormalismN} \cup 
+\mathsf{LanguageN}$ be the union of (abstract) formalisms and languages names. A 
+\emph{Formalism Transformation Graph} $\mathsf{FTG} \in \FTG(FL, T)$ is a 
+function  $\mathsf{FTG} \colon T \to \langle FL \rangle \times \langle FL 
+\rangle \times \mathbb{B}$ restricted to specific subsets of language names $FL 
+\subseteq \mathsf{AFL}$ and transformation names $T\subseteq 
 \mathsf{TransformationN}$, and the boolean value indicates whether the 
 transformation is automatic or not (meaning that it becomes a human activity).
 \end{Definition}
-Note that the definition uses sequences of source and target languages to 
-ensure that a specific transformation execution correctly instantiate its 
-specification (cf. Def. \ref{def:Transformation}).
+\noindent
+Compared to the original definition of \textsc{Ftg} 
+\cite{Mustafiz-etAl:2012,TR:Lucio-Mustafiz-etAl:2012}, we allow the use of 
+abstract formalisms as source and target names instead of only languages: this 
+extension confer users the possibility of defining ''template'' 
+transformations. 
 
 In practice, we represent \textsf{FTG} with colored rounds for transformations 
 (names) to distinguish between automatic and manual ones, and shared rectangles 
@@ -312,7 +332,7 @@ needs, namely \textsc{Uml}'s Activity Diagrams.
 swimlanes, which provide some context about how actions (in our case, 
 transformations) are performed: who, where, etc.}
 
-\begin{Definition}[Process Model (\textsc{Pm})]
+\begin{Definition}[\label{def:PM}Process Model (\textsc{Pm})]
    A \emph{process model} $\mathsf{PM}\in\PM$ is an instance of a 
 \textsc{Uml} Activity Diagram where 
 \begin{itemize}
@@ -332,14 +352,20 @@ proeminent. We assume that $\mathsf{ActionNode}$ names and
 $\mathsf{ObjectNode}$ names are distinct and unique. We also require that 
 \textsc{Pm}s are well-formed wrt. their \textsc{Ftg}.
 
-\medskip
-\moussa{Define the extended version x\textsc{Ftg} and explore the implications.}
+Notice that our definition for x\textsc{Ftg}s  relies solely on \emph{names}: a 
+framework should take care of retrieving the actual transformation item (as per 
+Def. \ref{def:Transformation}) from the transformation name (trough 
+the $trans$ of Def. \ref{def:Naming}), and should check that the language 
+instances used as object nodes conform to languages that actually implement the 
+abstract formalisms or languages (through $form$ and $lang$) mapped to that 
+transformation name in the appropriate 
+order.
 
 \medskip
 The following definition simply puts things together: a workflow is composed of 
 an \textsc{Ftg} together with several well-typed \textsc{Pm}s. 
 
-\begin{Definition}[Workflow]
+\begin{Definition}[\label{def:Workflow}Workflow]
    A \emph{workflow} $\mathsf{W}\in\mathbb{W}(L, T)$ is a pair $\mathsf{W} = 
 (\mathsf{FTG}, \mathsf{P})$ where $\mathsf{FTG}\in\FTG(L, T)$ and 
 $P\in\wp(\PM)$ is well-formed (noted $\mathsf{P} \blacktriangleright 
@@ -365,7 +391,7 @@ requires that transformations are properly used wrt. input and output models
 and language instances freely along the workflow towards achieving the final 
 goal.
 
-\begin{Example}[]
+\begin{Example}[\label{ex:TBA}]
    
 \end{Example}
 
@@ -402,7 +428,7 @@ $\mathcal{P}(S)$ the set of all possible properties expressible over a
 structure $S$. 
 
 
-\begin{Definition}{Paradigmatic Properties}
+\begin{Definition}[\label{def:ParaProperties}Paradigmatic Properties]
    A \emph{paradigmatic property} is a tuple 
 $\pi = (\pi_{\mathsf{L}},\pi_{\mathsf{W}},\pi_{\mathsf{PS}}) \in \Pi$ where
 \begin{itemize}
@@ -421,7 +447,7 @@ logics}, e.g. for ensuring semantic properties. We detail later in the examples
 how some properties described in Table \ref{tab:Properties} may be captured 
 precisely.
 
-\begin{Definition}{Intent --- Paradigm}
+\begin{Definition}{\label{def:Paradigm}Intent --- Paradigm}
    We define an \emph{intent} $\iota$ as a \emph{named} paradigmatic property, 
 i.e. $\iota \in [\mathsf{IntentN} \to \Pi]$.
 
@@ -438,6 +464,5 @@ $\mathsf{PS}$ \emph{follows} $\mathsf{p}$) iff
    \item the properties $\pi_{\mathsf{W}}(\mathsf{p})$ hold on $W$; and
    \item the properties $ \pi_{\mathsf{PS}}(\mathsf{p}))$ hold on $\mathsf{PS}$.
 \end{itemize}
-
 \end{Definition}
 
