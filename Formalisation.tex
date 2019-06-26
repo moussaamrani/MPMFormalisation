@@ -89,13 +89,19 @@ a \emph{formalism} is a mathematical construction built for capturing the
 \emph{essence} and the \emph{core concepts} of a software \emph{language}. 
 
 \begin{Definition}[\label{def:Formalism}Formalism]
-   A \emph{formalism} $F\in\mathbb{F}$ is a triple $F = (\mathsf{AS}, 
+   A \emph{formalism} $\mathsf{F}\in\mathbb{F}$ is a triple $\mathsf{F} = 
+(\mathsf{AS}, 
 \SMapping, \mathsf{SD})$, where $\mathsf{AS}\in\mathcal{M}$ is a metamodel 
 defining an \emph{abstract syntax}; $\mathsf{SD}\in\mathbb{D}$ is a 
 \emph{semantic domain}; and $\SMapping 
 \colon \mathsf{AS} \to \mathsf{SD}$ is a \emph{semantic mapping} that uniquely 
 associates to each valid abstract syntax instance a meaning (or interpretation) 
 in terms of the semantic domain.
+   
+   We say that $\mathsf{F}$ \emph{refines} $\mathsf{F'}$, noted $\mathsf{F} 
+\sqsubseteq \mathsf{F'}$ when all concepts defined by 
+$\mathsf{AS}_{\mathsf{F}}$ are present in $\mathsf{AS}_{\mathsf{F'}}$ while 
+preserving its semantics.
 \end{Definition}
 
 Translating the core concepts captured by a formalism into a usable software 
@@ -140,10 +146,15 @@ formalisms, and may introduce semantics variations wrt. the formalism's
 semantics it implements. We formally capture the \emph{implementation} 
 relationship between languages and formalisms.
 
-\begin{Definition}[\label{def:Implementation}Implementation $\rightsquigarrow$]
+\begin{Definition}[\label{def:Implementation}Implementation/Refinement]
+   
    We write $\mathsf{L} \rightsquigarrow \mathsf{F_1}, \ldots, \mathsf{F_n}$ 
 when the language $\mathsf{L}\in\mathbb{L}$ \emph{implements} the formalisms 
-$\mathsf{F_1}, \ldots, \mathsf{F_n}\in\mathbb{F}$.
+$\mathsf{F_1}, \ldots, \mathsf{F_n}\in\mathbb{F}$. We say that $\mathsf{L}$ 
+refines $\mathsf{L'}$, noted $\mathsf{L} \sqsubseteq \mathsf{L'}$ if for all 
+formalisms $\mathsf{F'_i}$ implemented by $\mathsf{L'}$, there exists some 
+formalisms $\mathsf{F_1}, \ldots, \mathsf{F_n}$ that refine $\mathsf{F'_i}$ 
+(i.e. $\mathsf{F_k} \sqsubseteq \mathsf{F'_i}$ for $k\in [1..n]$).
 \end{Definition}
 \noindent
 Software language designers use intricate combinations of formalism(s) to reach 
@@ -197,7 +208,7 @@ This allows us to define a \emph{canonical semantics} for any language: the set
 of all valid (linguistic) sentences allowed by the metamodel $\mathsf{AS}$. 
 
 \begin{Definition}[\label{def:AbstractFormalism}Abstract Formalism]
-   An \emph{abstract formalism} $F^\star = 
+   An \emph{abstract formalism} $\mathsf{F^\star} = 
 (\mathsf{AS}, \SMapping, \mathsf{SD}) \in\mathbb{F}$ is a formalism without an 
 explicit, user-defined semantics, but rather equipped with the canonical 
 semantics of the language $\mathsf{AS}\in\mathcal{M}$ is an instance of.
@@ -206,6 +217,11 @@ Being regular formalisms (according to Def. \ref{def:Formalism}), the
 implementation relationship naturally extends to abstract formalisms, although 
 it may be more precisely defined, e.g. using \emph{a posteriori typing} 
 \cite{J:deLara-Guerra:2017}.
+
+It is always possible to extract an abstract formalism  
+$\mathsf{F^\star}\in\mathbb{F}$ from a language $\mathsf{L}\in\mathbb{L}$ by 
+getting rid of $\mathsf{CS}_{\mathsf{L}}$ and considering the canonical 
+semantics over $\mathsf{AS}_{\mathsf{L}}$.
 
 
 
@@ -291,7 +307,7 @@ formalisms. FEEL FREE TO ARGUMENT OTHERWISE!}
    \begin{displaymath}
       \begin{array}{rcl}
          form  &\colon& \mathsf{AbstractFormalismN} \to \mathbb{F}\\
-         trans &\colon& \mathsf{TransformationN} \to \mathbb{T}\\
+         trans &\colon& \mathsf{TransformationN} \nrightarrow \mathbb{T}\\
          lang  &\colon& \mathsf{LanguageN} \to \mathbb{L}
       \end{array}
    \end{displaymath}
@@ -311,15 +327,23 @@ function  $\mathsf{FTG} \colon T \to \langle FL \rangle \times \langle FL
 transformation is automatic or not (meaning that it becomes a human activity).
 \end{Definition}
 \noindent
+For $t \mapsto (\langle fl_1, \ldots, fl_n \rangle, \langle fl'_1, \ldots, 
+fl'_m \rangle, b)\in \mathsf{FTG}$, we call the $fl_i$s (resp. $fl'_j$s) the 
+\emph{source} (resp. \emph{target}) of $t$ in $\mathsf{FTG}$. 
 Compared to the original definition of \textsc{Ftg} 
-\cite{Mustafiz-etAl:2012,TR:Lucio-Mustafiz-etAl:2012}, we allow the use of 
-abstract formalisms as source and target names instead of only languages: this 
-extension confer users the possibility of defining ''template'' 
-transformations. 
+\cite{Mustafiz-etAl:2012,TR:Lucio-Mustafiz-etAl:2012}, the source(s) and/or 
+target(s) of $t$ may be abstract formalisms instead of only languages: we 
+require in this case that $t$ does not map to any transformation specification 
+(i.e. $trans(t) = \bot$). This extension confer users the possibility of 
+defining ''template`` transformations that rely on the concepts and semantics 
+of the abstract formalism, enforcing reuse of transformations at the expense of 
+the capacity to actually match template transformations to actual 
+transformations, and abstract formalisms to languages. \moussa{Refer to MDE 
+research about trafo reuse and model morphisms/typing!}
 
-In practice, we represent \textsf{FTG} with colored rounds for transformations 
-(names) to distinguish between automatic and manual ones, and shared rectangles 
-for languages (names).
+% In practice, we represent \textsf{FTG} with colored rounds for transformations 
+% (names) to distinguish between automatic and manual ones, and shared rectangles 
+% for languages (names).
 
 \medskip
 As its name indicates, a \textsc{Pm} describes a process, i.e. a set of 
@@ -330,7 +354,8 @@ needs, namely \textsc{Uml}'s Activity Diagrams.
 
 \moussa{Currently, we don't use actors, as it is the case in UML AD with 
 swimlanes, which provide some context about how actions (in our case, 
-transformations) are performed: who, where, etc.}
+transformations) are performed: who, where, etc. I remember we briefly 
+mentionned that during the Workshop...} 
 
 \begin{Definition}[\label{def:PM}Process Model (\textsc{Pm})]
    A \emph{process model} $\mathsf{PM}\in\PM$ is an instance of a 
@@ -366,18 +391,33 @@ The following definition simply puts things together: a workflow is composed of
 an \textsc{Ftg} together with several well-typed \textsc{Pm}s. 
 
 \begin{Definition}[\label{def:Workflow}Workflow]
-   A \emph{workflow} $\mathsf{W}\in\mathbb{W}(L, T)$ is a pair $\mathsf{W} = 
-(\mathsf{FTG}, \mathsf{P})$ where $\mathsf{FTG}\in\FTG(L, T)$ and 
-$P\in\wp(\PM)$ is well-formed (noted $\mathsf{P} \blacktriangleright 
-\mathsf{FTG}$), i.e.
+   A \emph{workflow} $\mathsf{W}\in\mathbb{W}(FL, T)$ is a pair $\mathsf{W} = 
+(\mathsf{FTG}, \mathsf{P})$ where $\mathsf{FTG}\in\FTG(FL, T)$ and 
+$\mathsf{P}\in\wp(\PM)$, such that $\mathsf{P}$ is well-formed (noted 
+$\mathsf{P} \blacktriangleright \mathsf{FTG}$) wrt. $\mathsf{FTG}$, i.e. for 
+each $\mathsf{ActionNode}$ inside $\mathsf{P}$ with name 
+$tn\in\mathsf{TransInstance}$,
 \begin{itemize}
-   \item a type name of a transformation instances appearing in an
-$\mathsf{ActionNode}$ (resp. of a language instance appearing in 
-$\mathsf{ObjectNode}$) belongs to $T$ (resp. to $L$);
-   \item a transformation instance name appearing in an $\mathsf{ActionNode}$
-resolves to a transformation $\mathsf{T}\in\mathbb{T}$ whose signature is 
-compatible with the type of the $\mathsf{ObjectNode}$s 
-connected to the $\mathsf{ActionNode}$'s input $\mathsf{Pin}$s. 
+   \item $tn$ is explicitly typed by a transformation (name) captured in the 
+domain of $\mathsf{FTG}$ (i.e. $type(tn) = t \in \Dom{\mathsf{FTG}}$);
+
+   \item for each source or target $fl_i$ of $t$ at rank $i$, there exists a 
+$\mathsf{Pin}$ at rank $i$ connected (as input or output) to an 
+$\mathsf{ObjectNode}$ carrying an object (instance) $\mathsf{LI}\in 
+\mathsf{LangInstance}$ typed by a language $\mathsf{L}\in\mathbb{L}$, such that 
+$\mathsf{LI} \;\rhd\; \mathsf{L}$, and $\mathsf{L}\rightsquigarrow F$, then one 
+of the following holds:
+   \begin{itemize}
+      \item $fl_i\in \mathsf{AbstractFormalismN}$ then $fl_i$ denotes an 
+abstract formalism that should refine (some 
+of) the formalisms implemented by $\mathsf{L}$, i.e. $form(fl_i) \sqsubseteq 
+\mathsf{F'_{k_1}}, \ldots form(fl_i) \sqsubseteq \mathsf{F'_{k_n}}$ such that 
+$\mathsf{F'_{k_1}}, \ldots \mathsf{F'_{k_n}} \subseteq F$;
+      
+      \item $fl_i\in \mathsf{LanguageN}$ then $fl_i$ denotes a language. The 
+language that should refine $\mathsf{L}$ i.e. $lang(fl_i) \sqsubseteq 
+\mathsf{L}$.
+   \end{itemize}
 \end{itemize}
 \end{Definition}
 \noindent
@@ -385,14 +425,36 @@ When clear from context, or unnecessarily detailed, we simply note the set of
 workflows $\mathbb{W}$, without any indication of languages or 
 transformations (sets).
 
-Well-formedness does not impose anything about the process itself, but rather 
-requires that transformations are properly used wrt. input and output models 
-(or language instances). This opens the possibility to reuse transformations 
-and language instances freely along the workflow towards achieving the final 
-goal.
+Similar to the original  
+\cite{Mustafiz-etAl:2012,Lucio-Mustafiz-etAl:2013,TR:Lucio-Mustafiz-etAl:2012},
+our definition does not impose a particular topology on the $\mathsf{PM}$ as 
+long as transformations are well-formed. However, the original definition 
+simply rely on a name-matching typing: a transformation (resp. language) 
+instance in a $\mathsf{PM}$ is denoted using \UML's Object notation for names, 
+say $\mathsf{:Trans}$, that need to match an existing transformation (name) 
+$\mathsf{Trans}$ in $\mathsf{FTG}$. In constrast, we relaxed this matching 
+process by allowing ''template`` transformations based on abstract formalisms 
+that capture the main concepts manipulated by a transformation, which imposes 
+to rely on the two relations of Def. \ref{def:Implementation} (implementation 
+and refinement). Similar to substitution for object-oriented methods, this 
+paves the way to more intensive reuse of transformation ''templates'' at the 
+expense of checking that the refinement relations hold.
 
-\begin{Example}[\label{ex:TBA}]
-   
+\begin{Example}[\label{ex:TBA}\textsc{Pcad} Workflow]
+   Figure \ref{fig:PCAD-FTG} depicts an \textsc{Ftg} for \textsc{Cad} with 7 
+transformations that have the abstract formalism $\mathsf{Product}$ as source, 
+target or both. For example, an iterative process may instantiate 
+$\mathsf{Create}$, $\mathsf{Modify}$ and $\mathsf{isValid}$ to produce a target 
+$\mathsf{Product}$ that is guaranteed to be always valid.  
+
+\begin{figure}[t]
+   \centering
+   \includegraphics[width=0.98\columnwidth]{PCAD-FTG+PM}
+   \caption{A possible workflow $\mathsf{W_{PCAD}} = (\mathsf{FTG_{PCAD}}, 
+\mathsf{PM_{PCAD}})$, with the x\textsc{Ftg} on the left and the \textsc{Pm} 
+on the right}%
+   \label{fig:PCAD-MM}%
+\end{figure}
 \end{Example}
 
 
@@ -466,3 +528,6 @@ $\mathsf{PS}$ \emph{follows} $\mathsf{p}$) iff
 \end{itemize}
 \end{Definition}
 
+\begin{Example}[PCAD Properties on Cost]
+   \moussa{Review example from Workshop!}
+\end{Example}
