@@ -1,25 +1,25 @@
 \section{Running Example: CookieCAD}
 \label{sec:Examples}
 
-\robert{Contextualise the Cookie Stencil example: what is it (picture), 
-what is the purpose, and why we simplify the language as formalised.}
-
-We use a running example for illustration purposes in this paper called the CookieCAD.
-CookieCAD is a very simplified variant of Computer-Aided Design (\textsc{Cad}) developed to design cookie cutters.
-An example of a cookie cutter is given in Figure~\ref{fig:CookieCAD} (a).
-A cookie cutter has a certain shape, like star, triangle or rectangle, represented by 2D geometric lines (noted $L$) as shown in Figure~\ref{fig:CookieCAD} (b).
-Lines are specified based on the definition of points (noted $P$) placed on a cartesian plan (defined by integer X- and Y-coordinates).
-The Lines of a valid cookie cutter must be closed. 
-Shapes may share lines which means the cookie cutter comprises of multiple shapes.
-For example, the shape of a house consists of a rectangle and a triangle for the roof.
-Lines are not allowed to cross like illustrated in Figure~\ref{fig:CookieCAD} (c) as this would result in invalid cookie cutters.
+As a running, illustrative purpose, we take a very simplified variant of 
+Computer-Aided Design (\textsc{Cad}) named CookieCAD (\textsc{CCad}), aimed at 
+designed simple cookie cutters, as illustrated with a triangle shaped cookie in 
+Figure \ref{fig:CookieCAD}(a). A cookie cutter has a certain shape (like 
+triangles, rectangles, stars, etc.) represented by 2D geometric lines (noted 
+$L$), which are specified based on the definition of points (noted $P$) placed 
+on a cartesian plan (using real X- and Y-coordinates). Shapes must represent 
+closed polygons, eventually by sharing some lines (for example, defining a 
+house-shaped cookie by associating a triangle for the roof, placed over a 
+rectangle). Consequently, lines shall not cross each others as illustrated in 
+Fig. \ref{fig:CookieCAD}(c), which results in an \emph{invalid} cookie cutter.
 
 \begin{figure}[t]
-\centering
-\includegraphics[width=\columnwidth]{img/CookieCAD.pdf}
-\caption{Running Example CookieCAD.}%   
-\label{fig:CookieCAD}
-
+   \centering
+   \includegraphics[width=\columnwidth]{CookieCAD.pdf}
+   \caption{CookieCAD Examples: (a) A simple real-life cookie cutter. (b) A 
+house-like shape sharing a line. (c) An invalid shape (due to overlaps).}%  
+ 
+   \label{fig:CookieCAD}
 \end{figure}
 
 %Many engineering disciplines (civil, mechanical, electrical, among others) 
@@ -48,143 +48,47 @@ Lines are not allowed to cross like illustrated in Figure~\ref{fig:CookieCAD} (c
 %provides a formal specification and a visual representation of a possible 
 %design.
 
-\andreas{Fix the mathematical description with reals in Sem Dom instead of Integers.
-Also, figure out some properties illustrating properties on workflows and languages.
-}
-
-\begin{Definition}[\label{def:PCAD}\textsc{Pcad} Designs] A \textsc{PCad}
-object (or design) $o\in \PCAD$ is a set of lines.
+\begin{Definition}[\label{def:CCAD}\textsc{CookieCAD} Shapes] A \textsc{CCad}
+shape (or design) $s\in \CCAD$ is a set of lines. 
 A \emph{line} $l \in L$ is defined as a set of exactly two points.
 A \emph{point} $p\in P$ is a pair of reals.
-\begin{olddef}
-Similarly, a \emph{colored} \textsc{PCad} object $o\in \PCADC$ is a set of 
-lines defined over \emph{colored} points.
-A \emph{color} $c\in C$ is a triple of integers corresponding to its RGB encoding.
-The function $\SMapping$ maps objects $o\in \PCAD$ and $o\in \PCADC$ to the
-union of points the lines constituting the objects are made of.
-For the latter these points are colored.
-\end{olddef}
-\begin{newdef}
-The function $\SMapping$ maps objects $o\in \PCAD$ to the union of points 
-the lines constituting the objects are made of.
-\end{newdef}
-
-\begin{olddef}
+The function $\SMapping$ maps shapes $s\in \CCAD$ to the union of points 
+the lines constituting the shapes are made of.
 \begin{displaymath}
-\begin{small}
-\begin{array}{rcl rcl}
-
-\PCAD &\eqdef& \wp(L)                         & \PCADC &\eqdef& \wp(CL)\\
-L     &\eqdef& \{ \{p, p'\} \;|\;             & 
-CL    &\eqdef& \{ (\{p, p'\}, c) \;|\;  \\  
-      &      & \quad p, p' \in P, p\neq p' \} & & & p, p' \in P, c\in C\}\\
-P     &\eqdef& \mathbb{N} \times \mathbb{N}   & C     &\eqdef& 
-{0; \ldots; 255}^3
-
-\end{array}
-\end{small}
+   \begin{small}
+      \begin{array}{rcl rcl}
+         \CCAD &\eqdef& \wp(L)\\
+         L     &\eqdef& \{ \{p, p'\} \;|\; \quad p, p' \in P, p\neq p' \}\\
+         P     &\eqdef& \mathbb{R} \times \mathbb{R}
+      \end{array}
+   \end{small}
 \end{displaymath}
-\end{olddef}
 
-\begin{newdef}
+The semantics of a \textsc{CCad} shape is captured by the function 
+$\SMapping$, that maps each shape to the points the lines constituting the 
+shape is built upon. 
 \begin{displaymath}
-\begin{small}
-\begin{array}{rcl}
-%%
-\PCAD &\eqdef& \wp(L)                                       \\%& \PCADC &\eqdef& \wp(CL)\\
-L     &\eqdef& \{ \{p, p'\} \;|\; p, p' \in P, p\neq p'     \\%& CL    &\eqdef& \{ \{p, p'\} \;|\;  \\  
-%      &      & \quad p, p' \in P, p\neq p' \}               \\%& & & p, p' \in CP, p\neq p'\\
-P     &\eqdef& \mathbb{R} \times \mathbb{R}                 \\%& CP     &\eqdef& P \times \{0; \ldots; 255\}^3
-%%
-\end{array}
-\end{small}
-\end{displaymath}
-\end{newdef}
-
-The semantics of a \textsc{Pcad} object is captured by the function 
-$\SMapping$, that maps each object to the points the lines constituting the 
-objects are built upon. The semantics of a colored \textsc{Pcad} object is 
-similar, except that lines defined with points of different colors are 
-blackened.
-%%
-\begin{olddef}
-\begin{displaymath}
-\begin{small}
-\begin{array}{rcl}
-%%
-\SMapping & \colon & \!\!\!
-\begin{array}[t]{rcl}
-         \PCAD &\to& \wp(L) \\
-         o &\mapsto& \bigcup o\\
-\end{array}\\\\
-
-\SMapping & \colon & \!\!\!
-
-\begin{array}[t]{rcl}
-         \PCADC &\to& (P \nrightarrow C)\\
-         o &\mapsto& \left\{ \begin{array}{rclcl}
-            (p, p') &\mapsto& c & \mathrm{if} & c = c'\\
-            (p, p') &\mapsto& (0,0,0) & \mathrm{if} & c \neq c'\\ 
-         \end{array}\right. \\
-         & \multicolumn{2}{l}{\forall (\{p, p'\}, c), (\{p, p'\}, c') \in o}\\
-\end{array}
-
-\end{array}
-\end{small}
-\end{displaymath}
-\end{olddef}
-%%
-\begin{newdef}
-\begin{displaymath}
-\begin{small}
-\begin{array}{rcl}
-%%
-\SMapping & \colon & \!\!\!
-%%
-\begin{array}[t]{rcl}
-%%
-\PCAD &\to& \wp(\mathbb{R}^2) \\
-%%
-o &\mapsto& \lbrace \lbrace u,v\rbrace \;|\; \exists u,v\in \mathbb{R}.\; 
-                                             \forall x \leq u \leq x'. \\
+   \begin{small}
+      \begin{array}{rcl}
+         \SMapping & \colon & \!\!\!
+            \begin{array}[t]{rcl}
+               \CCAD &\to& \wp(\mathbb{R}^2) \\
+                   o &\mapsto& \lbrace \lbrace u,v\rbrace \;|\; \exists 
+u,v\in \mathbb{R}.\; 
+                    \forall x \leq u \leq x'. \\
 & & v{=}m{*}u{+}\left(y{-}m{*}x\right), o{=}\lbrace \lbrace x, y \rbrace, \lbrace x', y' \rbrace \rbrace,
 %%
-\end{array}\\
-\end{array}
-\end{small}
+            \end{array}\\
+      \end{array}
+   \end{small}
 \end{displaymath}
 \noindent 
 where $m = \frac{y'-y}{x'-x}$ and w.l.o.g. $x' \geq x$.
-
-\end{newdef}
-
 \end{Definition}
-
-\begin{olddef}
-\begin{Example}[PCAD]
-
-   Figure \ref{fig:PCAD-Visual} presents a visual representation of a very 
-simple \textsc{Pcad} object. 
-\begin{figure}[t]
-   \centering
-%    \includegraphics[width=0.98\columnwidth]{}
-   \caption{A simple PCAD Object named $\mathsf{Form}$.}%
-   \label{fig:PCAD-Visual}%
-\end{figure}
-\end{Example}
-
-As minimal activities on \textsc{Pcad} designs, one shall evidently 
-\emph{create} designs, \emph{check} for ensuring they represent valid, viable 
-physical objects, and ultimately \emph{manufacture} the physical objects from 
+As minimal activities on \textsc{CCad} designs, one shall evidently 
+\emph{create} shapes, \emph{check} their validity, viable 
+cookie stencils, and ultimately \emph{manufacture} the cutters from 
 the designs.
-\end{olddef}
-
-\begin{newdef}
-As minimal activities on \textsc{Pcad} designs, one shall evidently 
-\emph{create} designs, \emph{check} for ensuring they represent valid, viable 
-cookie stencils, and ultimately \emph{manufacture} the stencils from 
-the designs.
-\end{newdef}
 
 
 % \subsection{Finite-State Automata}

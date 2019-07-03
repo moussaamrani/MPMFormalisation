@@ -245,11 +245,11 @@ Language]
       We define $\mathsf{PCAD, PCADC} \in 
 \mathsf{Name}_{_{\mathsf{Language}}}$. Definition \ref{def:PCAD} defines the 
 (colored) Poor-Man \textsc{Cad} formalism mathematically: the abstract syntax 
-\textsf{AS}$_{_{\mathsf{PCAD}}}$ is captured by the defining set $\PCAD$ (resp. 
+\textsf{AS}$_{_{\mathsf{PCAD}}}$ is captured by the defining set $\CCAD$ (resp. 
 \textsf{AS}$_{_{\mathsf{PCADC}}} \eqdef \PCADC$); the semantic domain 
 \textsf{SD}$_{_{\mathsf{PCAD}}}$ identifies to $L$ (resp. 
 \textsf{SD}$_{_{\mathsf{PCADC}}} \eqdef \PCADC$); and the semantic mapping is 
-captured by the (overloaded) function(s) $\SMapping$ in Def. \ref{def:PCAD}. A 
+captured by the (overloaded) function(s) $\SMapping$ in Def. \ref{def:CCAD}. A 
 language for (colored) \textsc{PCad} may use the metamodel(s) of Figure 
 \ref{fig:PCAD-MM}: in yellow for \textsc{PCad} and yellow/purple for colored 
 \textsc{PCad}. Figure \ref{fig:PCAD-Visual} defines an instance 
@@ -258,23 +258,25 @@ syntax. We can easily manually check that $\mathsf{Form}\rhd \mathsf{PCADC}$.
 
 \begin{figure}[t]
    \centering
-   \includegraphics[width=0.98\columnwidth]{PCAD}
+   \includegraphics[width=0.98\columnwidth]{CCAD-MM}
    \caption{A metamodel for \textsc{PCad} (cf. Definition 
-\ref{def:PCAD}).}%
+\ref{def:CCAD}).}%
    \label{fig:PCAD-MM}%
 \end{figure}
 \end{Example}
 \end{olddef}
 
 \begin{newdef}
-\begin{Example}[\label{ex:PCADC}\textsc{PCad} Formalism and 
+\begin{Example}[\label{ex:CCAD}\textsc{CCad} Formalism and 
 Language]
-      We define $\mathsf{PCAD} \in 
-\mathsf{Name}_{_{\mathsf{Language}}}$. Definition \ref{def:PCAD} defines the 
-Poor-Man \textsc{Cad} formalism mathematically: 
-the abstract syntax \textsf{AS}$_{_{\mathsf{PCAD}}}$ is captured by the defining set $\PCAD$; 
-the semantic domain \textsf{SD}$_{_{\mathsf{PCAD}}}$ identifies to $L$; 
-and the semantic mapping is captured by the function $\SMapping$ in Def.~\ref{def:PCAD}. 
+      We define $\mathsf{CCAD} \in 
+\mathsf{Name}_{_{\mathsf{Language}}}$. Definition \ref{def:CCAD} defines the 
+CookieCAD formalism mathematically: 
+the abstract syntax \textsf{AS}$_{_{\mathsf{CCAD}}}$ is captured by the 
+defining set $\CCAD$; 
+the semantic domain \textsf{SD}$_{_{\mathsf{CCAD}}}$ identifies to $L$; 
+and the semantic mapping is captured by the function $\SMapping$ in 
+Def.~\ref{def:CCAD}. 
 A language for \textsc{PCad} may use the metamodel of Fig.~\ref{fig:PCAD-MM}. 
 % Figure \ref{fig:PCAD-Visual} defines an instance 
 % $\mathsf{Form}\in\mathsf{Name}_{_{\mathsf{LangInstance}}}$ in a visual concrete 
@@ -645,7 +647,7 @@ logics}, e.g. for ensuring semantic properties. We detail later in the examples
 how some properties described in Table \ref{tab:Properties} may be captured 
 precisely.
 \begin{newdef}
-For instance, relevant paradigmatic properties for \PCAD are that conforming 
+For instance, relevant paradigmatic properties for \CCAD are that conforming 
 languages yield the notion of lines over points in $\mathbb{R^2}$ or that 
 conforming workflows support creating drawings and 3D prints from these. 
 \end{newdef}
