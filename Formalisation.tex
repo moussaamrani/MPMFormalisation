@@ -1,5 +1,6 @@
 \section{Formalisation}
 \label{sec:Formalisation}
+\moussa{Rewrite this descripton}
 
 Our formalisation defines a \emph{paradigm} as a set of 
 \emph{characterising properties} $\mathsf{\Pi}$ that holds over a mathematical 
@@ -14,9 +15,13 @@ the paradigm $\iota$. The properties constituting $\mathsf{\Pi}$ may
 characterise the formalisms and/or the workflow defining a paradigmatic 
 structure. 
 
+\arend{Annotate the rest of this section to improve definitions, and formalisation as coherent as possible.}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Preliminaries}
 \label{sec:Formalisation-Preliminaries}
 
+\begin{olddef}
 We assume in this paper that ``\emph{everything is modelled explicitly}`` by 
 using \emph{models} conformant to \emph{metamodels}, themselves explicitly 
 modelled (using a \emph{meta-metamodel}). The following definition introduces 
@@ -38,8 +43,14 @@ meta-metamodel defines; whereas the fact that \textsf{M} is an
 \textsf{M} conform to \emph{MM}. This checking procedure has been extensively 
 described by many previous contributions (see e.g. 
 \cite{PhD:Amrani:2013,J:Rivera-Duran-Vallecillo:2009}).
+\end{olddef}
+\begin{newdef}
+In this paper we follow the motto that ``\emph{everything is modelled explicitly}''. This means that, whenever we have a set of things we want to reason about (models, transformations, properties) we specify that set in some concrete fashion. The set is then called the \emph{extension} and its specification its \emph{intension}. A given object is said to \emph{conform} to a specification if it is an element of its extension. Checking conformance can be a non-trivial task in practice.
 
-The choice of a specific meta-metamodel determines the thechnological space 
+In many contexts, the intension is called a \emph{metamodel} and an element of its extension a \emph{model}. Metamodels themselves also form a set, and so according our own motto can be specified in a \emph{meta-metamodel}. 
+\end{newdef}
+
+The choice of a specific meta-metamodel determines the technological space 
 chosen for metamodelling \cite{Wimmer-Kramler:2005}: \emph{grammarware} have a 
 tree-based structure and are fully textual; whereas \emph{modelsware} are either 
 visual or textual (or both), and rely either on \textsc{Mof}-like tree-based 
@@ -56,6 +67,7 @@ visual or textual (or both), and rely either on \textsc{Mof}-like tree-based
 % \moussa{Maybe factor out this description in a previous section dedicated to 
 % provide the intuition about paradigms?}. 
 
+\begin{olddef}
 In order to designate specific items of our formalisation explicitly by their 
 name, we define distinct namespaces as sorted sets. Properly resolving 
 namespaces is out of scope, as it relies on specific tooling 
@@ -80,13 +92,23 @@ capabilities and implementation choices.
 To avoid the subscripted notation, we introduce a more compact notation for 
 referring to names: for example, the set of class names 
 $\mathsf{Name_{_{Language}}}$ will be noted $\mathsf{LanguageN}$.  
+\end{olddef}
+\begin{newdef}
+In order to be able to refer to elements of our formalisation, we introduce the concept of \emph{names}, which are \emph{identifiers} in a \emph{namespace}. Namespaces are themselves either also names, or can be the top (global) namespace. To formalise this, we assume a universe of \emph{identifiers} $\ID$, and a \emph{top namespace} $\top$; then the set of namespaces \NS and the set of names \Name are the smallest sets satisfying
+\[\begin{array}{rcl}
+\NS & \eqdef & \{\top\} \cup \Name \\
+\Name & \eqdef & \NS \times \ID
+\end{array}\]
+For instance, \textsf{ANSI.C} is the qualified name of the language with identifier \textsf{C} in the namespace \textsf{ANSI}, which is itself a name consisting of the identifier \textsf{ANSI} in the top namespace, $\top$. Another occurrence of namespaces is this paper itself: the terminology used in this paper should be understood in that namespace --- we are well aware that the same identifiers (such as \textit{language}, \textit{formalism}, \textit{syntax}) can and do have different definitions elsewhere.
+\end{newdef}
 
 \subsection{Formalism \& Language}
 \label{sec:Formalism-Language}
 
+\begin{olddef}
 We first introduce a distinction between \emph{formalisms} and \emph{languages}: 
 a \emph{formalism} is a mathematical construction built for capturing the 
-\emph{essence} and the \emph{core concepts} of a software \emph{language}. 
+\emph{essence} and the \emph{core concepts} of a \emph{language}. 
 
 \begin{Definition}[\label{def:Formalism}Formalism]
    A \emph{formalism} $\mathsf{F}\in\mathbb{F}$ is a triple $\mathsf{F} = 
@@ -98,18 +120,16 @@ defining an \emph{abstract syntax}; $\mathsf{SD}\in\mathbb{D}$ is a
 associates to each valid abstract syntax instance a meaning (or interpretation) 
 in terms of the semantic domain.
    
-   We say that $\mathsf{F}$ \emph{refines} $\mathsf{F'}$, noted $\mathsf{F} 
-\sqsubseteq \mathsf{F'}$ when all concepts defined by 
-$\mathsf{AS}_{\mathsf{F}}$ are present in $\mathsf{AS}_{\mathsf{F'}}$ while 
+   We say that $\mathsf{F}$ \emph{refines} $\mathsf{F'}$, noted $\mathsf{F}
+\sqsubseteq \mathsf{F'}$ when all concepts defined by
+$\mathsf{AS}_{\mathsf{F}}$ are present in $\mathsf{AS}_{\mathsf{F'}}$ while
 preserving its semantics.
 \end{Definition}
-
 Translating the core concepts captured by a formalism into a usable software 
 language requires the definition of a \emph{concrete semantics} for 
 users/modellers to manipulate language instances.
 
-
- \begin{Definition}[\label{def:Language}Language]
+\begin{Definition}[\label{def:Language}Language]
    A \emph{language specification} (or \emph{language} 
 for short) $\mathsf{L}\in\mathbb{L}$ is a tuple $\mathsf{L} = (\mathsf{CS}, 
 \mathsf{AS}, \SMapping, \mathsf{SD})$ where $\mathsf{CS}\in\mathcal{M}$ is a 
@@ -119,13 +139,13 @@ $\mathsf{SD}\in\mathbb{D}$ is
 a \emph{semantic domain}; and $\SMapping \colon \mathsf{AS} \to \mathsf{SD}$ is 
 a \emph{semantic mapping}. 
 
-   A \emph{language instance} $\mathsf{LI}\in\mathbb{M}$ of a language 
-$\mathsf{L}\in\mathbb{L}$ is a model conform to $\mathsf{AS}$ (i.e. 
+   A \emph{language instance} $\mathsf{LI}\in\mathbb{M}$ of a language
+$\mathsf{L}\in\mathbb{L}$ is a model conform to $\mathsf{AS}$ (i.e.
 $\mathsf{LI} \rhd \mathsf{AS}$) and defined using \textsf{CS}.
 \end{Definition}
 
 \smallskip\noindent
-Our definition for languages is \emph{extentional}: it only specifies the sets 
+Our definition for languages is \emph{extensional}: it only specifies the sets 
 involved in the structure of a language (as advocated e.g. by Harel \& Rumpe 
 \cite{J:Harel-Rumpe:2004}), without providing a constructing approach to 
 manipulate them. However, effectively checking that a language instance 
@@ -137,7 +157,57 @@ $\mathsf{AS}$ and $\mathsf{CS}$ \emph{linguistic} instances of their respective
 \emph{languages}. Depending on the $\mathsf{CS}$'s \emph{style}, $\mathsf{L}$ 
 is also coined as a \emph{visual} / \emph{diagrammatic} vs. \emph{textual} 
 language.
+\end{olddef}
 
+\begin{newdef}
+
+\begin{Definition}[\label{def:Language}(Concrete) language]
+A \emph{language} is a set \AS, often called its \emph{abstract syntax}. 
+A \emph{concrete language} is a tuple $\CL=\tuple{\CS,\AS,\parse}$ where
+\begin{itemize}
+\item \CS is a set, called the \emph{concrete syntax};
+\item \AS is a language;
+\item $\parse:\CS\rightarrow\AS$ is a partial function, called the \emph{parsing function}.
+\end{itemize}
+\end{Definition}
+%
+Parsing is partial because there may be concrete syntax elements that are not well-formed, and so cannot be parsed to an abstract syntax element.
+%
+% \begin{newdef}
+% Based on our example, we define the formalism $\PCAD = \left(L,
+% \SMapping, \wp(\mathbb{R}^2)\right)$, where $m$ is the metamodel depicted in 
+% Fig.~\ref{fig:PCAD-MM} and $\SMapping$ as specified in 
+% Def.~\ref{def:PCAD}. 
+% \end{newdef}
+
+% \begin{newdef}
+% For the $\PCAD$, $\CS$ could be drawings consisting of straight 
+% lines or textual representations (e.g., TikZ\footnote{TikZ Website: \url{https://github.com/pgf-tikz/pgf}} 
+% for LaTeX) with a corresponding parsing function.
+% \end{newdef}
+
+\begin{Definition}[\label{def:Formalism}(Concrete) formalism]
+A \emph{formalism} is a 3-tuple $\CF=\tuple{\AS,\SD,\sem\cdot}$ where
+\begin{itemize}
+\item \AS is a language;
+\item \SD is a set, called the \emph{semantic domain};
+\item $\sem\cdot:\AS\rightarrow\SD$ is a function, called the \emph{semantic mapping}.
+\end{itemize}
+A \emph{concrete formalism} is a 5-tuple $\CF=\tuple{\CS,\AS,\SD,\parse,\sem\cdot}$ such that
+\begin{itemize}
+\item $\tuple{\CS,\AS,\parse}$ is a concrete language;
+\item $\tuple{\AS,\SD,\sem\cdot}$ is a formalism.
+\end{itemize}
+\end{Definition}
+
+
+%
+As remarked about, these definitions are \emph{extensional}: they only specify the sets
+involved in the structure of a language (as advocated e.g. by Harel \& Rumpe 
+\cite{J:Harel-Rumpe:2004}), without providing a constructive approach to 
+manipulate them. In practice, the concrete and abstract syntax are always specified \emph{intensionally}, meaning that they arise as the semantics of another (meta-)formalism. Depending on that other formalism, a given language or formalism may be called \emph{visual} / \emph{diagrammatic} (if the meta-formalism is similar to UML metamodels) or \emph{textual} (if the meta-formalism is a textual grammar).
+\end{newdef}
+\begin{olddef}
 According to Broman \emph{et al.} \cite{Broman-etAl:2012}, a language 
 (alternatively called \emph{concrete formalism} in \cite{P:MPM:2006}) is ``a 
 concrete implementation of formalism(s)``: 
@@ -145,7 +215,6 @@ for practical reasons, a language may rely on several
 formalisms, and may introduce semantics variations wrt. the formalism's 
 semantics it implements. We formally capture the \emph{implementation} 
 relationship between languages and formalisms.
-
 \begin{Definition}[\label{def:Implementation}Implementation/Refinement]
    
    We write $\mathsf{L} \rightsquigarrow \mathsf{F_1}, \ldots, \mathsf{F_n}$ 
@@ -156,6 +225,7 @@ formalisms $\mathsf{F'_i}$ implemented by $\mathsf{L'}$, there exists some
 formalisms $\mathsf{F_1}, \ldots, \mathsf{F_n}$ that refine $\mathsf{F'_i}$ 
 (i.e. $\mathsf{F_k} \sqsubseteq \mathsf{F'_i}$ for $k\in [1..n]$).
 \end{Definition}
+\end{olddef}
 \noindent
 Software language designers use intricate combinations of formalism(s) to reach 
 the current requirements for language usability, efficiency, readability, etc., 
@@ -169,6 +239,7 @@ However, since the formalisms implemented by a language are transparent for the
 end-users, we focus our formalisation on languages rather than the formalisms: 
 the implementation relation allows to retrieve them if needed.
 
+\begin{olddef}
 \begin{Example}[\label{ex:PCADC}(Colored) \textsc{PCad} Formalism and 
 Language]
       We define $\mathsf{PCAD, PCADC} \in 
@@ -188,18 +259,50 @@ syntax. We can easily manually check that $\mathsf{Form}\rhd \mathsf{PCADC}$.
 \begin{figure}[t]
    \centering
    \includegraphics[width=0.98\columnwidth]{PCAD}
-   \caption{A Simple Metamodel for \textsc{PCad} (cf. Definition 
+   \caption{A metamodel for \textsc{PCad} (cf. Definition 
 \ref{def:PCAD}).}%
    \label{fig:PCAD-MM}%
 \end{figure}
 \end{Example}
+\end{olddef}
 
+\begin{newdef}
+\begin{Example}[\label{ex:PCADC}\textsc{PCad} Formalism and 
+Language]
+      We define $\mathsf{PCAD} \in 
+\mathsf{Name}_{_{\mathsf{Language}}}$. Definition \ref{def:PCAD} defines the 
+Poor-Man \textsc{Cad} formalism mathematically: 
+the abstract syntax \textsf{AS}$_{_{\mathsf{PCAD}}}$ is captured by the defining set $\PCAD$; 
+the semantic domain \textsf{SD}$_{_{\mathsf{PCAD}}}$ identifies to $L$; 
+and the semantic mapping is captured by the function $\SMapping$ in Def.~\ref{def:PCAD}. 
+A language for \textsc{PCad} may use the metamodel of Fig.~\ref{fig:PCAD-MM}. 
+% Figure \ref{fig:PCAD-Visual} defines an instance 
+% $\mathsf{Form}\in\mathsf{Name}_{_{\mathsf{LangInstance}}}$ in a visual concrete 
+% syntax. We can easily manually check that $\mathsf{Form}\rhd \mathsf{PCADC}$.
 
+\begin{figure}[t]
+   \centering
+   \includegraphics[width=0.98\columnwidth]{PCAD}
+   \caption{A metamodel for \textsc{PCad} (cf. Definition 
+\ref{def:PCAD}).}%
+   \label{fig:PCAD-MM}%
+\end{figure}
+\end{Example}
+\end{newdef}
+
+\begin{olddef}
 Technological spaces used for meta-metamodelling, such as grammarware or 
 graphs (cf. Def. \ref{def:MMM}), constitute proper formalisms that were 
 extensively studied mathematically (cf. 
-\cite{B:Rozenberg:1997,B:Aho-etAl:2006}, 
-among others). However, in practice, a metamodeller uses a specific language 
+\cite{B:Rozenberg:1997,B:Aho-etAl:2006}, among others).
+\end{olddef}
+\begin{newdef}
+Technological spaces used for meta-metamodelling, such as grammarware or 
+graphs, provide proper formalisms that were 
+extensively studied mathematically (cf. 
+\cite{B:Rozenberg:1997,B:Aho-etAl:2006}, among others).
+\end{newdef}
+However, in practice, a metamodeller uses a specific language 
 framework that implements such technological spaces and provides facilities for 
 manipulating (meta-)models. As a result, when creating a language $\mathsf{L}$,
 the concrete concrete $\mathsf{CS}$ and abstract $\mathsf{AS}$ syntaxes are 
@@ -223,9 +326,7 @@ $\mathsf{F^\star}\in\mathbb{F}$ from a language $\mathsf{L}\in\mathbb{L}$ by
 getting rid of $\mathsf{CS}_{\mathsf{L}}$ and considering the canonical 
 semantics over $\mathsf{AS}_{\mathsf{L}}$.
 
-
-
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Transformations}
 \label{sec:Formalisation-Transformation}
 
@@ -268,7 +369,7 @@ language(s) of the transformation $\mathsf{T}\in\mathbb{T}$.
 % instantiation checks the validity of $\mathsf{cs}$ regarding the concrete 
 % definition of the abstract syntax $\mathsf{AS}$.
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Workflow}
 \label{sec:Workflow}
 
@@ -316,8 +417,12 @@ formalisms. FEEL FREE TO ARGUMENT OTHERWISE!}
 An \textsc{Ftg} can be seen as a collection of transformations that are 
 considered useful for a given context. Since transformation names are actually 
 used, we use a functional definition.
+
+\andreas{Shouldn't it be $\FTG(AFL,T)$ (in the following?), also I'm not sure
+that I understand the notation of the parametrized set $\FTG(AFL,T)$ correctly}
 \begin{Definition}{(Extended) Formalism Transformation Graph (x\textsc{Ftg})}
-   Let $\mathsf{AFL} \eqdef \mathsf{AbstractFormalismN} \cup 
+%%
+Let $\mathsf{AFL} \eqdef \mathsf{AbstractFormalismN} \cup 
 \mathsf{LanguageN}$ be the union of (abstract) formalisms and languages names. A 
 \emph{Formalism Transformation Graph} $\mathsf{FTG} \in \FTG(FL, T)$ is a 
 function  $\mathsf{FTG} \colon T \to \langle FL \rangle \times \langle FL 
@@ -325,7 +430,9 @@ function  $\mathsf{FTG} \colon T \to \langle FL \rangle \times \langle FL
 \subseteq \mathsf{AFL}$ and transformation names $T\subseteq 
 \mathsf{TransformationN}$, and the boolean value indicates whether the 
 transformation is automatic or not (meaning that it becomes a human activity).
+%
 \end{Definition}
+
 \noindent
 For $t \mapsto (\langle fl_1, \ldots, fl_n \rangle, \langle fl'_1, \ldots, 
 fl'_m \rangle, b)\in \mathsf{FTG}$, we call the $fl_i$s (resp. $fl'_j$s) the 
@@ -358,8 +465,9 @@ transformations) are performed: who, where, etc. I remember we briefly
 mentionned that during the Workshop...} 
 
 \begin{Definition}[\label{def:PM}Process Model (\textsc{Pm})]
-   A \emph{process model} $\mathsf{PM}\in\PM$ is an instance of a 
-\textsc{Uml} Activity Diagram where 
+% %
+A \emph{process model} $\mathsf{P}\in\PM$ is an instance of a \textsc{Uml}
+Activity Diagram where
 \begin{itemize}
    \item $\mathsf{ActionNode}$s are labelled by transformation instance names 
 typed by their conforming transformation specifications, and may be 
@@ -370,14 +478,27 @@ by their conforming languages; and
 $\mathsf{Decision}$/$\mathsf{Merge}$, $\mathsf{Fork}$/$\mathsf{Join}$ and 
 $\mathsf{Init}$/$\mathsf{Final}$s nodes.   
 \end{itemize}
+%%
 \end{Definition}
+\begin{newdef}
+Fig.~\ref{fig:Process} illustrates a process for \textsc{PCad} 
+\begin{figure}[t]
+   \centering
+   \includegraphics[width=0.98\columnwidth]{process}
+   \vspace{-1em}
+   \caption{A process model for \textsc{PCad} that yields a closed shape and exports it.}%
+   \label{fig:Process}%
+\end{figure}
+\end{newdef}
+%%
 We may distinguish in the concrete syntax $\mathsf{ControlFlow}$s from 
 $\mathsf{ObjectFlow}$s to emphasize the control and make the process more 
-proeminent. We assume that $\mathsf{ActionNode}$ names and 
-$\mathsf{ObjectNode}$ names are distinct and unique. We also require that 
-\textsc{Pm}s are well-formed wrt. their \textsc{Ftg}.
+prominent. 
+We assume that $\mathsf{ActionNode}$ names and $\mathsf{ObjectNode}$ names 
+are distinct and unique. We also require that \textsc{Pm}s are well-formed 
+wrt. their \textsc{Ftg}.
 
-Notice that our definition for x\textsc{Ftg}s  relies solely on \emph{names}: a 
+Notice that our definition for x\textsc{Ftg}s relies solely on \emph{names}: a 
 framework should take care of retrieving the actual transformation item (as per 
 Def. \ref{def:Transformation}) from the transformation name (trough 
 the $trans$ of Def. \ref{def:Naming}), and should check that the language 
@@ -390,6 +511,7 @@ order.
 The following definition simply puts things together: a workflow is composed of 
 an \textsc{Ftg} together with several well-typed \textsc{Pm}s. 
 
+\andreas{Shouldn't the following defintion use xFTG?}
 \begin{Definition}[\label{def:Workflow}Workflow]
    A \emph{workflow} $\mathsf{W}\in\mathbb{W}(FL, T)$ is a pair $\mathsf{W} = 
 (\mathsf{FTG}, \mathsf{P})$ where $\mathsf{FTG}\in\FTG(FL, T)$ and 
@@ -447,6 +569,8 @@ target or both. For example, an iterative process may instantiate
 $\mathsf{Create}$, $\mathsf{Modify}$ and $\mathsf{isValid}$ to produce a target 
 $\mathsf{Product}$ that is guaranteed to be always valid.  
 
+\begin{olddef}
+
 \begin{figure}[t]
    \centering
    \includegraphics[width=0.98\columnwidth]{PCAD-FTG+PM}
@@ -455,10 +579,22 @@ $\mathsf{Product}$ that is guaranteed to be always valid.
 on the right}%
    \label{fig:PCAD-MM}%
 \end{figure}
+\end{olddef}
+\begin{newdef}
+\begin{figure}[t]
+   \centering
+   \includegraphics[width=0.98\columnwidth]{FTG}
+   \caption{x\textsc{Ftg} of a possible workflow $\mathsf{W_{PCAD}} = (\mathsf{FTG_{PCAD}}, 
+\mathsf{PM_{PCAD}})$ that supports the process model of Fig.~\ref{fig:Process}.}%
+   \label{fig:PCAD-MM}%
+\end{figure}
+\end{newdef}
 \end{Example}
 
 
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Paradigm}
 \label{sec:PS}
 
@@ -508,6 +644,11 @@ for ensuring the presence of certain concepts, or through \emph{dedicated
 logics}, e.g. for ensuring semantic properties. We detail later in the examples 
 how some properties described in Table \ref{tab:Properties} may be captured 
 precisely.
+\begin{newdef}
+For instance, relevant paradigmatic properties for \PCAD are that conforming 
+languages yield the notion of lines over points in $\mathbb{R^2}$ or that 
+conforming workflows support creating drawings and 3D prints from these. 
+\end{newdef}
 
 \begin{Definition}{\label{def:Paradigm}Intent --- Paradigm}
    We define an \emph{intent} $\iota$ as a \emph{named} paradigmatic property, 
