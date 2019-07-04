@@ -33,7 +33,7 @@
 \newboolean{olddef}
 \newboolean{newdef}
 \setboolean{olddef}{true}
-\setboolean{newdef}{true}
+\setboolean{newdef}{false}
 \newenvironment{olddef}{\relax
     \ifolddef
     \ifnewdef
@@ -98,20 +98,27 @@
 \newcommand{\etal}{\emph{et al.{}\xspace}}
 \newcommand{\UML}{\textsc{Uml}\xspace}
 \newcommand{\MOF}{\textsc{Mof}\xspace}
+
 \newcommand{\ID}{\ensuremath{\mathsf{ID}}\xspace}
 \newcommand{\NS}{\ensuremath{\mathsf{NS}}\xspace}
 \newcommand{\Name}{\ensuremath{\mathsf{Name}}\xspace}
-\newcommand{\PS}{\ensuremath{\mathbb{P}\!\mathbb{S}}\xspace}
-\newcommand{\TE}{\ensuremath{\mathbb{T}\!\mathbb{E}}\xspace}
-\newcommand{\PM}{\ensuremath{\mathbb{P}\!\mathbb{M}}\xspace}
+\newcommand{\CCad}{\ensuremath{\mathsf{CCad}}\xspace}
+
+\newcommand{\mm}{\mskip-1mu}
+\newcommand{\Lu}{\ensuremath{\mathbb{L}}\xspace}
+\newcommand{\CLu}{\ensuremath{\mathbb{C\mm L}}\xspace}
+\newcommand{\Fu}{\ensuremath{\mathbb{F}}\xspace}
+\newcommand{\CFu}{\ensuremath{\mathbb{C\mm F}}\xspace}
+\newcommand{\PS}{\ensuremath{\mathbb{P}\mskip-1mu\mathbb{S}}\xspace}
+\newcommand{\TE}{\ensuremath{\mathbb{T}\mskip-1mu\mathbb{E}}\xspace}
+\newcommand{\PM}{\ensuremath{\mathbb{P}\mskip-1mu\mathbb{M}}\xspace}
 %\newcommand{\AS}{\ensuremath{\mathbb{A}\!\mathbb{S}}\xspace}
 %\newcommand{\CS}{\ensuremath{\mathbb{C}\!\mathbb{S}}\xspace}
-\newcommand{\CCAD}{\ensuremath{\mathbb{C}\!\mathbb{C}\!\mathbb{A}\!\mathbb{D}}
+\newcommand{\CCAD}{\ensuremath{\mathbb{C}\mskip-1mu\mathbb{C}\mskip-1mu\mathbb{A}\mskip-1mu\mathbb{D}}
 \xspace}
-\newcommand{\PCADC}{\ensuremath{\mathbb{P}\!\mathbb{C}\!\mathbb{A}\!\mathbb{D}
-\!\mathbb{C}}
+\newcommand{\PCADC}{\ensuremath{\mathbb{P}\mskip-1mu\mathbb{C}\mskip-1mu\mathbb{A}\mskip-1mu\mathbb{D}\mskip-1mu\mathbb{C}}
 \xspace}
-\newcommand{\FTG}{\ensuremath{\mathbb{F}\!\mathbb{T}\!\mathbb{G}}\xspace}
+\newcommand{\FTG}{\ensuremath{\mathbb{F}\mskip-1mu\mathbb{T}\mskip-1mu\mathbb{G}}\xspace}
 \newcommand{\SMapping}{\ensuremath{\llbracket \cdot \rrbracket}}
 \newcommand{\eqdef}{\ensuremath{\triangleq}}
 \newcommand{\Dom}[1]{\ensuremath{\mathsf{\mathcal{D}\!om}}(#1)}

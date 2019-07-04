@@ -48,8 +48,7 @@ house-like shape sharing a line. (c) An invalid shape (due to overlaps).}%
 %provides a formal specification and a visual representation of a possible 
 %design.
 
-\begin{Definition}[\label{def:CCAD}\textsc{CookieCAD} Shapes] A \textsc{CCad}
-shape (or design) $s\in \CCAD$ is a set of lines. 
+\begin{Definition}[\label{def:CCAD}Cookie-CAD Shapes] A \CCad-shape (or design) $s\in \CCAD$ is a set of lines. 
 A \emph{line} $l \in L$ is defined as a set of exactly two points.
 A \emph{point} $p\in P$ is a pair of reals.
 The function $\SMapping$ maps shapes $s\in \CCAD$ to the union of points 
@@ -57,14 +56,14 @@ the lines constituting the shapes are made of.
 \begin{displaymath}
    \begin{small}
       \begin{array}{rcl rcl}
-         \CCAD &\eqdef& \wp(L)\\
-         L     &\eqdef& \{ \{p, p'\} \;|\; \quad p, p' \in P, p\neq p' \}\\
+         \CCAD &\eqdef& \wp(L) \\
+         L     &\eqdef& \{ \{p, p'\} \;|\; p, p' \in P, p\neq p' \} \\
          P     &\eqdef& \mathbb{R} \times \mathbb{R}
       \end{array}
    \end{small}
 \end{displaymath}
 
-The semantics of a \textsc{CCad} shape is captured by the function 
+The semantics of a \CCad-shape is captured by the function 
 $\SMapping$, that maps each shape to the points the lines constituting the 
 shape is built upon. 
 \begin{displaymath}
@@ -72,7 +71,7 @@ shape is built upon.
       \begin{array}{rcl}
          \SMapping & \colon & \!\!\!
             \begin{array}[t]{rcl}
-               \CCAD &\to& \wp(\mathbb{R}^2) \\
+               \CCAD &\to& \wp(\wp(\mathbb{R}^2)) \\
                    o &\mapsto& \lbrace \lbrace u,v\rbrace \;|\; \exists 
 u,v\in \mathbb{R}.\; 
                     \forall x \leq u \leq x'. \\
@@ -140,7 +139,7 @@ the designs.
          \multicolumn{2}{l}{$\iota_3$: Computer-Aided Design ($\mathsf{CAD}$)}\\
          \hline
          CAD1 & Comprises concepts of (2D/3D) points and shapes\\
-         CAD2 & Objects yield a position and a color\\
+         CAD2 & Points and shapes have the a position\\
          CAD3 & Supports transformation into physical (2D/3D) printed objects\\
          \hline
       \end{tabular}
