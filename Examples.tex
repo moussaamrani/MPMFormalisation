@@ -1,24 +1,21 @@
 \section{Running Example: CookieCAD}
 \label{sec:Examples}
 
-As a running, illustrative purpose, we take a very simplified variant of 
-Computer-Aided Design (\textsc{Cad}) named CookieCAD (\textsc{CCad}), aimed at 
-designed simple cookie cutters, as illustrated with a triangle shaped cookie in 
-Figure \ref{fig:CookieCAD}(a). A cookie cutter has a certain shape (like 
-triangles, rectangles, stars, etc.) represented by 2D geometric lines (noted 
+As a running example for illustrative purpose, we take a very simplified variant of 
+Computer-Aided Design (\textsc{Cad}) named CookieCAD (\textsc{CCad}). 
+\textsc{CCad} aims at designing simple cookie cutters, as illustrated with a triangle shaped cookie cutter in Figure \ref{fig:CookieCAD}(a). A cookie cutter has a certain shape (like 
+triangle, rectangle, star, etc.) represented by 2D geometric lines (noted 
 $L$), which are specified based on the definition of points (noted $P$) placed 
-on a cartesian plan (using real X- and Y-coordinates). Shapes must represent 
-closed polygons, eventually by sharing some lines (for example, defining a 
-house-shaped cookie by associating a triangle for the roof, placed over a 
-rectangle). Consequently, lines shall not cross each others as illustrated in 
-Fig. \ref{fig:CookieCAD}(c), which results in an \emph{invalid} cookie cutter.
+on a cartesian plan (using x- and y-coordinates). Shapes must represent 
+closed polygons. Shapes may share some lines (for example, defining a 
+house-shaped cookie cutter by associating a triangle for the roof, placed over a 
+rectangle, as shown in Figure \ref{fig:CookieCAD}(b)). Consequently, lines shall not cross each others as illustrated in Figure \ref{fig:CookieCAD}(c), which results in an \emph{invalid} cookie cutter.
 
 \begin{figure}[t]
    \centering
    \includegraphics[width=\columnwidth]{CookieCAD.pdf}
    \caption{CookieCAD Examples: (a) A simple real-life cookie cutter. (b) A 
 house-like shape sharing a line. (c) An invalid shape (due to overlaps).}%  
- 
    \label{fig:CookieCAD}
 \end{figure}
 
@@ -84,10 +81,25 @@ u,v\in \mathbb{R}.\;
 \noindent 
 where $m = \frac{y'-y}{x'-x}$ and w.l.o.g. $x' \geq x$.
 \end{Definition}
-As minimal activities on \textsc{CCad} designs, one shall evidently 
-\emph{create} shapes, \emph{check} their validity, viable 
-cookie stencils, and ultimately \emph{manufacture} the cutters from 
-the designs.
+
+A metamodel comprising the syntax elements of \CCAD could be as depicted in
+Fig.~\ref{fig:PCAD-MM}. Here, a \CCAD drawing has a name and a set of lines, each
+defined by a start point and an end point. The points between these two
+points are not part of the \CCAD syntax as defined above.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.98\columnwidth]{CCAD-MM}
+\caption{A metamodel for \textsc{CCad} (cf. Def.~\ref{def:CCAD}).}
+\label{fig:PCAD-MM}%
+\end{figure}
+
+As minimal activities on \textsc{CCad} designs, one shall evidently \emph{draw
+lines} to create shapes, \emph{check} their validity (e.g., to prevent cookie
+cutters with overlapping edges), and ultimately \emph{3D print} the cutters
+from the designs.
+
+
 
 
 % \subsection{Finite-State Automata}
@@ -125,27 +137,27 @@ the designs.
          \hline
          \multicolumn{2}{l}{$\iota_1$: State Automata ($\mathsf{SA}$)}\\
          \hline
-         SA1 & Contains the concepts of State and Transition\\
-         SA2 & Possess a Transition enabler\\
-         SA3 & Changes state when a transition is enabled\\
+         $\mbox{SA}_1$ & Contains the concepts of State and Transition\\
+         $\mbox{SA}_2$ & Possess a Transition enabler\\
+         $\mbox{SA}_3$ & Changes state when a transition is enabled\\
          \hline\hline
          \multicolumn{2}{l}{$\iota_2$: Object Orientation ($\mathsf{OO}$)}\\
          \hline
-         OO1 & Possess the concepts of Object and Class\\
-         OO2 & Objects possess a state and a set of capabilities / operations \\
-         OO3 & Possess an inheritance mechanism\\
-         OO4 & Inheritance allows to reuse operations\\
+         $\mbox{OO}_1$ & Possess the concepts of Object and Class\\
+         $\mbox{OO}_2$ & Objects possess a state and a set of capabilities / operations \\
+         $\mbox{OO}_3$ & Possess an inheritance mechanism\\
+         $\mbox{OO}_4$ & Inheritance allows to reuse operations\\
          \hline\hline
          \multicolumn{2}{l}{$\iota_3$: Computer-Aided Design ($\mathsf{CAD}$)}\\
          \hline
-         CAD1 & Comprises concepts of (2D/3D) points and shapes\\
-         CAD2 & Points and shapes have the a position\\
-         CAD3 & Supports transformation into physical (2D/3D) printed objects\\
+         $\mbox{CAD}_1$ & Comprises concepts of (2D/3D) points and lines\\
+         $\mbox{CAD}_2$ & Shapes are defined by lines\\
+         $\mbox{CAD}_3$ & Supports transformation into (2D/3D) products\\
          \hline
       \end{tabular}
    \end{center}
    \label{tab:Properties}
    \caption{Properties of three paradigms: State Automata ($\mathsf{SA} 
 \cite{J:Moore:1956}$); Object Orientation ($\mathsf{OO} \cite{Wegner:1987}$) 
-and Computer-Aided Design ($\mathsf{CAD} \cite{}$)}
+and Computer-Aided Design ($\mathsf{CAD} \cite{CAD}$)}
 \end{table}
