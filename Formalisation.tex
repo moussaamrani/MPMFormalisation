@@ -1,21 +1,214 @@
 \section{Formalisation}
 \label{sec:Formalisation}
-\moussa{Rewrite this descripton}
 
-Our formalisation defines a \emph{paradigm} as a set of 
-\emph{characterising properties} $\mathsf{\Pi}$ that holds over a mathematical 
-construction called a \emph{paradigmatic structure} $\mathsf{PS}\in \PS$. 
-This structure describes a specific \emph{workflow} (or \emph{process}) that 
-captures how specific \emph{languages instances} are combined together, 
-through transformations, towards achieving a specific intent $\iota$ that is 
-adequately characterised by the properties. When $\iota$ has a commonly agreed 
-name (in a given context, or for a specific community), and $\mathsf{\Pi}$ holds 
-on a specific $\mathsf{PS}$, then $\mathsf{PS}$ is said to \emph{qualify} as 
-the paradigm $\iota$. The properties constituting $\mathsf{\Pi}$ may 
-characterise the formalisms and/or the workflow defining a paradigmatic 
-structure. 
+Our formal framework defines a \emph{paradigm} as a \emph{label}/\emph{name} 
+$\iota$ denoting a set of properties $\pi\in\Pi$. We define a 
+\emph{paradigmatic structure} $\mathsf{PS}\in \PS$ as a candidate structure that 
+\emph{qualifies}, or \emph{embodies}, or \emph{follows} the paradigm $\iota$ if 
+$\mathsf{PS}$ satisfies $\pi$. $\mathsf{PS}$ describes a set of workflows that 
+describe various activities that are seen to be desirable for realising 
+$\iota$. 
 
-\arend{Annotate the rest of this section to improve definitions, and formalisation as coherent as possible.}
+Since every aspects of the paradigmatic structure need to be explicitly 
+modelled, we first introduce the two classical notions to manipulate languages 
+explicitly, namely metamodels and models on the one hand, and transformation 
+specification and execution on the other. 
+
+A \emph{metamodel} $\mathsf{MM} \in \mathcal{M}$ specifies the \emph{abstract 
+syntax} of a language $\mathsf{L}$, expressed in a specific language called 
+meta-metamodel. A \emph{model} $\mathsf{M} \in \mathbb{M}$ is a particular 
+instance of $\mathsf{L}$, also specified using a language that may be visual / 
+diagrammatic, textual or hybrid. When $\mathsf{M}$ is a valid instance of 
+$\mathsf{MM}$, $\mathsf{M}$ is said to \emph{conform to} $\mathsf{MM}$ and noted 
+$\mathsf{M} \rhd \mathsf{MM}$. 
+
+A \emph{transformation specification} $\mathsf{T}\in\mathbb{T}$ is a triple 
+$\mathsf{T} = ((\mathsf{MM_s^{i}})_{\mathsf{i}\in [1..n]}, 
+(\mathsf{MM_t^{j}})_{\mathsf{j}\in[1..m]}, \mathsf{spec}$, where  
+$(\mathsf{L_s^{i}})_{\mathsf{i}\in [1..n]}$ and
+$(\mathsf{L_t^{j}})_{\mathsf{j}\in [1..m]}$ are indexed sets of source and
+target languages, respectively, and $\mathsf{spec}$ is a well-formed 
+transformation definition written in a transformation language. A 
+\emph{transformation execution} $\mathsf{TE_{T}}\in\TE$ is a general 
+computation performed on (a) language instance(s) that conform(s) to the 
+source language(s) of the transformation $\mathsf{T}\in\mathbb{T}$.
+
+As an example, the $\mathsf{javac}$ compiler is a transformation 
+$\mathsf{T}_{compil} = (\mathsf{MM_{Java}}, \mathsf{MM_{BC}}, \mathsf{javac})$
+that outputs byte code (BC) from any (valid, conforming) Java program 
+$\mathsf{J}  \rhd \mathsf{MM_{Java}}$. Note that $\mathsf{javac}$ is itself 
+specified as a Java program (i.e. $\mathsf{javac} \rhd \mathsf{MM_{Java}}$).
+
+Transformations typically support the realisation of activities that are 
+essential to the engineering of languages, typically for parsing and/or pretty 
+printing, defining their semantics (translationally or operationnaly), 
+analysing relevant properties, debugging, and of course executing, simulating, 
+animating, etc. \cite{J:Lucio-Amrani-etAl:2014}. These activities, and others 
+essential for a paradigm, are typically captured through a workflow.
+
+
+\subsection{Workflow}
+\label{sec:Workflow}
+
+In our framework, workflows describe precisely the set of activities captured 
+by a candidate paradigmatic structure. A workflow is composed of two elements: 
+a \emph{Formalism Transformation Graph} (\textsc{Ftg}) describes explicitly the 
+links between formalisms / languages, stating which possible transformations 
+may be used; and a \emph{Process Model} describes how language instances are 
+combined together towards achieving a particular activity. Combining both 
+elements results in a \textsc{Ftg+Pm}, as already described in 
+\cite{Mustafiz-etAl:2012,Lucio-Mustafiz-etAl:2013,TR:Lucio-Mustafiz-etAl:2012}.
+
+Instead of directly manipulating (meta-)models and/or transformations, our 
+framework relies on \emph{names} that allow to retrieve the corresponding 
+artefacts from a repository (eventually centralised as a Modelverse). This 
+linking is captured by the following definition.
+
+\begin{Definition}[\label{def:Naming}Naming]
+   The \emph{naming functions} associate names to their actual item:
+   \begin{displaymath}
+      \begin{array}{rcl}
+         model  &\colon& \mathsf{MName} \nrightarrow \mathbb{M}\\
+         mmodel &\colon& \mathsf{MMName} \nrightarrow \mathcal{M}\\
+         tmm    &\colon& \mathsf{TMMName} \nrightarrow \mathcal{M}\\
+         trans  &\colon& \mathsf{TName} \nrightarrow \mathbb{T}\\
+         tt     &\colon& \mathsf{TTName} \nrightarrow \mathbb{T}\\
+      \end{array}
+   \end{displaymath}
+\end{Definition}
+\noindent
+All functions are partial, returning an undefined item (noted $\bot$) when the 
+repository stores no item with the asked name. Note that we introduced 
+\emph{template} names sets for metamodels ($\mathsf{TMMName}$) and 
+transformations ($\mathsf{TTName}$): these templates are useful to define 
+general properties and expectations over metamodels and transformations, 
+delaying the responsibility to the Modelverse to retrieve appropriate 
+artefacts. 
+
+We present here an \emph{extended} \textsc{Ftg} as a collection of mappings 
+between transformations (names) and metamodels and/or templates (names). 
+
+\begin{Definition}{(Extended) Formalism Transformation Graph (x\textsc{Ftg})}
+%%
+An \emph{Extended Formalism Transformation Graph} $\mathsf{FTG} \in \FTG(TR, 
+MM)$ is a function  $\mathsf{FTG} \colon TR \to \langle MM \rangle \times 
+\langle MM \rangle \times \mathbb{B}$.
+\end{Definition}
+\noindent
+The set $\FTG$ is parameterised by two sets of names $TR$ and $MM$ such that 
+$TR\subseteq \mathsf{TName}\cup \mathsf{TTName}$ and $MM\subseteq 
+\mathsf{MMName} \cup \mathsf{TMMName}$. 
+For $tn \mapsto (\langle tmm_1, \ldots, tmm_n 
+\rangle, \langle tmm'_1, \ldots, tmm'_m \rangle, b)\in \FTG(TR, MM)$, $b$ 
+set at true indicates that $tn$ relates to an \emph{automatic} 
+transformation, otherwise it requires human intervention. The $tmm_i$s 
+(resp. $tmm'_j$s) names are the \emph{source} (resp. \emph{target}) of $tn$.
+
+% we call the $tmm_i$s (resp. $tmm'_j$s) the 
+% \emph{source} (resp. \emph{target}) of $t$ in $\mathsf{FTG}$. 
+% Compared to the original definition of \textsc{Ftg} 
+% \cite{Mustafiz-etAl:2012,TR:Lucio-Mustafiz-etAl:2012}, the source(s) and/or 
+% target(s) of $t$ may be abstract formalisms instead of only languages: we 
+% require in this case that $t$ does not map to any transformation specification 
+% (i.e. $trans(t) = \bot$). This extension confer users the possibility of 
+% defining ''template`` transformations that rely on the concepts and semantics 
+% of the abstract formalism, enforcing reuse of transformations at the expense of 
+% the capacity to actually match template transformations to actual 
+% transformations, and abstract formalisms to languages. \moussa{Refer to MDE 
+% research about trafo reuse and model morphisms/typing!}
+
+Figure \ref{fig:OO_FTGPM} (left) describes a simple \textsc{Ftg} with two 
+template transformation (names) $\mathsf{Compile}, \mathsf{ExtractH}\in 
+\mathsf{TTransName}$ that respectively compile and extract the class hierarchy 
+of a template metamodel $\mathsf{OO\_MM}\in\mathsf{TMMName}$.
+
+\medskip
+As its name indicates, a \textsc{Pm} describes a process, i.e., a set of 
+activities that are combined together towards achieving a particular goal. 
+Instead of reinventing a Domain-Specific Language for this well-studied domain, 
+we simply specialise one standard and well-known language that covers our 
+needs, namely \textsc{Uml}'s Activity Diagrams.
+
+\moussa{Currently, we don't use actors, as it is the case in UML AD with 
+swimlanes, which provide some context about how actions (in our case, 
+transformations) are performed: who, where, etc. I remember we briefly 
+mentionned that during the Workshop...} 
+
+%%%%%%%%%%%%%%%%%%%%
+% PROCESS MODEL
+%%%%%%%%%%%%%%%%%%%%
+\begin{Definition}[\label{def:PM}Process Model (\textsc{Pm})]
+% %
+A \emph{process model} $\mathsf{P}\in\PM$ is an instance of a \textsc{Uml}
+Activity Diagram where
+\begin{itemize}
+   \item $\mathsf{ActionNode}$s are labelled by transformation instance names 
+typed by their conforming transformation specifications, and may be 
+\emph{hierarchical} and may contain input/output $\mathsf{Pin}$s; and 
+   \item $\mathsf{ObjectNode}$s are labelled by language instance names typed 
+by their conforming languages; and 
+   \item $\mathsf{ControlNode}$s include 
+$\mathsf{Decision}$/$\mathsf{Merge}$, $\mathsf{Fork}$/$\mathsf{Join}$ and 
+$\mathsf{Init}$/$\mathsf{Final}$s nodes.   
+\end{itemize}
+%%
+\end{Definition}
+Figure \ref{fig:OO_FTGPM} (right) describes a \textsc{Pm} with one 
+$\mathsf{ActionNode}$ named $\mathsf{javac}$ and two $\mathsf{ObjectNode}$s 
+refering to Java program and a Byte Code instance.
+
+\medskip
+The following definition simply puts things together: a workflow is composed of 
+an \textsc{Ftg} together with a \textsc{Pm}. 
+
+\begin{figure}[t]
+     \centering
+   \includegraphics[width=0.98\columnwidth]{OO_MM_FTGPM}
+   \caption{A simple Workflow for compiling and extracting class hierarchy of 
+object oriented languages.}
+   \label{fig:OO_FTGPM}%
+\end{figure}
+
+
+%%%%%%%%%%%%%%%%%%%%
+% WORKFLOW
+%%%%%%%%%%%%%%%%%%%%
+\andreas{Shouldn't the following defintion use xFTG?}
+\begin{Definition}[\label{def:Workflow}Workflow]
+   A \emph{workflow} $\mathsf{W}\in\mathbb{W}(TR, MM)$ is a pair $\mathsf{W} = 
+(\mathsf{FTG}, \mathsf{P})$ where $\mathsf{FTG}\in\FTG(TR, MM)$ and 
+$\mathsf{P}\in\PM$, such that $\mathsf{P}$ is well-formed (noted 
+$\mathsf{P} \blacktriangleright \mathsf{FTG}$) wrt. $\mathsf{FTG}$, i.e. for 
+each $\mathsf{ActionNode}$ inside $\mathsf{P}$ with name 
+$tn\in\mathsf{TransInstance}$,
+\begin{itemize}
+   \item $tn$ is explicitly typed by a transformation (name) captured in the 
+domain of $\mathsf{FTG}$ (i.e. $type(tn) = t \in \Dom{\mathsf{FTG}}$);
+
+   \item for each source or target $fl_i$ of $t$ at rank $i$, there exists a 
+$\mathsf{Pin}$ at rank $i$ connected (as input or output) to an 
+$\mathsf{ObjectNode}$ carrying an object (instance) $\mathsf{LI}\in 
+\mathsf{LangInstance}$ typed by a language $\mathsf{L}\in\mathbb{L}$, such that 
+$\mathsf{LI} \;\rhd\; \mathsf{L}$, and $\mathsf{L}\rightsquigarrow F$, then one 
+of the following holds:
+   \begin{itemize}
+      \item $fl_i\in \mathsf{AbstractFormalismN}$ then $fl_i$ denotes an 
+abstract formalism that should refine (some 
+of) the formalisms implemented by $\mathsf{L}$, i.e. $form(fl_i) \sqsubseteq 
+\mathsf{F'_{k_1}}, \ldots form(fl_i) \sqsubseteq \mathsf{F'_{k_n}}$ such that 
+$\mathsf{F'_{k_1}}, \ldots \mathsf{F'_{k_n}} \subseteq F$;
+      
+      \item $fl_i\in \mathsf{LanguageN}$ then $fl_i$ denotes a language. The 
+language that should refine $\mathsf{L}$ i.e. $lang(fl_i) \sqsubseteq 
+\mathsf{L}$.
+   \end{itemize}
+\end{itemize}
+\end{Definition}
+\noindent
+When clear from context, or unnecessarily detailed, we simply note the set of 
+workflows $\mathbb{W}$, without any indication of languages or 
+transformations (sets).
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \subsection{Preliminaries}
@@ -368,122 +561,122 @@ structure.
 % instantiation checks the validity of $\mathsf{cs}$ regarding the concrete 
 % definition of the abstract syntax $\mathsf{AS}$.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Workflow}
-\label{sec:Workflow}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \subsection{Workflow}
+% \label{sec:Workflow}
+% 
+% Workflows constitute the essence of a paradigm: they describe precisely how 
+% formalisms (or more precisely, languages) are related to each other through 
+% transformations, in order to achieve an expected intent. 
+% A workflow is composed of two elements: a \emph{Formalism Transformation Graph} 
+% (\textsc{Ftg}) describes explicitly the links between formalisms / languages, 
+% stating what possible transformations may be used; and a \emph{Process Model} 
+% (\textsc{Pm}) describes how language instances are 
+% combined together to achieve the intent $\iota$. Combining both elements 
+% results in the \textsc{Ftg+Pm} formalism and language that has already been 
+% described in 
+% \cite{Mustafiz-etAl:2012,Lucio-Mustafiz-etAl:2013,TR:Lucio-Mustafiz-etAl:2012}.
+% 
+% Before providing a definition of \textsc{Ftg+Pm}, we need to introduce a naming 
+% mechanism: instead of directly manipulating languages and transformations, a 
+% repository links the names used by an \textsc{Ftg+Pm} to their actual items. 
+% This linking is formally captured by the following definition:
+% 
+% 
+% \moussa{All FTG+PM I ever seen, either published by the original authors, or 
+% contributed by the COST participants, rely on \emph{languages}, not 
+% \emph{formalism} (as per the definitions provided in this paper). In a way, it 
+% makes sense: since formalisms are ''mathematical`` object, they have no 
+% concrete existence (although, as always, we often associate to a formalism a 
+% ''visual`` syntax to facilitate understanding: this is what all mathematicians 
+% do to convey their ideas!) beyond, say LaTeX formulaes and pictures. So IMHO, 
+% FTG is a misleading name!!! Once the link between language and formalism is 
+% establish, it ultimately does not change much in the definitions: IMO, it even 
+% makes them more natural and understable than those falsely relying on 
+% formalisms. FEEL FREE TO ARGUMENT OTHERWISE!}
+% 
+% %%%%%%%%%%%%%%%%%%%%
+% % NAMING
+% %%%%%%%%%%%%%%%%%%%%
+% \begin{Definition}[\label{def:Naming}Naming]
+%    Two \emph{naming functions} associate (sorted) names to their actual item:
+%    \begin{displaymath}
+%       \begin{array}{rcl}
+%          form  &\colon& \mathsf{AbstractFormalismN} \to \mathbb{F}\\
+%          trans &\colon& \mathsf{TransformationN} \nrightarrow \mathbb{T}\\
+%          lang  &\colon& \mathsf{LanguageN} \to \mathbb{L}
+%       \end{array}
+%    \end{displaymath}
+% \end{Definition}
 
-Workflows constitute the essence of a paradigm: they describe precisely how 
-formalisms (or more precisely, languages) are related to each other through 
-transformations, in order to achieve an expected intent. 
-A workflow is composed of two elements: a \emph{Formalism Transformation Graph} 
-(\textsc{Ftg}) describes explicitly the links between formalisms / languages, 
-stating what possible transformations may be used; and a \emph{Process Model} 
-(\textsc{Pm}) describes how language instances are 
-combined together to achieve the intent $\iota$. Combining both elements 
-results in the \textsc{Ftg+Pm} formalism and language that has already been 
-described in 
-\cite{Mustafiz-etAl:2012,Lucio-Mustafiz-etAl:2013,TR:Lucio-Mustafiz-etAl:2012}.
-
-Before providing a definition of \textsc{Ftg+Pm}, we need to introduce a naming 
-mechanism: instead of directly manipulating languages and transformations, a 
-repository links the names used by an \textsc{Ftg+Pm} to their actual items. 
-This linking is formally captured by the following definition:
-
-
-\moussa{All FTG+PM I ever seen, either published by the original authors, or 
-contributed by the COST participants, rely on \emph{languages}, not 
-\emph{formalism} (as per the definitions provided in this paper). In a way, it 
-makes sense: since formalisms are ''mathematical`` object, they have no 
-concrete existence (although, as always, we often associate to a formalism a 
-''visual`` syntax to facilitate understanding: this is what all mathematicians 
-do to convey their ideas!) beyond, say LaTeX formulaes and pictures. So IMHO, 
-FTG is a misleading name!!! Once the link between language and formalism is 
-establish, it ultimately does not change much in the definitions: IMO, it even 
-makes them more natural and understable than those falsely relying on 
-formalisms. FEEL FREE TO ARGUMENT OTHERWISE!}
-
-%%%%%%%%%%%%%%%%%%%%
-% NAMING
-%%%%%%%%%%%%%%%%%%%%
-\begin{Definition}[\label{def:Naming}Naming]
-   Two \emph{naming functions} associate (sorted) names to their actual item:
-   \begin{displaymath}
-      \begin{array}{rcl}
-         form  &\colon& \mathsf{AbstractFormalismN} \to \mathbb{F}\\
-         trans &\colon& \mathsf{TransformationN} \nrightarrow \mathbb{T}\\
-         lang  &\colon& \mathsf{LanguageN} \to \mathbb{L}
-      \end{array}
-   \end{displaymath}
-\end{Definition}
-
-An \textsc{Ftg} can be seen as a collection of transformations that are 
-considered useful for a given context. Since transformation names are actually used, we use a functional definition.
-
-\andreas{Shouldn't it be $\FTG(AFL,T)$ (in the following?), also I'm not sure
-that I understand the notation of the parametrized set $\FTG(AFL,T)$ correctly}
-\begin{Definition}{(Extended) Formalism Transformation Graph (x\textsc{Ftg})}
-%%
-Let $\mathsf{AFL} \eqdef \mathsf{AbstractFormalismN} \cup 
-\mathsf{LanguageN}$ be the union of (abstract) formalisms and languages names. A 
-\emph{Formalism Transformation Graph} $\mathsf{FTG} \in \FTG(FL, T)$ is a 
-function  $\mathsf{FTG} \colon T \to \langle FL \rangle \times \langle FL 
-\rangle \times \mathbb{B}$ restricted to specific subsets of language names $FL 
-\subseteq \mathsf{AFL}$ and transformation names $T\subseteq 
-\mathsf{TransformationN}$, and the boolean value indicates whether the 
-transformation is automatic or not (meaning that it becomes a human activity).
-%
-\end{Definition}
-
-\noindent
-For $t \mapsto (\langle fl_1, \ldots, fl_n \rangle, \langle fl'_1, \ldots, 
-fl'_m \rangle, b)\in \mathsf{FTG}$, we call the $fl_i$s (resp. $fl'_j$s) the 
-\emph{source} (resp. \emph{target}) of $t$ in $\mathsf{FTG}$. 
-Compared to the original definition of \textsc{Ftg} 
-\cite{Mustafiz-etAl:2012,TR:Lucio-Mustafiz-etAl:2012}, the source(s) and/or 
-target(s) of $t$ may be abstract formalisms instead of only languages: we 
-require in this case that $t$ does not map to any transformation specification 
-(i.e. $trans(t) = \bot$). This extension confer users the possibility of 
-defining ''template`` transformations that rely on the concepts and semantics 
-of the abstract formalism, enforcing reuse of transformations at the expense of 
-the capacity to actually match template transformations to actual 
-transformations, and abstract formalisms to languages. \moussa{Refer to MDE 
-research about trafo reuse and model morphisms/typing!}
+% An \textsc{Ftg} can be seen as a collection of transformations that are 
+% considered useful for a given context. Since transformation names are actually used, we use a functional definition.
+% 
+% \andreas{Shouldn't it be $\FTG(AFL,T)$ (in the following?), also I'm not sure
+% that I understand the notation of the parametrized set $\FTG(AFL,T)$ correctly}
+% \begin{Definition}{(Extended) Formalism Transformation Graph (x\textsc{Ftg})}
+% %%
+% Let $\mathsf{AFL} \eqdef \mathsf{AbstractFormalismN} \cup 
+% \mathsf{LanguageN}$ be the union of (abstract) formalisms and languages names. A 
+% \emph{Formalism Transformation Graph} $\mathsf{FTG} \in \FTG(FL, T)$ is a 
+% function  $\mathsf{FTG} \colon T \to \langle FL \rangle \times \langle FL 
+% \rangle \times \mathbb{B}$ restricted to specific subsets of language names $FL 
+% \subseteq \mathsf{AFL}$ and transformation names $T\subseteq 
+% \mathsf{TransformationN}$, and the boolean value indicates whether the 
+% transformation is automatic or not (meaning that it becomes a human activity).
+% %
+% \end{Definition}
+% 
+% \noindent
+% For $t \mapsto (\langle fl_1, \ldots, fl_n \rangle, \langle fl'_1, \ldots, 
+% fl'_m \rangle, b)\in \mathsf{FTG}$, we call the $fl_i$s (resp. $fl'_j$s) the 
+% \emph{source} (resp. \emph{target}) of $t$ in $\mathsf{FTG}$. 
+% Compared to the original definition of \textsc{Ftg} 
+% \cite{Mustafiz-etAl:2012,TR:Lucio-Mustafiz-etAl:2012}, the source(s) and/or 
+% target(s) of $t$ may be abstract formalisms instead of only languages: we 
+% require in this case that $t$ does not map to any transformation specification 
+% (i.e. $trans(t) = \bot$). This extension confer users the possibility of 
+% defining ''template`` transformations that rely on the concepts and semantics 
+% of the abstract formalism, enforcing reuse of transformations at the expense of 
+% the capacity to actually match template transformations to actual 
+% transformations, and abstract formalisms to languages. \moussa{Refer to MDE 
+% research about trafo reuse and model morphisms/typing!}
 
 % In practice, we represent \textsf{FTG} with colored rounds for transformations 
 % (names) to distinguish between automatic and manual ones, and shared rectangles 
 % for languages (names).
 
-\medskip
-As its name indicates, a \textsc{Pm} describes a process, i.e., a set of 
-activities that are combined together towards achieving a particular goal. 
-Instead of reinventing a Domain-Specific Language for this well-studied domain, 
-we simply specialise one standard and well-known language that covers our 
-needs, namely \textsc{Uml}'s Activity Diagrams.
-
-\moussa{Currently, we don't use actors, as it is the case in UML AD with 
-swimlanes, which provide some context about how actions (in our case, 
-transformations) are performed: who, where, etc. I remember we briefly 
-mentionned that during the Workshop...} 
-
-%%%%%%%%%%%%%%%%%%%%
-% PROCESS MODEL
-%%%%%%%%%%%%%%%%%%%%
-\begin{Definition}[\label{def:PM}Process Model (\textsc{Pm})]
-% %
-A \emph{process model} $\mathsf{P}\in\PM$ is an instance of a \textsc{Uml}
-Activity Diagram where
-\begin{itemize}
-   \item $\mathsf{ActionNode}$s are labelled by transformation instance names 
-typed by their conforming transformation specifications, and may be 
-\emph{hierarchical} and may contain input/output $\mathsf{Pin}$s; and 
-   \item $\mathsf{ObjectNode}$s are labelled by language instance names typed 
-by their conforming languages; and 
-   \item $\mathsf{ControlNode}$s include 
-$\mathsf{Decision}$/$\mathsf{Merge}$, $\mathsf{Fork}$/$\mathsf{Join}$ and 
-$\mathsf{Init}$/$\mathsf{Final}$s nodes.   
-\end{itemize}
-%%
-\end{Definition}
+% \medskip
+% As its name indicates, a \textsc{Pm} describes a process, i.e., a set of 
+% activities that are combined together towards achieving a particular goal. 
+% Instead of reinventing a Domain-Specific Language for this well-studied domain, 
+% we simply specialise one standard and well-known language that covers our 
+% needs, namely \textsc{Uml}'s Activity Diagrams.
+% 
+% \moussa{Currently, we don't use actors, as it is the case in UML AD with 
+% swimlanes, which provide some context about how actions (in our case, 
+% transformations) are performed: who, where, etc. I remember we briefly 
+% mentionned that during the Workshop...} 
+% 
+% %%%%%%%%%%%%%%%%%%%%
+% % PROCESS MODEL
+% %%%%%%%%%%%%%%%%%%%%
+% \begin{Definition}[\label{def:PM}Process Model (\textsc{Pm})]
+% % %
+% A \emph{process model} $\mathsf{P}\in\PM$ is an instance of a \textsc{Uml}
+% Activity Diagram where
+% \begin{itemize}
+%    \item $\mathsf{ActionNode}$s are labelled by transformation instance names 
+% typed by their conforming transformation specifications, and may be 
+% \emph{hierarchical} and may contain input/output $\mathsf{Pin}$s; and 
+%    \item $\mathsf{ObjectNode}$s are labelled by language instance names typed 
+% by their conforming languages; and 
+%    \item $\mathsf{ControlNode}$s include 
+% $\mathsf{Decision}$/$\mathsf{Merge}$, $\mathsf{Fork}$/$\mathsf{Join}$ and 
+% $\mathsf{Init}$/$\mathsf{Final}$s nodes.   
+% \end{itemize}
+% %%
+% \end{Definition}
 
 Fig.~\ref{fig:Process} illustrates a process model for \textsc{CCad} that
 leverages transformations as activities to translate an empty canvas into a
@@ -516,48 +709,48 @@ abstract formalisms or languages (through $form$ and $lang$) mapped to that
 transformation name in the appropriate 
 order.
 
-\medskip
-The following definition simply puts things together: a workflow is composed of 
-an \textsc{Ftg} together with several well-typed \textsc{Pm}s. 
-
-%%%%%%%%%%%%%%%%%%%%
-% WORKFLOW
-%%%%%%%%%%%%%%%%%%%%
-\andreas{Shouldn't the following defintion use xFTG?}
-\begin{Definition}[\label{def:Workflow}Workflow]
-   A \emph{workflow} $\mathsf{W}\in\mathbb{W}(FL, T)$ is a pair $\mathsf{W} = 
-(\mathsf{FTG}, \mathsf{P})$ where $\mathsf{FTG}\in\FTG(FL, T)$ and 
-$\mathsf{P}\in\wp(\PM)$, such that $\mathsf{P}$ is well-formed (noted 
-$\mathsf{P} \blacktriangleright \mathsf{FTG}$) wrt. $\mathsf{FTG}$, i.e. for 
-each $\mathsf{ActionNode}$ inside $\mathsf{P}$ with name 
-$tn\in\mathsf{TransInstance}$,
-\begin{itemize}
-   \item $tn$ is explicitly typed by a transformation (name) captured in the 
-domain of $\mathsf{FTG}$ (i.e. $type(tn) = t \in \Dom{\mathsf{FTG}}$);
-
-   \item for each source or target $fl_i$ of $t$ at rank $i$, there exists a 
-$\mathsf{Pin}$ at rank $i$ connected (as input or output) to an 
-$\mathsf{ObjectNode}$ carrying an object (instance) $\mathsf{LI}\in 
-\mathsf{LangInstance}$ typed by a language $\mathsf{L}\in\mathbb{L}$, such that 
-$\mathsf{LI} \;\rhd\; \mathsf{L}$, and $\mathsf{L}\rightsquigarrow F$, then one 
-of the following holds:
-   \begin{itemize}
-      \item $fl_i\in \mathsf{AbstractFormalismN}$ then $fl_i$ denotes an 
-abstract formalism that should refine (some 
-of) the formalisms implemented by $\mathsf{L}$, i.e. $form(fl_i) \sqsubseteq 
-\mathsf{F'_{k_1}}, \ldots form(fl_i) \sqsubseteq \mathsf{F'_{k_n}}$ such that 
-$\mathsf{F'_{k_1}}, \ldots \mathsf{F'_{k_n}} \subseteq F$;
-      
-      \item $fl_i\in \mathsf{LanguageN}$ then $fl_i$ denotes a language. The 
-language that should refine $\mathsf{L}$ i.e. $lang(fl_i) \sqsubseteq 
-\mathsf{L}$.
-   \end{itemize}
-\end{itemize}
-\end{Definition}
-\noindent
-When clear from context, or unnecessarily detailed, we simply note the set of 
-workflows $\mathbb{W}$, without any indication of languages or 
-transformations (sets).
+% \medskip
+% The following definition simply puts things together: a workflow is composed of 
+% an \textsc{Ftg} together with several well-typed \textsc{Pm}s. 
+% 
+% %%%%%%%%%%%%%%%%%%%%
+% % WORKFLOW
+% %%%%%%%%%%%%%%%%%%%%
+% \andreas{Shouldn't the following defintion use xFTG?}
+% \begin{Definition}[\label{def:Workflow}Workflow]
+%    A \emph{workflow} $\mathsf{W}\in\mathbb{W}(FL, T)$ is a pair $\mathsf{W} = 
+% (\mathsf{FTG}, \mathsf{P})$ where $\mathsf{FTG}\in\FTG(FL, T)$ and 
+% $\mathsf{P}\in\wp(\PM)$, such that $\mathsf{P}$ is well-formed (noted 
+% $\mathsf{P} \blacktriangleright \mathsf{FTG}$) wrt. $\mathsf{FTG}$, i.e. for 
+% each $\mathsf{ActionNode}$ inside $\mathsf{P}$ with name 
+% $tn\in\mathsf{TransInstance}$,
+% \begin{itemize}
+%    \item $tn$ is explicitly typed by a transformation (name) captured in the 
+% domain of $\mathsf{FTG}$ (i.e. $type(tn) = t \in \Dom{\mathsf{FTG}}$);
+% 
+%    \item for each source or target $fl_i$ of $t$ at rank $i$, there exists a 
+% $\mathsf{Pin}$ at rank $i$ connected (as input or output) to an 
+% $\mathsf{ObjectNode}$ carrying an object (instance) $\mathsf{LI}\in 
+% \mathsf{LangInstance}$ typed by a language $\mathsf{L}\in\mathbb{L}$, such that 
+% $\mathsf{LI} \;\rhd\; \mathsf{L}$, and $\mathsf{L}\rightsquigarrow F$, then one 
+% of the following holds:
+%    \begin{itemize}
+%       \item $fl_i\in \mathsf{AbstractFormalismN}$ then $fl_i$ denotes an 
+% abstract formalism that should refine (some 
+% of) the formalisms implemented by $\mathsf{L}$, i.e. $form(fl_i) \sqsubseteq 
+% \mathsf{F'_{k_1}}, \ldots form(fl_i) \sqsubseteq \mathsf{F'_{k_n}}$ such that 
+% $\mathsf{F'_{k_1}}, \ldots \mathsf{F'_{k_n}} \subseteq F$;
+%       
+%       \item $fl_i\in \mathsf{LanguageN}$ then $fl_i$ denotes a language. The 
+% language that should refine $\mathsf{L}$ i.e. $lang(fl_i) \sqsubseteq 
+% \mathsf{L}$.
+%    \end{itemize}
+% \end{itemize}
+% \end{Definition}
+% \noindent
+% When clear from context, or unnecessarily detailed, we simply note the set of 
+% workflows $\mathbb{W}$, without any indication of languages or 
+% transformations (sets).
 
 Similar to the original  
 \cite{Mustafiz-etAl:2012,Lucio-Mustafiz-etAl:2013,TR:Lucio-Mustafiz-etAl:2012},
