@@ -100,7 +100,18 @@ cutters with overlapping edges), and ultimately \emph{3D print} the cutters
 from the designs.
 
 
+Fig.~\ref{fig:Process} illustrates a process model for \textsc{CCad} that
+leverages transformations as activities to translate an empty canvas into a
+validated shape of (e.g., non-overlapping) lines and ultimately into a 3D model
+that can be printed afterwards.
 
+\begin{Example}[\label{ex:TBA}\textsc{Pcad} Workflow]
+   Figure \ref{fig:PCAD-FTG} depicts an \textsc{Ftg} for \textsc{Cad} with 7 
+transformations that have the abstract formalism $\mathsf{Product}$ as source, 
+target or both. For example, an iterative process may instantiate 
+$\mathsf{Create}$, $\mathsf{Modify}$ and $\mathsf{isValid}$ to produce a target 
+$\mathsf{Product}$ that is guaranteed to be always valid.  
+\end{Example}
 
 % \subsection{Finite-State Automata}
 % \label{sec:Examples-FSM}
@@ -130,6 +141,26 @@ from the designs.
 % 
 % \cite{B:Brambilla-Cabot-Wimmer:2012}
 
+
+\begin{figure}[t]
+   \centering
+   \includegraphics[width=0.98\columnwidth]{FTG}
+   \caption{x\textsc{Ftg} of a possible workflow $\mathsf{W_{PCAD}} = 
+(\mathsf{FTG_{PCAD}}, 
+\mathsf{PM_{PCAD}})$ that supports the process model of 
+Fig.~\ref{fig:Process}.}%
+   \label{fig:PCAD-MM}%
+\end{figure}
+
+
+\begin{figure}[t]
+\centering 
+\includegraphics[width=0.98\columnwidth]{process}
+\vspace{-1em}
+\caption{A process model for \textsc{CCad} that yields a valid shape and
+   creates a 3D cookie cutter shape from it.} 
+\label{fig:Process}%
+\end{figure}
 
 \begin{table}[t]
    \begin{center}
@@ -161,3 +192,66 @@ from the designs.
 \cite{J:Moore:1956}$); Object Orientation ($\mathsf{OO} \cite{Wegner:1987}$) 
 and Computer-Aided Design ($\mathsf{CAD} \cite{CAD}$)}
 \end{table}
+
+
+For instance, relevant paradigmatic properties for a paradigmatic structures $PS
+= \left(L,W\right)$ representing Simple Computer Aided Design in the sense of
+Table~\ref{tab:Properties}, $\Pi_{SCAD}$, could be
+\begin{itemize}
+%%
+\item $\pi_{\mathsf{SCAD1}} \equiv$ $L$ features a class $P$ that has two 
+attributes $a$ and $b$ that each support values of $\mathbb{R}$ and a class $L$ 
+that has two instances of $P$. 
+%%
+\item $\pi_{\mathsf{SCAD2}} \equiv$ $L$ features a class $D$ that captures a 
+collection of $L$ instances; 
+ 
+\item $\pi_{\mathsf{SCAD3}} \equiv$ $W$ supports translating $D$ instances into 
+products;
+% \item $\pi_{\mathsf{W_2}}...$ there is a workflow that supports checking
+% closedness of shapes.
+\end{itemize}
+
+\label{fig:LanguageProperties} illustrates $\pi_{\mathsf{CAD1}}$ and
+$\pi_{\mathsf{CAD2}}$ as patterns over the abstract syntax of $L$. These
+patterns could be modeled and matched leveraging the notion of model
+types~\cite{steel2007model}, which ultimately checks conformance as graph
+isomorphism between the two metamodels (out of which one would be the pattern).
+The representation of $\pi_{\mathsf{CAD3}}$ depends on the representation of the
+xFTG. Generally, this entails that the xFTG of $W$ of the $PS$ must comprise a
+sequence of formalisms and transformations that begins with the formalism $D$
+matched for representing drawings and ends with a formalism representing
+products. 
+
+\begin{figure}[t]
+   \centering \includegraphics[width=\columnwidth]{LanguageProperties.png}
+   \caption{Patterns characterizing two paradigmatic properties over the 
+abstract 
+   syntax of the language of a paradigmatic structure.}  
+   \vspace{-1em}
+   \label{fig:LanguageProperties}
+\end{figure}
+
+\begin{Example}[PCAD Properties on Cost]
+   \moussa{Review example from Workshop!}
+\end{Example}
+
+Following this definition, it is obvious that the paradigmatic properties of
+$\Pi_{CAD}$, hold for our exemplary \CCad paradigmatic structure sketched by the
+formalism of Def.~\ref{def:CCAD} and the metamodel depicted in
+Fig.~\ref{fig:PCAD-MM}:
+% %
+\begin{inparaenum}[(1)]
+% %
+\item For the first syntactic property $\pi_{\mathsf{SCAD1}}$, we can match
+class $P$ to Point, $a,b$ to $x,y$, and $L$ to Line;
+% %
+\item For the second syntactic property $\pi_{\mathsf{SCAD2}}$, we can match
+class $D$ to class CCAD; and
+% %
+\item For the workflow property $\pi_{\mathsf{SCAD3}}$, we ca the sequence of
+transformations starting with formalism ``CCAD Drawing'' that transforms it into
+an ``3D Model'' and afterwards into a ``Product'' in its xFTG.
+\end{inparaenum}
+Hence, we can establish that the paradigmatic structure sketched by \CCad
+embodies (or follows) the SCAD formalism.

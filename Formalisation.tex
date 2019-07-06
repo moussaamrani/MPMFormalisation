@@ -15,19 +15,22 @@ explicitly, namely metamodels and models on the one hand, and transformation
 specification and execution on the other. 
 
 A \emph{metamodel} $\mathsf{MM} \in \mathcal{M}$ specifies the \emph{abstract 
-syntax} of a language $\mathsf{L}$, expressed in a specific language called 
-meta-metamodel. A \emph{model} $\mathsf{M} \in \mathbb{M}$ is a particular 
-instance of $\mathsf{L}$, also specified using a language that may be visual / 
-diagrammatic, textual or hybrid. When $\mathsf{M}$ is a valid instance of 
+syntax} of a language $\mathsf{L}$. $\mathsf{MM}$ is expressed in a specific 
+language called meta-metamodel. 
+A \emph{model} $\mathsf{M} \in \mathbb{M}$ is a particular instance of 
+$\mathsf{L}$, also specified using a language that may be visual / 
+diagrammatic, textual or hybrid (and normally different from the 
+meta-metamodel). When $\mathsf{M}$ is a valid instance of 
 $\mathsf{MM}$, $\mathsf{M}$ is said to \emph{conform to} $\mathsf{MM}$ and noted 
 $\mathsf{M} \rhd \mathsf{MM}$. 
 
 A \emph{transformation specification} $\mathsf{T}\in\mathbb{T}$ is a triple 
 $\mathsf{T} = ((\mathsf{MM_s^{i}})_{\mathsf{i}\in [1..n]}, 
-(\mathsf{MM_t^{j}})_{\mathsf{j}\in[1..m]}, \mathsf{spec}$, where  
-$(\mathsf{L_s^{i}})_{\mathsf{i}\in [1..n]}$ and
-$(\mathsf{L_t^{j}})_{\mathsf{j}\in [1..m]}$ are indexed sets of source and
-target languages, respectively, and $\mathsf{spec}$ is a well-formed 
+(\mathsf{MM_t^{j}})_{\mathsf{j}\in[1..m]}, \mathsf{spec})$, where  
+$(\mathsf{MM_s^{i}})_{\mathsf{i}\in [1..n]}$ and
+$(\mathsf{MM_t^{j}})_{\mathsf{j}\in [1..m]}$ are indexed sets of source and
+target languages, respectively, and constitute the transformation's 
+\emph{signature}; while $\mathsf{spec}$ is a well-formed 
 transformation definition written in a transformation language. A 
 \emph{transformation execution} $\mathsf{TE_{T}}\in\TE$ is a general 
 computation performed on (a) language instance(s) that conform(s) to the 
@@ -39,16 +42,59 @@ that outputs byte code (BC) from any (valid, conforming) Java program
 $\mathsf{J}  \rhd \mathsf{MM_{Java}}$. Note that $\mathsf{javac}$ is itself 
 specified as a Java program (i.e. $\mathsf{javac} \rhd \mathsf{MM_{Java}}$).
 
+\subsection{Templates}
+\label{sec:Templates}
+
+Templates are plain metamodels and transformations, specified with the usual 
+meta-metamodel(s) and transformation languages. A key difference however is 
+that they are not complete, in the sense that they require a regular metamodel 
+(or transformations) to be matched. Templates are used as placeholders for 
+enforcing transformation signatures, expressing high-level properties for 
+metamodels and transformations (specifications), or capturing the necessary 
+steps in a transformation. 
+\begin{wrapfigure}[14]{r}{0.1\textwidth}
+  \begin{center}
+    \includegraphics[width=0.1\textwidth]{InheritenceTemplate}
+  \end{center}
+  \caption{Simple Class-Property Template for capturing Inheritance.}
+  \label{fig:InheritenceTemplate}
+\end{wrapfigure}
+Suppose we want to formally specify Property $\mbox{OO}_3$ for inheritance in 
+Table \ref{tab:Properties}. Figure \ref{fig:InheritenceTemplate} presents a 
+minimal template defining the basic placeholders: to even allow discussing 
+about super- and sub-classes, one need at least distinguishing between 
+$\mathsf{C}$lass and Objects, and defining a partial order ($\mathsf{super}$) 
+between classes. The inheritance property then states that any object of a 
+subclass has access to the state defined by its class, but also to the state 
+defined by its superclass. Note that using a \textsc{Mof}-like meta-metamodel 
+for expressing the template provides navigational notation for free: the 
+property would start with something like $\mathsf{c1, c2 : Class}$ such that 
+$\mathsf{c2} \in \mathsf{c1.super}$.
+
+Using templates requires a powerful, customisable matching process. For 
+metamodels, contributions on model typing \cite{J:Degueule-etAl:2017}, a 
+posteriori typing \cite{J:deLara-Guerra:2017}, and metamodel morphisms 
+\cite{Salay-Mylopoulos-Esterbrook:2008,Duran-Zschaler-Troya:2012} may be 
+appropriate; for transformations, the rich literature on reuse 
+\cite{J:Kusel-etAl:2015} provides some guidelines on how to realise that. Hence, 
+matching Fig. \ref{fig:InheritenceTemplate}'s template into the Java 
+metamodel \cite{B:Java:2019} would match $\mathsf{ClassDeclaration}$ to 
+$\mathsf{C}$ and the $\mathsf{extends}$ clause to $\mathsf{super}$. 
+We simply capture this important relationship the following: for a template 
+metamodel $\mathsf{TMM}\in\mathcal{M}$ and a regular metamodel 
+$\mathsf{MM}\in\mathcal{M}$, we note $\mathsf{TMM} \rightsquigarrow 
+\mathsf{MM}$ when $\mathsf{TMM}$ is appropriately matched by $\mathsf{MM}$.
+
+\subsection{Workflow}
+\label{sec:Workflow}
+
+
 Transformations typically support the realisation of activities that are 
 essential to the engineering of languages, typically for parsing and/or pretty 
 printing, defining their semantics (translationally or operationnaly), 
 analysing relevant properties, debugging, and of course executing, simulating, 
 animating, etc. \cite{J:Lucio-Amrani-etAl:2014}. These activities, and others 
 essential for a paradigm, are typically captured through a workflow.
-
-
-\subsection{Workflow}
-\label{sec:Workflow}
 
 In our framework, workflows describe precisely the set of activities captured 
 by a candidate paradigmatic structure. A workflow is composed of two elements: 
@@ -78,15 +124,16 @@ linking is captured by the following definition.
 \end{Definition}
 \noindent
 All functions are partial, returning an undefined item (noted $\bot$) when the 
-repository stores no item with the asked name. Note that we introduced 
-\emph{template} names sets for metamodels ($\mathsf{TMMName}$) and 
-transformations ($\mathsf{TTName}$): these templates are useful to define 
-general properties and expectations over metamodels and transformations, 
-delaying the responsibility to the Modelverse to retrieve appropriate 
-artefacts. 
+repository stores no item with the asked name. Template names for metamodels 
+($\mathsf{TMMName}$) and transformations ($\mathsf{TTName}$) are in a separate 
+namespace than those for regular ones. The repository is ultimately responsible 
+to retrieve appropriate items: for example, querying the repo with the template 
+of Fig. \ref{fig:InheritenceTemplate} would eventually allow the selection of 
+the Java metamodel if inheritance is required.
 
-We present here an \emph{extended} \textsc{Ftg} as a collection of mappings 
-between transformations (names) and metamodels and/or templates (names). 
+To accomodate with templates, we introduce \emph{extended} \textsc{Ftg}s, 
+defined as a (name-restricted) mapping of (template) transformations (names) 
+into a signature.
 
 \begin{Definition}{(Extended) Formalism Transformation Graph (x\textsc{Ftg})}
 %%
@@ -95,15 +142,15 @@ MM)$ is a function  $\mathsf{FTG} \colon TR \to \langle MM \rangle \times
 \langle MM \rangle \times \mathbb{B}$.
 \end{Definition}
 \noindent
-The set $\FTG$ is parameterised by two sets of names $TR$ and $MM$ such that 
-$TR\subseteq \mathsf{TName}\cup \mathsf{TTName}$ and $MM\subseteq 
-\mathsf{MMName} \cup \mathsf{TMMName}$. 
-For $tn \mapsto (\langle tmm_1, \ldots, tmm_n 
-\rangle, \langle tmm'_1, \ldots, tmm'_m \rangle, b)\in \FTG(TR, MM)$, $b$ 
-set at true indicates that $tn$ relates to an \emph{automatic} 
-transformation, otherwise it requires human intervention. The $tmm_i$s 
-(resp. $tmm'_j$s) names are the \emph{source} (resp. \emph{target}) of $tn$.
-
+We parameterise $\FTG$ with two sets of names $TR\subseteq (\mathsf{TName}\cup 
+\mathsf{TTName})$ for regular / template transformations, and $MM\subseteq 
+(\mathsf{MMName} \cup \mathsf{TMMName})$ for regular / template metamodels. 
+Let $tr \mapsto (\langle mm_1, \ldots, mm_n \rangle, \langle mm'_1, \ldots, 
+mm'_m \rangle, b)$ be such a mapping in $\FTG(TR, MM)$: when $b$ is
+set to true, $tn$ refers to an \emph{automatic} transformation (and human 
+guided otherwise); and $mm_i$s (resp. $mm'_j$s) names are the \emph{source} 
+(resp. \emph{target}) of $tr$.
+%
 % we call the $tmm_i$s (resp. $tmm'_j$s) the 
 % \emph{source} (resp. \emph{target}) of $t$ in $\mathsf{FTG}$. 
 % Compared to the original definition of \textsc{Ftg} 
@@ -116,11 +163,19 @@ transformation, otherwise it requires human intervention. The $tmm_i$s
 % the capacity to actually match template transformations to actual 
 % transformations, and abstract formalisms to languages. \moussa{Refer to MDE 
 % research about trafo reuse and model morphisms/typing!}
-
-Figure \ref{fig:OO_FTGPM} (left) describes a simple \textsc{Ftg} with two 
-template transformation (names) $\mathsf{Compile}, \mathsf{ExtractH}\in 
+%
+\begin{wrapfigure}[10]{r}{0.1\textwidth}
+  \begin{center}
+    \includegraphics[width=0.1\textwidth]{OO_FTG}
+  \end{center}
+  \caption{Simple \textsc{Ftg}: compilation and hierarchy extraction.}
+  \label{fig:OO_FTG}
+\end{wrapfigure}
+Figure \ref{fig:OO_FTG} pictures a simple \textsc{Ftg} using two template, 
+automatic transformations (names) (represented with double-rounded, white 
+items) called $\mathsf{Compile}, \mathsf{ExtractH}\in 
 \mathsf{TTransName}$ that respectively compile and extract the class hierarchy 
-of a template metamodel $\mathsf{OO\_MM}\in\mathsf{TMMName}$.
+of a template metamodel $\mathsf{OO\_MM}\in\mathsf{TMMName}$. 
 
 \medskip
 As its name indicates, a \textsc{Pm} describes a process, i.e., a set of 
@@ -153,61 +208,187 @@ $\mathsf{Init}$/$\mathsf{Final}$s nodes.
 \end{itemize}
 %%
 \end{Definition}
-Figure \ref{fig:OO_FTGPM} (right) describes a \textsc{Pm} with one 
-$\mathsf{ActionNode}$ named $\mathsf{javac}$ and two $\mathsf{ObjectNode}$s 
-refering to Java program and a Byte Code instance.
+\begin{wrapfigure}[9]{r}{0.1\textwidth}
+  \begin{center}
+    \includegraphics[width=0.1\textwidth]{OO_PM}
+  \end{center}
+  \caption{Simple compiling \textsc{PM}.}
+  \label{fig:OO_PM}
+\end{wrapfigure}
+Figure \ref{fig:OO_PM} pictures a compilation process between one 
+$\mathsf{ObjectNode}$ representing a Java program $\mathsf{:Java}$ producing a 
+ByteCode instance $\mathsf{:ByteCode}$ through the  $\mathsf{ActionNode}$ 
+$\mathsf{javac}$.
 
 \medskip
 The following definition simply puts things together: a workflow is composed of 
-an \textsc{Ftg} together with a \textsc{Pm}. 
+an \textsc{Ftg} together with a \emph{well-formed} \textsc{Pm}. 
 
-\begin{figure}[t]
-     \centering
-   \includegraphics[width=0.98\columnwidth]{OO_MM_FTGPM}
-   \caption{A simple Workflow for compiling and extracting class hierarchy of 
-object oriented languages.}
-   \label{fig:OO_FTGPM}%
-\end{figure}
 
 
 %%%%%%%%%%%%%%%%%%%%
 % WORKFLOW
 %%%%%%%%%%%%%%%%%%%%
-\andreas{Shouldn't the following defintion use xFTG?}
 \begin{Definition}[\label{def:Workflow}Workflow]
    A \emph{workflow} $\mathsf{W}\in\mathbb{W}(TR, MM)$ is a pair $\mathsf{W} = 
 (\mathsf{FTG}, \mathsf{P})$ where $\mathsf{FTG}\in\FTG(TR, MM)$ and 
 $\mathsf{P}\in\PM$, such that $\mathsf{P}$ is well-formed (noted 
 $\mathsf{P} \blacktriangleright \mathsf{FTG}$) wrt. $\mathsf{FTG}$, i.e. for 
 each $\mathsf{ActionNode}$ inside $\mathsf{P}$ with name 
-$tn\in\mathsf{TransInstance}$,
+$tr$,
 \begin{itemize}
-   \item $tn$ is explicitly typed by a transformation (name) captured in the 
-domain of $\mathsf{FTG}$ (i.e. $type(tn) = t \in \Dom{\mathsf{FTG}}$);
+   \item there exists a transformation (name) $\mathsf{t}\in 
+\Dom{\mathsf{FTG}}$ in the domain of $\mathsf{FTG}$, that refers to a 
+transformation $tr$ conforms to, up to a matching morphism (i.e. 
+$tr \rhd trans(\mathsf{t})$, or $tr \rhd \mathsf{MM}$ such that $\mathsf{MM} 
+\rightsquigarrow tt(\mathsf{tr})$).
+  
+   \item for each source or target $fl_i$ of $t$ at rank $i$ with (template) 
+metamodel $\mathsf{MM_i}$, there exists a $\mathsf{Pin}$ at rank $i$ connected 
+(as input or output) to an $\mathsf{ObjectNode}$ carrying a model 
+$model(\mathsf{mname}) \in \mathbb{M}$ conform to a metamodel $\mathsf{MM'}$ 
+(i.e. $\mathsf{M} \rhd \mathsf{MM'}$) such that either $\mathsf{MM}$ is the 
+$i$-metamodel of $tr$ (i.e. $\mathsf{MM} = \mathsf{MM'}$), or it matches it 
+(i.e. $\mathsf{MM} \rightsquigarrow \mathsf{MM}$).
 
-   \item for each source or target $fl_i$ of $t$ at rank $i$, there exists a 
-$\mathsf{Pin}$ at rank $i$ connected (as input or output) to an 
-$\mathsf{ObjectNode}$ carrying an object (instance) $\mathsf{LI}\in 
-\mathsf{LangInstance}$ typed by a language $\mathsf{L}\in\mathbb{L}$, such that 
-$\mathsf{LI} \;\rhd\; \mathsf{L}$, and $\mathsf{L}\rightsquigarrow F$, then one 
-of the following holds:
-   \begin{itemize}
-      \item $fl_i\in \mathsf{AbstractFormalismN}$ then $fl_i$ denotes an 
-abstract formalism that should refine (some 
-of) the formalisms implemented by $\mathsf{L}$, i.e. $form(fl_i) \sqsubseteq 
-\mathsf{F'_{k_1}}, \ldots form(fl_i) \sqsubseteq \mathsf{F'_{k_n}}$ such that 
-$\mathsf{F'_{k_1}}, \ldots \mathsf{F'_{k_n}} \subseteq F$;
-      
-      \item $fl_i\in \mathsf{LanguageN}$ then $fl_i$ denotes a language. The 
-language that should refine $\mathsf{L}$ i.e. $lang(fl_i) \sqsubseteq 
-\mathsf{L}$.
-   \end{itemize}
+% typed by a language 
+% $\mathsf{L}\in\mathbb{L}$, such that 
+% $\mathsf{LI} \;\rhd\; \mathsf{L}$, and $\mathsf{L}\rightsquigarrow F$, then one 
+% of the following holds:
+%    \begin{itemize}
+%       \item $fl_i\in \mathsf{AbstractFormalismN}$ then $fl_i$ denotes an 
+% abstract formalism that should refine (some 
+% of) the formalisms implemented by $\mathsf{L}$, i.e. $form(fl_i) \sqsubseteq 
+% \mathsf{F'_{k_1}}, \ldots form(fl_i) \sqsubseteq \mathsf{F'_{k_n}}$ such that 
+% $\mathsf{F'_{k_1}}, \ldots \mathsf{F'_{k_n}} \subseteq F$;
+%       
+%       \item $fl_i\in \mathsf{LanguageN}$ then $fl_i$ denotes a language. The 
+% language that should refine $\mathsf{L}$ i.e. $lang(fl_i) \sqsubseteq 
+% \mathsf{L}$.
+%    \end{itemize}
 \end{itemize}
 \end{Definition}
 \noindent
 When clear from context, or unnecessarily detailed, we simply note the set of 
 workflows $\mathbb{W}$, without any indication of languages or 
 transformations (sets).
+
+As illustration, the \textsc{Pm} in Fig. \ref{fig:OO_PM} is well-formed wrt. 
+the \textsc{Ftg} in Fig. \ref{fig:OO_FTG}: as established earlier, 
+$\mathsf{:\!Java}$ refers to a Java model, whose metamodel matches 
+$\mathsf{OO\_MM}$ and $\mathsf{javac}$ is an appropriate match for 
+$\mathsf{Compile}$; furthermore, no transformation (execution) are exhibited for 
+matching $\mathsf{ExtractH}$.
+
+Our definition for x\textsc{Ftg}s relies solely on \emph{names}: we heavily 
+rely on the repository (Modelverse) capabilities in order to first retrieve the 
+appropriate items (metamodels, models and transformations) as well as checking 
+that matching between them is appropriately achieved. This was abstracted away 
+in Def. \ref{def:Naming}, but requires a proper formalisation in the future.
+
+Similar to the original  
+\cite{Mustafiz-etAl:2012,Lucio-Mustafiz-etAl:2013,TR:Lucio-Mustafiz-etAl:2012},
+our definition does not impose a particular topology on the $\mathsf{PM}$ as 
+long as transformations are well-formed. However, the original definition 
+simply rely on a name-matching typing, similar to what is depicted in Fig. 
+\ref{fig:OO_PM}, leverage \UML{}-like Object/Class instanciation. In contrast, 
+we introduced a relaxed matching mechanism based on metamodel/transformation 
+matching relying on the $\rightsquigarrow$ relationship.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Paradigm}
+\label{sec:PS}
+
+Properties characterising a paradigm (as briefly described in Table 
+\ref{tab:Properties}) may span over all the previous elements: for example, 
+expressing the inheritance formally would require to have at disposal the 
+(template) metamodel of Fig. \ref{fig:InheritenceTemplate}, but also access to 
+its semantic domain to check that the state of a superclass becomes available 
+to all objects of any subclass. Similarly, properties over transformations may 
+restrict or constraint its applicability (e.g., $\mathsf{ExtractH}$ would have 
+to define preconditions for object-oriented metamodels allowing multiple 
+inheritance, and have a postcondition on the datastructure of its output). 
+Properties may also characterise the topology, the usage and the matching 
+process in an \textsc{Ftg} or its corresponding \textsc{Pm} (by, for example, 
+ensuring frequent loops for the Agile paradigm). 
+
+We first collect all previous elements in a single mathematical structure 
+called \emph{paradigmatic structure} on which properties may hold.
+
+%%%%%%%%%%%%%%%%%%%%
+% PARAD. STRUCTURE
+%%%%%%%%%%%%%%%%%%%%
+
+\begin{Definition}[Paradigmatic Structure]
+   A \emph{paradigmatic structure} $\mathsf{PS}\in \PS$ is a pair $\mathsf{PS} 
+= (MM, W)$ where $MM\in \wp(\mathcal{M})$ is a set of metamodels and 
+$W \in \wp(\mathbb{W})$ is a set of workflows.
+\end{Definition}
+
+% Table \ref{tab:Properties} already described some interesting properties 
+% related to three well-known paradigms. As easily noticeable, properties span 
+% over all elements constituting a paradigmatic structure: the components of the 
+% languages involved (and potentially, properties that require certain 
+% combinations of languages); transformations; and also the processes. Some 
+% paradigms may also have ''sanity-check`` properties that characterise the 
+% paradigm itself. We will call these properties capturing the essence of a 
+% paradigm \emph{paradigmatic properties}.
+
+Following the mantra of modelling ''at the most appropriate 
+level of abstraction``, it becomes impossible at the abstraction level of this 
+presentation to formally (i.e., intensionally) define the nature of such a 
+large class of properties. We therefore provide an extensional definition: we 
+note $\mathcal{P}(S)$ the set of all possible properties expressible over a 
+structure $S$. 
+
+%%%%%%%%%%%%%%%%%%% 
+% PARAD. PROPERTIES 
+%%%%%%%%%%%%%%%%%%%
+
+\begin{Definition}[\label{def:ParaProperties}Paradigmatic Properties]
+   A \emph{paradigmatic property} is a tuple
+$\pi = (\pi_{\mathsf{MM}},\pi_{\mathsf{W}},\pi_{\mathsf{PS}}) \in \Pi$ where
+\begin{itemize}
+   \item $\pi_{\mathsf{MM}} \in \mathcal{P}(\mathcal{M})$ is a set of 
+properties 
+over metamodels (and their semantics);
+   \item $\pi_{\mathsf{W}} \in \mathcal{P}(\mathbb{W})$ is a set of properties 
+over workflows (and their matching procedure);
+   \item $\pi_{\mathsf{PS}}\in\mathcal{P}(\PS)$ is a set of 
+properties spanning over all components of paradigmatic structures).
+\end{itemize}
+\end{Definition}
+\noindent
+Paradigmatic properties may be expressed through \emph{pattern languages}, 
+e.g., 
+for ensuring the presence of certain concepts, or through \emph{dedicated 
+logics}, e.g., for ensuring semantic properties. 
+% We detail later in the examples how some properties described in Table 
+% \ref{tab:Properties} may be captured precisely.
+
+We finally associate a \emph{name} to a set of properties for referring to a 
+specific paradigm.
+\begin{Definition}{\label{def:Paradigm}Paradigm}
+Let $\mathsf{ParadigmName}$ be a set of (paradigm) names, that we associate to 
+properties through a function $\iota \in [\mathsf{IntentN} \to \Pi]$.
+
+For $\mathsf{paradigm}\in\mathsf{ParadigmName}$ such that 
+$\iota(\mathsf{paradigm}) = (\pi_{\mathsf{MM}}(\mathsf{p}),                     
+ \pi_{\mathsf{W}}(\mathsf{p}),                      
+\pi_{\mathsf{PS}}(\mathsf{p}))$, 
+we say that $\mathsf{PS} = (MM, W)\in\PS$ \emph{embodies} (alternatively, 
+\emph{follows}, \emph{qualifies as}) $\mathsf{paradigm}$ iff
+\begin{itemize}
+   \item the properties $\pi_{\mathsf{MM}}(\mathsf{p})$ hold on $MM$;
+   \item the properties $\pi_{\mathsf{W}}(\mathsf{p})$ hold on $W$; and
+   \item the properties $ \pi_{\mathsf{PS}}(\mathsf{p}))$ hold on $\mathsf{PS}$.
+\end{itemize}
+\end{Definition}
+Notice that it may be interesting to introduce namespaces for paradigm names, 
+since it is likely that similar denominations would be used for slightly 
+different sets of properties: for example, one may define object orientation in 
+the context of single or multiple inheritance, the latter requiring to take 
+care of conflicting properties (as it is with the renaming mechanism in Eiffel).
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -678,36 +859,19 @@ transformations (sets).
 % %%
 % \end{Definition}
 
-Fig.~\ref{fig:Process} illustrates a process model for \textsc{CCad} that
-leverages transformations as activities to translate an empty canvas into a
-validated shape of (e.g., non-overlapping) lines and ultimately into a 3D model
-that can be printed afterwards.
+
  
-\begin{figure}[t]
-\centering 
-\includegraphics[width=0.98\columnwidth]{process}
-\vspace{-1em}
-\caption{A process model for \textsc{CCad} that yields a valid shape and
-   creates a 3D cookie cutter shape from it.} 
-\label{fig:Process}%
-\end{figure}
 
-%%
-We may distinguish in the concrete syntax $\mathsf{ControlFlow}$s from 
-$\mathsf{ObjectFlow}$s to emphasize the control and make the process more 
-prominent. 
-We assume that $\mathsf{ActionNode}$ names and $\mathsf{ObjectNode}$ names 
-are distinct and unique. We also require that \textsc{Pm}s are well-formed 
-wrt. their \textsc{Ftg}.
 
-Notice that our definition for x\textsc{Ftg}s relies solely on \emph{names}: a 
-framework should take care of retrieving the actual transformation item (as per 
-Def. \ref{def:Transformation}) from the transformation name (trough 
-the $trans$ of Def. \ref{def:Naming}), and should check that the language 
-instances used as object nodes conform to languages that actually implement the 
-abstract formalisms or languages (through $form$ and $lang$) mapped to that 
-transformation name in the appropriate 
-order.
+% %%
+% We may distinguish in the concrete syntax $\mathsf{ControlFlow}$s from 
+% $\mathsf{ObjectFlow}$s to emphasize the control and make the process more 
+% prominent. 
+% We assume that $\mathsf{ActionNode}$ names and $\mathsf{ObjectNode}$ names 
+% are distinct and unique. We also require that \textsc{Pm}s are well-formed 
+% wrt. their \textsc{Ftg}.
+
+
 
 % \medskip
 % The following definition simply puts things together: a workflow is composed of 
@@ -752,27 +916,8 @@ order.
 % workflows $\mathbb{W}$, without any indication of languages or 
 % transformations (sets).
 
-Similar to the original  
-\cite{Mustafiz-etAl:2012,Lucio-Mustafiz-etAl:2013,TR:Lucio-Mustafiz-etAl:2012},
-our definition does not impose a particular topology on the $\mathsf{PM}$ as 
-long as transformations are well-formed. However, the original definition 
-simply rely on a name-matching typing: a transformation (resp. language) 
-instance in a $\mathsf{PM}$ is denoted using \UML's Object notation for names, 
-say $\mathsf{:Trans}$, that need to match an existing transformation (name) 
-$\mathsf{Trans}$ in $\mathsf{FTG}$. In constrast, we relaxed this matching 
-process by allowing ''template`` transformations based on abstract formalisms 
-that capture the main concepts manipulated by a transformation, which imposes 
-to rely on the two relations of Def. \ref{def:Implementation} (implementation 
-and refinement). Similar to substitution for object-oriented methods, this 
-paves the way to more intensive reuse of transformation ''templates'' at the 
-expense of checking that the refinement relations hold.
 
-\begin{Example}[\label{ex:TBA}\textsc{Pcad} Workflow]
-   Figure \ref{fig:PCAD-FTG} depicts an \textsc{Ftg} for \textsc{Cad} with 7 
-transformations that have the abstract formalism $\mathsf{Product}$ as source, 
-target or both. For example, an iterative process may instantiate 
-$\mathsf{Create}$, $\mathsf{Modify}$ and $\mathsf{isValid}$ to produce a target 
-$\mathsf{Product}$ that is guaranteed to be always valid.  
+
 
 %\begin{figure}[t]
 %   \centering
@@ -783,156 +928,110 @@ $\mathsf{Product}$ that is guaranteed to be always valid.
 %   \label{fig:PCAD-MM}%
 %\end{figure}
 
-\begin{figure}[t]
-   \centering
-   \includegraphics[width=0.98\columnwidth]{FTG}
-   \caption{x\textsc{Ftg} of a possible workflow $\mathsf{W_{PCAD}} = (\mathsf{FTG_{PCAD}}, 
-\mathsf{PM_{PCAD}})$ that supports the process model of Fig.~\ref{fig:Process}.}%
-   \label{fig:PCAD-MM}%
-\end{figure}
 
-\end{Example}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Paradigm}
-\label{sec:PS}
 
-From our viewpoint, a paradigm is a set of properties that captures 
-certain specific characteristics that shall hold over languages and/or 
-processes. To simplify the checking, we define a \emph{paradigmatic structure} 
-as a potential candidate holding a particular paradigm.
-
-%%%%%%%%%%%%%%%%%%%%
-% PARAD. STRUCTURE
-%%%%%%%%%%%%%%%%%%%%
-
-\begin{Definition}[Paradigmatic Structure]
-   A \emph{paradigmatic structure} $\mathsf{PS}\in \PS$ is a pair $\mathsf{PS} 
-= (L, W)$ where $L\in \wp(\mathbb{L})$ is a set of languages and 
-$W \in \wp(\mathbb{W})$ is a set of workflows.
-\end{Definition}
-
-Table \ref{tab:Properties} already described some interesting properties 
-related to three well-known paradigms. As easily noticeable, properties span 
-over all elements constituting a paradigmatic structure: the components of the 
-languages involved (and potentially, properties that require certain 
-combinations of languages); transformations; and also the processes. Some 
-paradigms may also have ''sanity-check`` properties that characterise the 
-paradigm itself. We will call these properties capturing the essence of a 
-paradigm \emph{paradigmatic properties}.
-
-Following the mantra of modelling ''at the most appropriate 
-level of abstraction``, it becomes impossible at the abstraction level of this 
-presentation to formally (i.e., intensionally) define the nature of such a large 
-class of properties. We therefore provide an extensional definition: we note 
-$\mathcal{P}(S)$ the set of all possible properties expressible over a 
-structure $S$. 
-
-%%%%%%%%%%%%%%%%%%% 
-% PARAD. PROPERTIES 
-%%%%%%%%%%%%%%%%%%%
-
-\begin{Definition}[\label{def:ParaProperties}Paradigmatic Properties]
-   A \emph{paradigmatic property} is a tuple
-$\pi = (\pi_{\mathsf{L}},\pi_{\mathsf{W}},\pi_{\mathsf{PS}}) \in \Pi$ where
-\begin{itemize}
-   \item $\pi_{\mathsf{L}} \in \mathcal{P}(\mathbb{L})$ is a set of properties 
-over languages;
-   \item $\pi_{\mathsf{W}} \in \mathcal{P}(\mathbb{W})$ is a set of properties 
-over workflows;
-   \item $\pi_{\mathsf{PS}}\in\mathcal{P}(\PS)$ is a set of 
-properties spanning over all components of paradigmatic structures).
-\end{itemize}
-\end{Definition}
-\noindent
-Paradigmatic properties may be expressed through \emph{pattern languages}, e.g., 
-for ensuring the presence of certain concepts, or through \emph{dedicated 
-logics}, e.g., for ensuring semantic properties. We detail later in the examples 
-how some properties described in Table \ref{tab:Properties} may be captured 
-precisely.
-
-For instance, relevant paradigmatic properties for a paradigmatic structures $PS
-= \left(L,W\right)$ representing Simple Computer Aided Design in the sense of
-Table~\ref{tab:Properties}, $\Pi_{SCAD}$, could be
-\begin{itemize}
-%%
-\item $\pi_{\mathsf{SCAD1}} \equiv$ $L$ features a class $P$ that has two 
-attributes $a$ and $b$ that each support values of $\mathbb{R}$ and a class $L$ 
-that has two instances of $P$. 
-%%
-\item $\pi_{\mathsf{SCAD2}} \equiv$ $L$ features a class $D$ that captures a 
-collection of $L$ instances; 
- 
-\item $\pi_{\mathsf{SCAD3}} \equiv$ $W$ supports translating $D$ instances into products;
-% \item $\pi_{\mathsf{W_2}}...$ there is a workflow that supports checking
-% closedness of shapes.
-\end{itemize}
-
-\label{fig:LanguageProperties} illustrates $\pi_{\mathsf{CAD1}}$ and
-$\pi_{\mathsf{CAD2}}$ as patterns over the abstract syntax of $L$. These
-patterns could be modeled and matched leveraging the notion of model
-types~\cite{steel2007model}, which ultimately checks conformance as graph
-isomorphism between the two metamodels (out of which one would be the pattern).
-The representation of $\pi_{\mathsf{CAD3}}$ depends on the representation of the
-xFTG. Generally, this entails that the xFTG of $W$ of the $PS$ must comprise a
-sequence of formalisms and transformations that begins with the formalism $D$
-matched for representing drawings and ends with a formalism representing
-products. 
-
-\begin{figure}[t]
-   \centering \includegraphics[width=\columnwidth]{LanguageProperties.png}
-   \caption{Patterns characterizing two paradigmatic properties over the abstract 
-   syntax of the language of a paradigmatic structure.}  
-   \vspace{-1em}
-   \label{fig:LanguageProperties}
-\end{figure}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \subsection{Paradigm}
+% \label{sec:PS}
+% 
+% From our viewpoint, a paradigm is a set of properties that captures 
+% certain specific characteristics that shall hold over languages and/or 
+% processes. To simplify the checking, we define a \emph{paradigmatic structure} 
+% as a potential candidate holding a particular paradigm.
+% 
+% %%%%%%%%%%%%%%%%%%%%
+% % PARAD. STRUCTURE
+% %%%%%%%%%%%%%%%%%%%%
+% 
+% \begin{Definition}[Paradigmatic Structure]
+%    A \emph{paradigmatic structure} $\mathsf{PS}\in \PS$ is a pair $\mathsf{PS} 
+% = (L, W)$ where $L\in \wp(\mathbb{L})$ is a set of languages and 
+% $W \in \wp(\mathbb{W})$ is a set of workflows.
+% \end{Definition}
+% 
+% Table \ref{tab:Properties} already described some interesting properties 
+% related to three well-known paradigms. As easily noticeable, properties span 
+% over all elements constituting a paradigmatic structure: the components of the 
+% languages involved (and potentially, properties that require certain 
+% combinations of languages); transformations; and also the processes. Some 
+% paradigms may also have ''sanity-check`` properties that characterise the 
+% paradigm itself. We will call these properties capturing the essence of a 
+% paradigm \emph{paradigmatic properties}.
+% 
+% Following the mantra of modelling ''at the most appropriate 
+% level of abstraction``, it becomes impossible at the abstraction level of this 
+% presentation to formally (i.e., intensionally) define the nature of such a large 
+% class of properties. We therefore provide an extensional definition: we note 
+% $\mathcal{P}(S)$ the set of all possible properties expressible over a 
+% structure $S$. 
+% 
+% %%%%%%%%%%%%%%%%%%% 
+% % PARAD. PROPERTIES 
+% %%%%%%%%%%%%%%%%%%%
+% 
+% \begin{Definition}[\label{def:ParaProperties}Paradigmatic Properties]
+%    A \emph{paradigmatic property} is a tuple
+% $\pi = (\pi_{\mathsf{L}},\pi_{\mathsf{W}},\pi_{\mathsf{PS}}) \in \Pi$ where
+% \begin{itemize}
+%    \item $\pi_{\mathsf{L}} \in \mathcal{P}(\mathbb{L})$ is a set of properties 
+% over languages;
+%    \item $\pi_{\mathsf{W}} \in \mathcal{P}(\mathbb{W})$ is a set of properties 
+% over workflows;
+%    \item $\pi_{\mathsf{PS}}\in\mathcal{P}(\PS)$ is a set of 
+% properties spanning over all components of paradigmatic structures).
+% \end{itemize}
+% \end{Definition}
+% \noindent
+% Paradigmatic properties may be expressed through \emph{pattern languages}, e.g., 
+% for ensuring the presence of certain concepts, or through \emph{dedicated 
+% logics}, e.g., for ensuring semantic properties. We detail later in the examples 
+% how some properties described in Table \ref{tab:Properties} may be captured 
+% precisely.
+% 
+% For instance, relevant paradigmatic properties for a paradigmatic structures $PS
+% = \left(L,W\right)$ representing Simple Computer Aided Design in the sense of
+% Table~\ref{tab:Properties}, $\Pi_{SCAD}$, could be
+% \begin{itemize}
+% %%
+% \item $\pi_{\mathsf{SCAD1}} \equiv$ $L$ features a class $P$ that has two 
+% attributes $a$ and $b$ that each support values of $\mathbb{R}$ and a class $L$ 
+% that has two instances of $P$. 
+% %%
+% \item $\pi_{\mathsf{SCAD2}} \equiv$ $L$ features a class $D$ that captures a 
+% collection of $L$ instances; 
+%  
+% \item $\pi_{\mathsf{SCAD3}} \equiv$ $W$ supports translating $D$ instances into products;
+% % \item $\pi_{\mathsf{W_2}}...$ there is a workflow that supports checking
+% % closedness of shapes.
+% \end{itemize}
+% 
+% \label{fig:LanguageProperties} illustrates $\pi_{\mathsf{CAD1}}$ and
+% $\pi_{\mathsf{CAD2}}$ as patterns over the abstract syntax of $L$. These
+% patterns could be modeled and matched leveraging the notion of model
+% types~\cite{steel2007model}, which ultimately checks conformance as graph
+% isomorphism between the two metamodels (out of which one would be the pattern).
+% The representation of $\pi_{\mathsf{CAD3}}$ depends on the representation of the
+% xFTG. Generally, this entails that the xFTG of $W$ of the $PS$ must comprise a
+% sequence of formalisms and transformations that begins with the formalism $D$
+% matched for representing drawings and ends with a formalism representing
+% products. 
+% 
+% \begin{figure}[t]
+%    \centering \includegraphics[width=\columnwidth]{LanguageProperties.png}
+%    \caption{Patterns characterizing two paradigmatic properties over the abstract 
+%    syntax of the language of a paradigmatic structure.}  
+%    \vspace{-1em}
+%    \label{fig:LanguageProperties}
+% \end{figure}
 
 
 %%%%%%%%%%%%%%%%%%%%
 % INTENT
 %%%%%%%%%%%%%%%%%%%%
 
-\begin{Definition}{\label{def:Paradigm}Intent --- Paradigm}
-We define an \emph{intent} $\iota$ as a \emph{named} paradigmatic property, 
-i.e., $\iota \in [\mathsf{IntentN} \to \Pi]$.
 
-   Let $\mathsf{PS} = (L, W)\in\PS$ be a paradigmatic structure and 
-$\mathsf{p}$ an intent (name) captured by a predefined $\iota$ (i.e., 
-$\mathsf{p}\in \mathsf{Dom}(\iota)$ such that 
-$\iota(\mathsf{p}) = (\pi_{\mathsf{L}}(\mathsf{p}), 
-                     \pi_{\mathsf{W}}(\mathsf{p}), 
-                     \pi_{\mathsf{PS}}(\mathsf{p}))$). 
-$\mathsf{PS}$ is said to \emph{embody} $\mathsf{p}$ (alternatively, 
-$\mathsf{PS}$ \emph{follows} $\mathsf{p}$) iff 
-\begin{itemize}
-   \item the properties $\pi_{\mathsf{L}}(\mathsf{p})$ hold on $L$;
-   \item the properties $\pi_{\mathsf{W}}(\mathsf{p})$ hold on $W$; and
-   \item the properties $ \pi_{\mathsf{PS}}(\mathsf{p}))$ hold on $\mathsf{PS}$.
-\end{itemize}
-\end{Definition}
 
-\begin{Example}[PCAD Properties on Cost]
-   \moussa{Review example from Workshop!}
-\end{Example}
 
-Following this definition, it is obvious that the paradigmatic properties of
-$\Pi_{CAD}$, hold for our exemplary \CCad paradigmatic structure sketched by the
-formalism of Def.~\ref{def:CCAD} and the metamodel depicted in
-Fig.~\ref{fig:PCAD-MM}:
-% %
-\begin{inparaenum}[(1)]
-% %
-\item For the first syntactic property $\pi_{\mathsf{SCAD1}}$, we can match
-class $P$ to Point, $a,b$ to $x,y$, and $L$ to Line;
-% %
-\item For the second syntactic property $\pi_{\mathsf{SCAD2}}$, we can match
-class $D$ to class CCAD; and
-% %
-\item For the workflow property $\pi_{\mathsf{SCAD3}}$, we ca the sequence of
-transformations starting with formalism ``CCAD Drawing'' that transforms it into
-an ``3D Model'' and afterwards into a ``Product'' in its xFTG.
-\end{inparaenum}
-Hence, we can establish that the paradigmatic structure sketched by \CCad
-embodies (or follows) the SCAD formalism.
 
 
