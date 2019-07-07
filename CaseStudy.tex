@@ -1,15 +1,35 @@
 \section{Case Study: CookieCAD}
 \label{sec:CS}
 
-As a running example for illustrative purpose, we take a very simplified variant of 
-Computer-Aided Design (\textsc{Cad}) named CookieCAD (\textsc{CCad}). 
-\textsc{CCad} aims at designing simple cookie cutters, as illustrated with a triangle shaped cookie cutter in Figure \ref{fig:CookieCAD}(a). A cookie cutter has a certain shape (like 
-triangle, rectangle, star, etc.) represented by 2D geometric lines (noted 
-$L$), which are specified based on the definition of points (noted $P$) placed 
-on a cartesian plan (using x- and y-coordinates). Shapes must represent 
-closed polygons. Shapes may share some lines (for example, defining a 
-house-shaped cookie cutter by associating a triangle for the roof, placed over a 
-rectangle, as shown in Figure \ref{fig:CookieCAD}(b)). Consequently, lines shall not cross each others as illustrated in Figure \ref{fig:CookieCAD}(c), which results in an \emph{invalid} cookie cutter.
+Computer-Aided Design (\textsc{Cad}) \cite{B:Groover-Zimmers:2008} promotes the 
+use of computer systems to assist the creation, modification, analysis and 
+optimisation of a design. 
+A design may describe any physical, 3D object like fossile engines or planes 
+for analysing heat and fluid transfers, bridges and wind mills to estimate the 
+dynamic response of the mechanical structure to various environmental 
+variations. \textsc{Cad} is often paired with Computer-Aided Manufacturing 
+(\textsc{Cam}) to help plan, manage and control the operations around the 
+process of bringing 3D designs to life. Historically, techniques and tools 
+heavily rely on geometry, solid and surface mathematical formalisms. This 
+particular set of processes operated over a selected bunch of formalisms and 
+languages makes \textsc{Cad} a paradigm on its own. 
+
+We propose to illustrate our formal framework with a simplified variant of 
+\textsc{Cad} named Cookie\textsc{Cad}(\textsc{CCad}): it helps design simple 
+cookie cutters, as illustrated in Fig. \ref{fig:CookieCAD}(a). A cookie cutter 
+adopts a simple shape (triangle, rectangle, etc.) represented by 2D geometric 
+lines (noted $L$) which are specified based on the definition of two points in 
+no particular order (noted $P$) placed in a cartesian plan (using x-/y- 
+coordinates). In order to be manufacturable, points shall not be placed too 
+close to each other (the exact distance tolerance depends on the machinery 
+used), and shall represent closed polygons that may share some lines (as 
+illustrated in Fig. \ref{fig:CookieCAD}(b) for a house-like cutter, with the 
+triangular roof placed over the rectangular base). Consequently, lines shall not 
+cross each others as illustrated in Fig. \ref{fig:CookieCAD}(c), which results 
+in an \emph{invalid} cookie cutter. At manufacturing time, such a design shall 
+be associated with a width to build a 3D physical objects: the precision of the 
+machine may finally discard some of the designs presented on Fig. 
+\ref{fig:CookieCAD}(a) if it is not able to cut or fold metal pieces that size.
 
 \begin{figure}[t]
    \centering
@@ -19,239 +39,126 @@ house-like shape sharing a line. (c) An invalid shape (due to overlaps).}%
    \label{fig:CookieCAD}
 \end{figure}
 
-%Many engineering disciplines (civil, mechanical, electrical, among others) 
-%require an \emph{a priori} \emph{design}, i.e. a kind of specification, or plan, 
-%of the final object, be it a bridge, a car's clutcher, or a complex electronic 
-%card. From an \textsc{Mpm} viewpoint, designs play the role of \emph{models}: 
-%they abstract from the real product while still possessing interesting 
-%properties, making them cheaper to produce and easier to analyse. To support 
-%designers, Computer-Aided Design (\textsc{Cad}) promotes the use of computers to 
-%help create, modify, and analyse designs, but also optimise against known 
-%constraints from a given domain. \textsc{Cad} has significantly improved many 
-%engineering disciplines by improving the designs quality and increase the 
-%designers' productivity, and even becoming standard development tools for 
-%disciplines like electronics. \textsc{Cad} tools allow the \emph{visually} 
-%design in 2D, 3D and even 4D (adding the time dimension), based on various 
-%techniques such as Finite Element Methods, thus manipulating complex 
-%Differential Equations. 
+Figure \ref{fig:CCAD-FTG} depicts a possible, simplified x\textsc{Ftg} for 
+\textsc{CCad} named $\mathsf{FTG_{CCAD}}$. It includes four transformations 
+templates represented as double-rounded ellipses named $\mathsf{Design}$, 
+$\mathsf{Validate}$, $\mathsf{EstimateCosts}$ and $\mathsf{Manufacture}$. As an 
+example, a repository would have to retrieve a transformation corresponding to 
+the following signature: $\mathsf{Validate} \mapsto 
+(\langle\mathsf{CCAD}\rangle, \angle \mathsf{CCAD}, \mathsf{Boolean}, 
+\mathsf{Trace}\rangle, \top)$, meaning that $\mathsf{Validate}$ is automatic and 
+takes as source a $\mathsf{CCAD}$ model and produces back the source 
+$\mathsf{CCAD}$ (notice the double arrow from/to $\mathsf{CCAD}$), and a 
+boolean value, indicating whether the source model is valid or not, in which 
+case a $\mathsf{Trace}$ model is produced. The target $\mathsf{CCAD}$ model may 
+be discarded by some tools, but nothing prevents a repository to select 
+transformations that may additionnally decorate the target with information 
+from the trace model to help \textsc{CCad} designers grasp their errors' 
+origins more easily, or keep traces and models cleanly separated, since both 
+behaviours match $\mathsf{Validate}$'s signature. All transformation and 
+metamodel names in Fig. \ref{fig:CCAD-FTG} are templates (meaning they belong 
+to $\mathsf{TMMName}$ or $\mathsf{TTName}$) except $\mathsf{Boolean}$ and 
+$\mathsf{Real}$, which is used as a source parameterising the width of the 
+cookie cutter design in order to produce the physical 3D cutter.
 
-%For the purpose of this introductory work, we propose the Poor-Man \textsc{Cad} 
-%(abbreviated as \textsc{PCad}), a (toy) (multi-)formalism that allows designing 
-%2D geometric lines (noted $L$) representing arbitrary shapes, based on the 
-%definition of points (noted $P$) placed on a cartesian plan (defined by integer 
-%X- and Y-coordinates). When required, lines may be colored to emphasize 
-%surfaces of a shape or parts of a design. Colors (noted as $C$) are encoding as 
-%RGB integer triples for simplicity. The following Definition and Example 
-%provides a formal specification and a visual representation of a possible 
-%design.
+\begin{figure}[t]
+   \centering
+   \includegraphics[width=0.98\columnwidth]{CCAD_FTG}
+   \caption{$\mathsf{FTG_{CCAD}}$: an x\textsc{Ftg} for \textsc{CCad} 
+activities.}%
+   \label{fig:CCAD-FTG}%
+\end{figure}
 
-\begin{Definition}[\label{def:CCAD}Cookie-CAD Shapes] A \CCad-shape (or design) $s\in \CCAD$ is a set of lines. 
-A \emph{line} $l \in L$ is defined as a set of exactly two points.
-A \emph{point} $p\in P$ is a pair of reals.
-The function $\SMapping$ maps shapes $s\in \CCAD$ to the union of points 
-the lines constituting the shapes are made of.
-\begin{displaymath}
-   \begin{small}
-      \begin{array}{rcl rcl}
-         \CCAD &\eqdef& \wp(L) \\
-         L     &\eqdef& \{ \{p, p'\} \;|\; p, p' \in P, p\neq p' \} \\
-         P     &\eqdef& \mathbb{R} \times \mathbb{R}
-      \end{array}
-   \end{small}
-\end{displaymath}
-
-The semantics of a \CCad-shape is captured by the function 
-$\SMapping$, that maps each shape to the points the lines constituting the 
-shape is built upon. 
-\begin{displaymath}
-   \begin{small}
-      \begin{array}{rcl}
-         \SMapping & \colon & \!\!\!
-            \begin{array}[t]{rcl}
-               \CCAD &\to& \wp(\wp(\mathbb{R}^2)) \\
-                   o &\mapsto& \lbrace \lbrace u,v\rbrace \;|\; \exists 
-u,v\in \mathbb{R}.\; 
-                    \forall x \leq u \leq x'. \\
-& & v{=}m{*}u{+}\left(y{-}m{*}x\right), o{=}\lbrace \lbrace x, y \rbrace, \lbrace x', y' \rbrace \rbrace,
-%%
-            \end{array}\\
-      \end{array}
-   \end{small}
-\end{displaymath}
-\noindent 
-where $m = \frac{y'-y}{x'-x}$ and w.l.o.g. $x' \geq x$.
-\end{Definition}
-
-A metamodel comprising the syntax elements of \CCAD could be as depicted in
-Fig.~\ref{fig:PCAD-MM}. Here, a \CCAD drawing has a name and a set of lines, each
-defined by a start point and an end point. The points between these two
-points are not part of the \CCAD syntax as defined above.
+These template transformations make a central use of the $\mathsf{CCAD}$ 
+language that would handle the visual representation, design, validation, 
+debugging, etc. of a cookie cutters designs, based on a template metamodel 
+depicted in Fig. \ref{fig:CCAD-MM}: a $\mathsf{CCAD}$ model is defined by a set 
+of lines delimited by exactly two points, in no particular order, having real 
+coordinates on a 2D plan. The semantics of such a metamodel captures all points 
+in an Euclidian plan between any pair of points defining a line.
+% , as captured 
+% by the following semantic mapping (where $m = \frac{y'-y}{x'-x}$ and w.l.o.g. 
+% $x' \geq x$).
+% \begin{displaymath}
+%    \begin{small}
+%       \begin{array}{rcl}
+%          \SMapping & \colon & \!\!\!
+%             \begin{array}[t]{rcl}
+%                \CCAD &\to& \wp(\wp(\mathbb{R}^2)) \\
+%                    o &\mapsto& \lbrace \lbrace u,v\rbrace \;|\; \exists 
+% u,v\in \mathbb{R}.\; 
+%                     \forall x \leq u \leq x'. \\
+% & & v{=}m{*}u{+}\left(y{-}m{*}x\right), o{=}\lbrace \lbrace x, y \rbrace, 
+% \lbrace x', y' \rbrace \rbrace,
+% %%
+%             \end{array}\\
+%       \end{array}
+%    \end{small}
+% \end{displaymath}
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.98\columnwidth]{CCAD-MM}
-\caption{A metamodel for \textsc{CCad} (cf. Def.~\ref{def:CCAD}).}
-\label{fig:PCAD-MM}%
+\caption{$\mathsf{CCAD}$: A template metamodel for \textsc{CCad}, as captured 
+by $\mathsf{FTG_{CCAD}}$ (cf. Fig. \ref{fig:CCAD-FTG}).}
+\label{fig:CCAD-MM}%
 \end{figure}
 
-As minimal activities on \textsc{CCad} designs, one shall evidently \emph{draw
-lines} to create shapes, \emph{check} their validity (e.g., to prevent cookie
-cutters with overlapping edges), and ultimately \emph{3D print} the cutters
-from the designs.
+Figures \ref{fig:CCAD-PM-Full} depicts a possible \textsc{Pm}s named 
+$\mathsf{PM_{Full}}$, that is well-formed regarding $\mathsf{FTG_{CCAD}}$. 
+It arranges three transformations from $\mathsf{FTG_{CCAD}}$ in a rather 
+sequential fashion: a designer starts from scratch to iteratively create a 
+design, then proceeds to manufacturing only when the design has been 
+validated. This would be a manager's nightmare, since it is possible to proceed 
+to manufacture even non-reasonable designs with prohibitive costs, since the 
+associated activity has been left out. Nontheless, $\mathsf{PM_{Full}}$ is 
+still well-formed wrt. $\mathsf{FTG_{CCAD}}$'s specification. Ensuring that 
+such a scenario would not arise in real-life requires specifying specific 
+properties on $\mathsf{PM_{Full}}$'s topology that would at least require the 
+presence of $\mathsf{EstimateCosts}$.
+%
+\begin{wrapfigure}[11]{l}{0.1\textwidth}
+  \begin{center}
+    \includegraphics[width=0.1\textwidth]{CCAD_Props}
+  \end{center}
+  \caption{Pattern Properties for $\mbox{CAD}_1$ and $\mbox{CAD}_2$.}
+  \label{fig:OO_PM}
+\end{wrapfigure}
+%
+Table \ref{tab:Properties} enumerated some basic properties of \textsc{Cad} 
+systems: $\mbox{CAD}_1$ and $\mbox{CAD}_2$ are easily recognised as property 
+patterns over a metamodel manipulating \textsc{Cad} designs; while 
+$\mbox{CAD}_3$ specifies a property characterising the existence of a 
+transformation that produces a final, real-life 3D product. Figure 
+\ref{fig:CCAD-Props} shows possible patterns for capturing them in a 
+\textsc{Mof}-like syntax. Assuming one has explicit and appropriate languages 
+for expressing all properties required, this would built a set of 
+paradigmatic properties $\pi_{\mathsf{CAD}}\in\Pi$ that would constitute part of 
+our $\mathsf{CAD}$ paradigm (i.e. $\mathsf{CAD} \mapsto \pi_{\mathsf{CAD}}$ in 
+the sense of Def. \ref{def:Paradigm}).
 
 
-Fig.~\ref{fig:Process} illustrates a process model for \textsc{CCad} that
-leverages transformations as activities to translate an empty canvas into a
-validated shape of (e.g., non-overlapping) lines and ultimately into a 3D model
-that can be printed afterwards.
+We have built a paradigmatic structure $\mathsf{PS_{CCAD}} = (MM, 
+\{\mathsf{W_{CCAD}}\})\in\PS$ with only one workflow $\mathsf{W_{CCAD}} = 
+(\mathsf{FTG_{CCAD}}, \mathsf{PM_{Full}})\in\mathbb{W}(TR, MM)$ relying on 
+transformation $TR$ and metamodel names $MM$ as described in Fig. 
+\ref{fig:CCAD-FTG}. \emph{Now, does $\mathsf{PS_{CCAD}}$ qualifies as a 
+$\mathsf{CAD}$ (simplified) paradigm?}
 
-\begin{Example}[\label{ex:TBA}\textsc{Pcad} Workflow]
-   Figure \ref{fig:PCAD-FTG} depicts an \textsc{Ftg} for \textsc{Cad} with 7 
-transformations that have the abstract formalism $\mathsf{Product}$ as source, 
-target or both. For example, an iterative process may instantiate 
-$\mathsf{Create}$, $\mathsf{Modify}$ and $\mathsf{isValid}$ to produce a target 
-$\mathsf{Product}$ that is guaranteed to be always valid.  
-\end{Example}
-
-% \subsection{Finite-State Automata}
-% \label{sec:Examples-FSM}
-% 
-% Finite State Automata (\textsc{Fsa}), as originally defined by Moore 
-% \cite{J:Moore:1956}, link states with transitions that carry a label. 
-% \textsc{Fsa} describe discrete state-based computations. Many variations of 
-% \textsc{Fsa} exist together with various semantics, among which the 
-% ``word-accepting'' semantics is one of the most used \cite{}. 
-% 
-% The \UML State Machines \cite{TR:UML-2.5:2015} is the language used by many 
-% tools for expressing, among other possibilities, the behaviour of a \UML 
-% object. Beyond state-based computations, \UML State Machines add several new 
-% concepts like hierarchical and orthogonal states, history, and the possibility 
-% to interact with the environment through outputs.
-% 
-% \subsection{Java}
-% \label{sec:Examples-Java}
-% 
-% Java \cite{B:Java:2019} is a modern object-oriented programming language that 
-% has become widely used for a large variety of applications. 
-% 
-% Wegner criteria for OO \cite{Wegner:1987}
-% 
-% \subsection{The \textsc{Md}$\star$ Jungle of Acronyms}
-% \label{sec:Examples-MD}
-% 
-% \cite{B:Brambilla-Cabot-Wimmer:2012}
-
-
-\begin{figure}[t]
-   \centering
-   \includegraphics[width=0.98\columnwidth]{FTG}
-   \caption{x\textsc{Ftg} of a possible workflow $\mathsf{W_{PCAD}} = 
-(\mathsf{FTG_{PCAD}}, 
-\mathsf{PM_{PCAD}})$ that supports the process model of 
-Fig.~\ref{fig:Process}.}%
-   \label{fig:PCAD-MM}%
-\end{figure}
-
+Properties $\mbox{CAD}_1$ and $\mbox{CAD}_2$ are easily checked on the 
+$\mathsf{CCAD}$ metamodel by matching the classes from the template properties 
+to their corresponding class (namely, $\mathsf{L}$ and $\mathsf{P}$ to 
+$\mathsf{Line}$ and $\mathsf{Point}$, then references $\mathsf{}$ and 
+$\mathsf{b}$ to $\mathsf{x}$ and $\mathsf{y}$, and finally $\mathsf{S}$ to 
+$\mathsf{CCAD}$ itself). Property $\mbox{CAD}_2$ may be matched to the 
+transformation template $\mathsf{Manufacture}$, with a template 
+$\mathsf{Product}$ yet to be retrieved from the repository.  
 
 \begin{figure}[t]
 \centering 
-\includegraphics[width=0.98\columnwidth]{process}
+\includegraphics[width=0.98\columnwidth]{CCAD_PM}
 \vspace{-1em}
-\caption{A process model for \textsc{CCad} that yields a valid shape and
-   creates a 3D cookie cutter shape from it.} 
-\label{fig:Process}%
+\caption{$\mathsf{PM_{Full}}$: a possible \textsc{Pm} manufacturing 
+\textsc{CCad} designs at the expanse of your company!} 
+\label{fig:CCAD-PM-Full}%
 \end{figure}
-
-\begin{table}[t]
-   \begin{center}
-      \begin{tabular}[t]{c l}
-         \hline
-         \multicolumn{2}{l}{$\iota_1$: State Automata ($\mathsf{SA}$)}\\
-         \hline
-         $\mbox{SA}_1$ & Contains the concepts of State and Transition\\
-         $\mbox{SA}_2$ & Possess a Transition enabler\\
-         $\mbox{SA}_3$ & Changes state when a transition is enabled\\
-         \hline\hline
-         \multicolumn{2}{l}{$\iota_2$: Object Orientation ($\mathsf{OO}$)}\\
-         \hline
-         $\mbox{OO}_1$ & Possess the concepts of Object and Class\\
-         $\mbox{OO}_2$ & Objects possess a state and a set of capabilities / operations \\
-         $\mbox{OO}_3$ & Possess an inheritance mechanism\\
-         $\mbox{OO}_4$ & Inheritance allows to reuse operations\\
-         \hline\hline
-         \multicolumn{2}{l}{$\iota_3$: Computer-Aided Design ($\mathsf{CAD}$)}\\
-         \hline
-         $\mbox{CAD}_1$ & Comprises concepts of (2D/3D) points and lines\\
-         $\mbox{CAD}_2$ & Shapes are defined by lines\\
-         $\mbox{CAD}_3$ & Supports transformation into (2D/3D) products\\
-         \hline
-      \end{tabular}
-   \end{center}
-   \label{tab:Properties}
-   \caption{Properties of three paradigms: State Automata ($\mathsf{SA} 
-\cite{J:Moore:1956}$); Object Orientation ($\mathsf{OO} \cite{Wegner:1987}$) 
-and Computer-Aided Design ($\mathsf{CAD} \cite{CAD}$)}
-\end{table}
-
-
-For instance, relevant paradigmatic properties for a paradigmatic structures $PS
-= \left(L,W\right)$ representing Simple Computer Aided Design in the sense of
-Table~\ref{tab:Properties}, $\Pi_{SCAD}$, could be
-\begin{itemize}
-%%
-\item $\pi_{\mathsf{SCAD1}} \equiv$ $L$ features a class $P$ that has two 
-attributes $a$ and $b$ that each support values of $\mathbb{R}$ and a class $L$ 
-that has two instances of $P$. 
-%%
-\item $\pi_{\mathsf{SCAD2}} \equiv$ $L$ features a class $D$ that captures a 
-collection of $L$ instances; 
- 
-\item $\pi_{\mathsf{SCAD3}} \equiv$ $W$ supports translating $D$ instances into 
-products;
-% \item $\pi_{\mathsf{W_2}}...$ there is a workflow that supports checking
-% closedness of shapes.
-\end{itemize}
-
-\label{fig:LanguageProperties} illustrates $\pi_{\mathsf{CAD1}}$ and
-$\pi_{\mathsf{CAD2}}$ as patterns over the abstract syntax of $L$. These
-patterns could be modeled and matched leveraging the notion of model
-types~\cite{steel2007model}, which ultimately checks conformance as graph
-isomorphism between the two metamodels (out of which one would be the pattern).
-The representation of $\pi_{\mathsf{CAD3}}$ depends on the representation of the
-xFTG. Generally, this entails that the xFTG of $W$ of the $PS$ must comprise a
-sequence of formalisms and transformations that begins with the formalism $D$
-matched for representing drawings and ends with a formalism representing
-products. 
-
-\begin{figure}[t]
-   \centering \includegraphics[width=\columnwidth]{LanguageProperties.png}
-   \caption{Patterns characterizing two paradigmatic properties over the 
-abstract 
-   syntax of the language of a paradigmatic structure.}  
-   \vspace{-1em}
-   \label{fig:LanguageProperties}
-\end{figure}
-
-\begin{Example}[PCAD Properties on Cost]
-   \moussa{Review example from Workshop!}
-\end{Example}
-
-Following this definition, it is obvious that the paradigmatic properties of
-$\Pi_{CAD}$, hold for our exemplary \CCad paradigmatic structure sketched by the
-formalism of Def.~\ref{def:CCAD} and the metamodel depicted in
-Fig.~\ref{fig:PCAD-MM}:
-% %
-\begin{inparaenum}[(1)]
-% %
-\item For the first syntactic property $\pi_{\mathsf{SCAD1}}$, we can match
-class $P$ to Point, $a,b$ to $x,y$, and $L$ to Line;
-% %
-\item For the second syntactic property $\pi_{\mathsf{SCAD2}}$, we can match
-class $D$ to class CCAD; and
-% %
-\item For the workflow property $\pi_{\mathsf{SCAD3}}$, we ca the sequence of
-transformations starting with formalism ``CCAD Drawing'' that transforms it into
-an ``3D Model'' and afterwards into a ``Product'' in its xFTG.
-\end{inparaenum}
-Hence, we can establish that the paradigmatic structure sketched by \CCad
-embodies (or follows) the SCAD formalism.

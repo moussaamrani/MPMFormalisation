@@ -1,19 +1,74 @@
 \section{Introduction}
 \label{sec:Introduction}
 
-\hans{Explain the context: assuming MPM works for modelling CPS, why do we need a formalisation? Communication, Comparison, tool building}
-\dominique{Explain the context: assuming MPM works for modelling CPS, why do we need a formalisation? Communication, Comparison, tool building}
-Programming paradigms are approaches to solve problems using programming languages, tools and techniques following some methodologies and strategies. Such paradigms are often classified into the categories of imperative (procedural, object oriented, parallel processing, etc.) and declarative (logic, functional, database, etc.) paradigms []. While early programming languages were mostly single paradigm (e.g. procedural for Fortran and functional for Lisp), nowadays’ programming languages are often multi-paradigm in an attempt to help solving more complex problems. Such is the case of Java that supports procedural and object oriented paradigms, and that has add-ons to support parallel processing, and functional programming since its version 8. The introduction of such high level programming languages and their supporting paradigms allowed significant increase in productivity and to develop software that we would not have been able to develop at affordable costs otherwise using only first and second generation languages such as machine code and assembly languages. In addition, often several programming languages based on different paradigms are employed for the development of nowadays software. 
+\moussa{Rewrite if needed!!!}
 
-Cyber-Physical systems that integrate physical, software and networks asp   ects are becoming more and more complex and expensive to develop, mostly due to cross-disciplinary design and their inter-domain interactions. Model-Based Engineering (MBE) is a paradigm created to tackle this complexity, where models of high levels of abstraction are used to specify the system instead of natural language documents and low level programming code, which is instead generated from these models. Compared to traditional development methods, MBE allows developing more complex systems with significantly reduced development costs [].
+Modern General-Purpose Programming Languages (\textsc{Gpl}s) are traditionally 
+classified according to their supporting paradigm. For example, Eiffel is 
+object-oriented, Prolog is declarative and Lisp is functional. Their paradigm 
+characterises the underlying semantic structures and principles that govern 
+these \textsc{Gpl}s' execution: object orientation is imperative in nature and 
+imposes viewing the world through classes and communicating objects; while 
+declarative style relies on term substitution and rewriting. But this has a 
+concrete consequence for users: a statement in Eiffel has very few 
+commonalities with a Prolog sentence. A programming paradigm directly 
+translates into different concepts materialised by the \textsc{Gpl}'s language 
+definition (known as a metamodel in the Model-Driven Engineering world). Very 
+naturally, the idea of combining several paradigms at the level of 
+\textsc{Gpl}s led to more expressive, powerful programming languages like Java 
+(which is imperative, object-oriented, concurrent, and real-time and, since 
+recently somehow functional) or Maude (which is declarative, object-oriented and 
+also concurrent and real-time). 
 
-Like for programming, model-based engineering makes use of several paradigms to solve specific problems. For example, if the behaviour of a system can be described by operations triggered by the availability of data, then the data flow paradigm would be most appropriate for designing this system. This paradigm then helps choosing the formalisms to be employed to design the system. Similarly, if requirements are likely to change during the course of a project, then an agile paradigm will be appropriate. This paradigm will help defining the development process of the project. 
+What is a \emph{paradigm} then? In a philosophical attempt, Kuhn 
+\cite{B:Kuhn:2012} defines it as an open-ended contribution that frames the 
+thinking of an object study with concepts, results and procedures that 
+structures future achievements. Although far from the concerns in the Computer 
+Science discipline, this definition nevertheless highlights the emergence of 
+a \emph{structure} that captures the object of discourse, and the notion of 
+\emph{procedure} that guides achievements. 
 
-Such paradigms can therefore be used to characterise different parts of the modelling scenarios employed for CPS development. Such modelling scenarios typically consist of modelling languages, tools and techniques with some workflows. Like for the case of programming languages, a modelling scenario may employ several paradigms or several single-paradigm modelling scenarios may be employed sequentially during CPS development. Modelling scenarios are the basis of Multi-Paradigm Modelling (MPM) that offers a foundational framework for developing CPSs by gluing the several disciplines together in a consistent way and by breaking down the complexity of CPSs into different levels of abstraction and views expressed with appropriate formalisms.
-Therefore, like for programming, modelling paradigms are the essence of MPM. 
-In this work, which started during the MPM4CPS COST action and was pursued during the CAMPaM research seminar, we propose a formalisation of the notion of modelling paradigms. The objectives of this formalisation are to allow better understanding of MPM and to help selecting the artefacts such as formalisms, tools and development processes when creating  the modelling scenarios used for CPSs development projects. 
+Multi-Paradigm Modelling (\textsc{Mpm}) has been recognised lately as a 
+powerful paradigm that may be helpful in designing, reasoning about, 
+communicating on Cyber-Physical Systems (\textsc{Cps}), because such systems 
+integrate several components that are in and on themselves already complex: in 
+a \textsc{Cps}, a physical part interacts with a software and humans through 
+networks to achieve difficult tasks such as medical monitoring, autonomous 
+cars, robotics in manufactures, etc. \textsc{Cps} are notoriously complex 
+because they mix cross-disciplinary models, which in turn produce inter-domain 
+interactions, in applications that are often safety-critical. 
 
-We illustrate our formalisation with a basic modelling paradigm: the CAD (Computer Aided Design) paradigm. CAD is an excellent example for our formalisation. Since its introduction in the mid 1960s, it has constantly been improved by the addition of new paradigms in order to improve productivity and quality of designs\footnote{See \url{http://www.tecnetinc.com/conceptual\%20design-1.html} for an interesting discussion on CAD paradigms.}. Examples of such additional paradigms are 3D wireframes, surface modelling, solid modelling and environmental paradigms to name a few. While in this paper we only consider the basic CAD paradigm, these evolutions can provide a rich case study to extends this work, in addition to the more heterogeneous modelling paradigms employed for CPS development.
+In this paper, we intend to propose a formal framework aimed at capturing the 
+notion of \emph{paradigm}, as a first step towards a formal framework for 
+\textsc{Mpm} (with obvious application in \textsc{Cps}). Beyond the 
+mathematical specification, this formal framework aims at facilitating the 
+communication between experts for helping them better grasp the core of 
+how their \textsc{Cps} are built, but also at facilitating a formal comparison 
+of systems based on their core \textsc{Mpm} components. Ultimately, this formal 
+framework would support (meta-)tool building that would help practitioners 
+reason about \textsc{Cps} and figure out which tools are the most appropriate 
+to handle their task(s).
 
-The rest of this paper is divided as follows: TODO.
+After further motivating our work in Section \ref{sec:Motivation}, we sketch a 
+proposal for a formal framework addressing the notion of paradigm in Section 
+\ref{sec:Formalisation}. We then present a small Case Study that illustrate 
+things on a simple, yet realistic \textsc{Cps} application in Section 
+\ref{sec:CS}. We then conclude in Section \ref{sec:Conclusion} with 
+Related Work and closing remarks.
+
+% \hans{Explain the context: assuming MPM works for modelling CPS, why do we need a formalisation? Communication, Comparison, tool building}
+% \dominique{Explain the context: assuming MPM works for modelling CPS, why do we need a formalisation? Communication, Comparison, tool building}
+% Programming paradigms are approaches to solve problems using programming languages, tools and techniques following some methodologies and strategies. Such paradigms are often classified into the categories of imperative (procedural, object oriented, parallel processing, etc.) and declarative (logic, functional, database, etc.) paradigms []. While early programming languages were mostly single paradigm (e.g. procedural for Fortran and functional for Lisp), nowadays’ programming languages are often multi-paradigm in an attempt to help solving more complex problems. Such is the case of Java that supports procedural and object oriented paradigms, and that has add-ons to support parallel processing, and functional programming since its version 8. The introduction of such high level programming languages and their supporting paradigms allowed significant increase in productivity and to develop software that we would not have been able to develop at affordable costs otherwise using only first and second generation languages such as machine code and assembly languages. In addition, often several programming languages based on different paradigms are employed for the development of nowadays software. 
+% 
+% Cyber-Physical systems that integrate physical, software and networks asp   ects are becoming more and more complex and expensive to develop, mostly due to cross-disciplinary design and their inter-domain interactions. Model-Based Engineering (MBE) is a paradigm created to tackle this complexity, where models of high levels of abstraction are used to specify the system instead of natural language documents and low level programming code, which is instead generated from these models. Compared to traditional development methods, MBE allows developing more complex systems with significantly reduced development costs [].
+% 
+% Like for programming, model-based engineering makes use of several paradigms to solve specific problems. For example, if the behaviour of a system can be described by operations triggered by the availability of data, then the data flow paradigm would be most appropriate for designing this system. This paradigm then helps choosing the formalisms to be employed to design the system. Similarly, if requirements are likely to change during the course of a project, then an agile paradigm will be appropriate. This paradigm will help defining the development process of the project. 
+% 
+% Such paradigms can therefore be used to characterise different parts of the modelling scenarios employed for CPS development. Such modelling scenarios typically consist of modelling languages, tools and techniques with some workflows. Like for the case of programming languages, a modelling scenario may employ several paradigms or several single-paradigm modelling scenarios may be employed sequentially during CPS development. Modelling scenarios are the basis of Multi-Paradigm Modelling (MPM) that offers a foundational framework for developing CPSs by gluing the several disciplines together in a consistent way and by breaking down the complexity of CPSs into different levels of abstraction and views expressed with appropriate formalisms.
+% Therefore, like for programming, modelling paradigms are the essence of MPM. 
+% In this work, which started during the MPM4CPS COST action and was pursued during the CAMPaM research seminar, we propose a formalisation of the notion of modelling paradigms. The objectives of this formalisation are to allow better understanding of MPM and to help selecting the artefacts such as formalisms, tools and development processes when creating  the modelling scenarios used for CPSs development projects. 
+% 
+% We illustrate our formalisation with a basic modelling paradigm: the CAD (Computer Aided Design) paradigm. CAD is an excellent example for our formalisation. Since its introduction in the mid 1960s, it has constantly been improved by the addition of new paradigms in order to improve productivity and quality of designs\footnote{See \url{http://www.tecnetinc.com/conceptual\%20design-1.html} for an interesting discussion on CAD paradigms.}. Examples of such additional paradigms are 3D wireframes, surface modelling, solid modelling and environmental paradigms to name a few. While in this paper we only consider the basic CAD paradigm, these evolutions can provide a rich case study to extends this work, in addition to the more heterogeneous modelling paradigms employed for CPS development.
+% 
+% The rest of this paper is divided as follows: TODO.
 
