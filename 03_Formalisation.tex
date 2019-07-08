@@ -1,18 +1,18 @@
 \section{Formalisation}
 \label{sec:Formalisation}
 
-Our formal framework defines a \emph{paradigm} as a \emph{label}/\emph{name} 
-$\iota$ denoting a set of properties $\pi\in\Pi$. We define a 
-\emph{paradigmatic structure} $\mathsf{PS}\in \PS$ as a candidate structure that 
-\emph{qualifies}, or \emph{embodies}, or \emph{follows} the paradigm $\iota$ if 
-$\mathsf{PS}$ satisfies $\pi$. $\mathsf{PS}$ describes a set of workflows that 
-describe various activities that are seen to be desirable for realising 
-$\iota$. 
+Our formal framework defines a \emph{paradigm} as a \emph{label} or \emph{name}
+$\iota$ denoting a set of properties $\pi\in\Pi$.
+We define a \emph{paradigmatic structure} $\mathsf{PS}\in \PS$ as a candidate
+structure that \emph{qualifies}, or \emph{embodies}, or \emph{follows} the
+paradigm $\iota$ if $\mathsf{PS}$ satisfies $\pi$.
+$\mathsf{PS}$ describes a set of workflows that describe various activities that
+are seen to be desirable for realising $\iota$.
 
-Since every aspects of the paradigmatic structure need to be explicitly 
-modelled, we first introduce the two classical notions to manipulate languages 
-explicitly, namely metamodels and models on the one hand, and transformation 
-specification and execution on the other. 
+Since every aspects of the paradigmatic structure needs to be explicitly
+modelled, we first introduce the two established notions to manipulate languages
+explicitly, namely metamodels and models on the one hand, and transformation
+specification and execution on the other.
 
 A \emph{metamodel} $\mathsf{MM} \in \mathcal{M}$ specifies the \emph{abstract 
 syntax} of a language $\mathsf{L}$. $\mathsf{MM}$ is expressed in a specific 
@@ -36,31 +36,36 @@ transformation definition written in a transformation language. A
 computation performed on (a) language instance(s) that conform(s) to the 
 source language(s) of the transformation $\mathsf{T}\in\mathbb{T}$.
 
-As an example, the $\mathsf{javac}$ compiler is a transformation 
+As an example, the $\mathsf{javac}$ compiler is a transformation
 $\mathsf{T}_{compil} = (\mathsf{MM_{Java}}, \mathsf{MM_{BC}}, \mathsf{javac})$
-that outputs byte code (BC) from any (valid, conforming) Java program 
-$\mathsf{J}  \rhd \mathsf{MM_{Java}}$. Note that $\mathsf{javac}$ is itself 
-specified as a Java program (i.e. $\mathsf{javac} \rhd \mathsf{MM_{Java}}$).
+that outputs byte code (BC) from any (valid, conforming) Java program
+$\mathsf{J}  \rhd \mathsf{MM_{Java}}$.
+Note that $\mathsf{javac}$ is itself specified as a Java program (i.e.
+$\mathsf{javac} \rhd \mathsf{MM_{Java}}$).
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Templates}
 \label{sec:Templates}
 
-Templates are plain metamodels and transformations, specified with the usual 
-meta-metamodel(s) and transformation languages. A key difference however is 
-that they are not complete, in the sense that they require a regular metamodel 
-(or transformations) to be matched. Templates are used as placeholders for 
-enforcing transformation signatures, expressing high-level properties for 
-metamodels and transformations (specifications), or capturing the necessary 
-steps in a transformation. 
-\begin{wrapfigure}[14]{r}{0.1\textwidth}
-  \begin{center}
-    \includegraphics[width=0.1\textwidth]{InheritenceTemplate}
-  \end{center}
-  \caption{Simple Class-Property Template for capturing Inheritance.}
-  \label{fig:InheritenceTemplate}
-\end{wrapfigure}
-Suppose we want to formally specify Property $\mbox{OO}_3$ for inheritance in 
-Table \ref{tab:Properties}. Figure \ref{fig:InheritenceTemplate} presents a 
+Templates are plain metamodels and transformations, specified with the usual
+meta-metamodel(s) and transformation languages.
+A key difference however is that they are not complete, in the sense that they
+require a regular metamodel (or transformations) to be matched.
+Templates are used as placeholders for enforcing transformation signatures,
+expressing high-level properties for metamodels and transformations
+(specifications), or capturing the necessary steps in a transformation.
+% %
+% \begin{wrapfigure}[14]{r}{0.1\textwidth}
+%   \begin{center}
+%     \includegraphics[width=0.1\textwidth]{InheritenceTemplate}
+%   \end{center}
+%   \caption{Simple class-property template for capturing inheritance.}
+%   \label{fig:InheritenceTemplate}
+% \end{wrapfigure}
+%%
+Suppose we want to formally specify property $\mbox{OO}_3$ for inheritance in 
+Table~\ref{ParadigmProperties}. 
+Figure~\ref{fig:InheritenceTemplate} presents a 
 minimal template defining the basic placeholders: to even allow discussing 
 about super- and sub-classes, one need at least distinguishing between 
 $\mathsf{C}$lass and Objects, and defining a partial order ($\mathsf{super}$) 
@@ -71,38 +76,39 @@ for expressing the template provides navigational notation for free: the
 property would start with something like $\mathsf{c1, c2 : Class}$ such that 
 $\mathsf{c2} \in \mathsf{c1.super}$.
 
-Using templates requires a powerful, customisable matching process. For 
-metamodels, contributions on model typing \cite{J:Degueule-etAl:2017}, a 
-posteriori typing \cite{J:deLara-Guerra:2017}, and metamodel morphisms 
-\cite{Salay-Mylopoulos-Esterbrook:2008,Duran-Zschaler-Troya:2012} may be 
-appropriate; for transformations, the rich literature on reuse 
-\cite{J:Kusel-etAl:2015} provides some guidelines on how to realise that. Hence, 
-matching Fig. \ref{fig:InheritenceTemplate}'s template into the Java 
-metamodel \cite{B:Java:2019} would match $\mathsf{ClassDeclaration}$ to 
-$\mathsf{C}$ and the $\mathsf{extends}$ clause to $\mathsf{super}$. 
-We simply capture this important relationship the following: for a template 
-metamodel $\mathsf{TMM}\in\mathcal{M}$ and a regular metamodel 
-$\mathsf{MM}\in\mathcal{M}$, we note $\mathsf{TMM} \rightsquigarrow 
-\mathsf{MM}$ when $\mathsf{TMM}$ is appropriately matched by $\mathsf{MM}$.
+Using templates requires a powerful, customisable matching process.
+For metamodels, contributions on model typing \cite{J:Degueule-etAl:2017}, a
+posteriori typing \cite{J:deLara-Guerra:2017}, and metamodel morphisms
+\cite{Salay-Mylopoulos-Esterbrook:2008,Duran-Zschaler-Troya:2012} may be
+appropriate; for transformations, the rich literature on reuse
+\cite{J:Kusel-etAl:2015} provides some guidelines on how to realise that.
+Hence, matching Fig. \ref{fig:InheritenceTemplate}'s template into the Java
+metamodel \cite{B:Java:2019} would match $\mathsf{ClassDeclaration}$ to
+$\mathsf{C}$ and the $\mathsf{extends}$ clause to $\mathsf{super}$.
+We simply capture this important relationship in the following: for a template
+metamodel $\mathsf{TMM}\in\mathcal{M}$ and a regular metamodel
+$\mathsf{MM}\in\mathcal{M}$, we note $\mathsf{TMM} \rightsquigarrow \mathsf{MM}$
+when $\mathsf{TMM}$ is appropriately matched by $\mathsf{MM}$.
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Workflow}
 \label{sec:Workflow}
 
+Transformations typically support the realisation of activities that are
+essential to (the engineering of) languages, typically for parsing and/or pretty
+printing, defining their semantics (translationally or operationnaly), analysing
+relevant properties, debugging, and of course executing, simulating, animating,
+etc. \cite{J:Lucio-Amrani-etAl:2014}.
+These activities, and others essential for a paradigm, are typically captured
+through a workflow.
 
-Transformations typically support the realisation of activities that are 
-essential to the engineering of languages, typically for parsing and/or pretty 
-printing, defining their semantics (translationally or operationnaly), 
-analysing relevant properties, debugging, and of course executing, simulating, 
-animating, etc. \cite{J:Lucio-Amrani-etAl:2014}. These activities, and others 
-essential for a paradigm, are typically captured through a workflow.
-
-In our framework, workflows describe precisely the set of activities captured 
-by a candidate paradigmatic structure. A workflow is composed of two elements: 
-a \emph{Formalism Transformation Graph} (\textsc{Ftg}) describes explicitly the 
-links between formalisms / languages, stating which possible transformations 
-may be used; and a \emph{Process Model} describes how language instances are 
-combined together towards achieving a particular activity. Combining both 
-elements results in a \textsc{Ftg+Pm}, as already described in 
+In our framework, workflows describe precisely the set of activities captured by
+a candidate paradigmatic structure. A workflow is composed of two elements:
+a \emph{Formalism Transformation Graph} (\textsc{Ftg}) describes explicitly the
+links between formalisms / languages, stating which possible transformations may
+be used; and a \emph{Process Model} describes how language instances are
+combined together towards achieving a particular activity.
+Combining both elements results in a \textsc{Ftg+Pm}, as already described in
 \cite{Mustafiz-etAl:2012,Lucio-Mustafiz-etAl:2013,TR:Lucio-Mustafiz-etAl:2012}.
 
 Instead of directly manipulating (meta-)models and/or transformations, our 
@@ -122,32 +128,65 @@ linking is captured by the following definition.
       \end{array}
    \end{displaymath}
 \end{Definition}
+%%
 \noindent
 All functions are partial, returning an undefined item (noted $\bot$) when the 
-repository stores no item with the asked name. Template names for metamodels 
+repository stores no item with the asked name. 
+Template names for metamodels 
 ($\mathsf{TMMName}$) and transformations ($\mathsf{TTName}$) are in a separate 
-namespace than those for regular ones. The repository is ultimately responsible 
+namespace than those for regular ones. 
+The repository is ultimately responsible 
 to retrieve appropriate items: for example, querying the repo with the template 
-of Fig. \ref{fig:InheritenceTemplate} would eventually allow the selection of 
+of Fig.~\ref{fig:InheritenceTemplate} would eventually allow the selection of 
 the Java metamodel if inheritance is required.
 
 To accomodate with templates, we introduce \emph{extended} \textsc{Ftg}s, 
 defined as a (name-restricted) mapping of (template) transformations (names) 
 into a signature.
 
-\begin{Definition}{(Extended) Formalism Transformation Graph (x\textsc{Ftg})}
+\begin{figure}
+\centering
 %%
+\begin{subfigure}[t]{0.3\linewidth}
+\centering
+\includegraphics[width=0.7\textwidth]{InheritenceTemplate}
+\caption{A class-property template capturing inheritance.}
+  \label{fig:InheritenceTemplate}
+\end{subfigure}
+%%
+\begin{subfigure}[t]{0.35\linewidth}
+\centering
+\includegraphics[width=1\textwidth]{OO_FTG}
+\caption{Example \textsc{Ftg} for compilation and hierarchy extraction.}
+\label{fig:OO_FTG}
+\end{subfigure}
+%%
+\begin{subfigure}[t]{0.3\linewidth}
+\centering
+\includegraphics[width=0.8\textwidth]{OO_PM}
+\caption{Compiling \textsc{PM}.}
+\label{fig:OO_PM}
+\end{subfigure}
+\caption{Examples for (a) template metamodels, (b) an FTG, and (c) a PM.}
+\end{figure}
+
+
+%%%%%%%%%%%%%%%%%%%%
+% xFTG
+%%%%%%%%%%%%%%%%%%%%
+
+\begin{Definition}{(Extended) Formalism Transformation Graph (x\textsc{Ftg})}
 An \emph{Extended Formalism Transformation Graph} $\mathsf{FTG} \in \FTG(TR, 
 MM)$ is a function  $\mathsf{FTG} \colon TR \to \langle MM \rangle \times 
 \langle MM \rangle \times \mathbb{B}$.
 \end{Definition}
 \noindent
 We parameterise $\FTG$ with two sets of names $TR\subseteq (\mathsf{TName}\cup 
-\mathsf{TTName})$ for regular / template transformations, and $MM\subseteq 
-(\mathsf{MMName} \cup \mathsf{TMMName})$ for regular / template metamodels. 
+\mathsf{TTName})$ for regular or template transformations, and $MM\subseteq 
+(\mathsf{MMName} \cup \mathsf{TMMName})$ for regular or template metamodels. 
 Let $tr \mapsto (\langle mm_1, \ldots, mm_n \rangle, \langle mm'_1, \ldots, 
 mm'_m \rangle, b)$ be such a mapping in $\FTG(TR, MM)$: when $b$ is
-set to true, $tn$ refers to an \emph{automatic} transformation (and human 
+set to true, $tr$ refers to an \emph{automatic} transformation (and human 
 guided otherwise); and $mm_i$s (resp. $mm'_j$s) names are the \emph{source} 
 (resp. \emph{target}) of $tr$.
 %
@@ -164,13 +203,14 @@ guided otherwise); and $mm_i$s (resp. $mm'_j$s) names are the \emph{source}
 % transformations, and abstract formalisms to languages. \moussa{Refer to MDE 
 % research about trafo reuse and model morphisms/typing!}
 %
-\begin{wrapfigure}[10]{r}{0.1\textwidth}
-  \begin{center}
-    \includegraphics[width=0.1\textwidth]{OO_FTG}
-  \end{center}
-  \caption{Simple \textsc{Ftg}: compilation and hierarchy extraction.}
-  \label{fig:OO_FTG}
-\end{wrapfigure}
+% \begin{wrapfigure}[10]{r}{0.1\textwidth}
+%   \begin{center}
+%     \includegraphics[width=0.1\textwidth]{OO_FTG}
+%   \end{center}
+%   \caption{Simple \textsc{Ftg}: compilation and hierarchy extraction.}
+%   \label{fig:OO_FTG}
+% \end{wrapfigure}
+%%
 Figure \ref{fig:OO_FTG} pictures a simple \textsc{Ftg} using two template, 
 automatic transformations (names) (represented with double-rounded, white 
 items) called $\mathsf{Compile}, \mathsf{ExtractH}\in 
@@ -188,14 +228,14 @@ needs, namely \textsc{Uml}'s Activity Diagrams.
 %%%%%%%%%%%%%%%%%%%%
 % PROCESS MODEL
 %%%%%%%%%%%%%%%%%%%%
+
 \begin{Definition}[\label{def:PM}Process Model (\textsc{Pm})]
-% %
 A \emph{process model} $\mathsf{P}\in\PM$ is an instance of a \textsc{Uml}
 Activity Diagram where
 \begin{itemize}
    \item $\mathsf{ActionNode}$s are labelled by transformation instance names 
 typed by their conforming transformation specifications, and may be 
-\emph{hierarchical} and may contain input/output $\mathsf{Pin}$s; and 
+\emph{hierarchical} and may contain input or output $\mathsf{Pin}$s; and 
    \item $\mathsf{ObjectNode}$s are labelled by language instance names typed 
 by their conforming languages; and 
    \item $\mathsf{ControlNode}$s include 
@@ -204,13 +244,13 @@ $\mathsf{Init}$/$\mathsf{Final}$s nodes.
 \end{itemize}
 %%
 \end{Definition}
-\begin{wrapfigure}[9]{r}{0.1\textwidth}
-  \begin{center}
-    \includegraphics[width=0.1\textwidth]{OO_PM}
-  \end{center}
-  \caption{Simple compiling \textsc{PM}.}
-  \label{fig:OO_PM}
-\end{wrapfigure}
+% \begin{wrapfigure}[9]{r}{0.1\textwidth}
+%   \begin{center}
+%     \includegraphics[width=0.1\textwidth]{OO_PM}
+%   \end{center}
+%   \caption{Simple compiling \textsc{PM}.}
+%   \label{fig:OO_PM}
+% \end{wrapfigure}
 Figure \ref{fig:OO_PM} pictures a compilation process between one 
 $\mathsf{ObjectNode}$ representing a Java program $\mathsf{:Java}$ producing a 
 ByteCode instance $\mathsf{:ByteCode}$ through the  $\mathsf{ActionNode}$ 
@@ -221,21 +261,26 @@ The following definition simply puts things together: a workflow is composed of
 an \textsc{Ftg} together with a \emph{well-formed} \textsc{Pm}. 
 
 
-
 %%%%%%%%%%%%%%%%%%%%
 % WORKFLOW
 %%%%%%%%%%%%%%%%%%%%
+
 \begin{Definition}[\label{def:Workflow}Workflow]
-   A \emph{workflow} $\mathsf{W}\in\mathbb{W}(TR, MM)$ is a pair $\mathsf{W} = 
+A \emph{workflow} $\mathsf{W}\in\mathbb{W}(TR, MM)$ is a pair $\mathsf{W} = 
 (\mathsf{FTG}, \mathsf{P})$ where $\mathsf{FTG}\in\FTG(TR, MM)$ and 
 $\mathsf{P}\in\PM$, such that $\mathsf{P}$ is well-formed (noted 
-$\mathsf{P} \blacktriangleright \mathsf{FTG}$) wrt. $\mathsf{FTG}$, i.e. for 
+$\mathsf{P} \blacktriangleright \mathsf{FTG}$) wrt. $\mathsf{FTG}$, i.e., for 
 each $\mathsf{ActionNode}$ inside $\mathsf{P}$ with name 
 $tr$,
 \begin{itemize}
    \item there exists a transformation (name) $\mathsf{t}\in 
-\Dom{\mathsf{FTG}}$ in the domain of $\mathsf{FTG}$, that refers to a 
-transformation $tr$ conforms to, up to a matching morphism (i.e. 
+\Dom{\mathsf{FTG}}$ 
+%in the domain of $\mathsf{FTG}$, 
+that refers to a transformation $tr$ 
+%conforms to, up 
+and conforms 
+%%
+to a matching morphism (i.e.,
 $tr \rhd trans(\mathsf{t})$, or $tr \rhd \mathsf{MM}$ such that $\mathsf{MM} 
 \rightsquigarrow tt(\mathsf{tr})$).
   
@@ -243,10 +288,11 @@ $tr \rhd trans(\mathsf{t})$, or $tr \rhd \mathsf{MM}$ such that $\mathsf{MM}
 metamodel $\mathsf{MM_i}$, there exists a $\mathsf{Pin}$ at rank $i$ connected 
 (as input or output) to an $\mathsf{ObjectNode}$ carrying a model 
 $model(\mathsf{mname}) \in \mathbb{M}$ conform to a metamodel $\mathsf{MM'}$ 
-(i.e. $\mathsf{M} \rhd \mathsf{MM'}$) such that either $\mathsf{MM}$ is the 
+(i.e.. $\mathsf{M} \rhd \mathsf{MM'}$) such that either $\mathsf{MM}$ is the 
 $i$-metamodel of $tr$ (i.e. $\mathsf{MM} = \mathsf{MM'}$), or it matches it 
-(i.e. $\mathsf{MM} \rightsquigarrow \mathsf{MM}$).
+(i.e., $\mathsf{MM} \rightsquigarrow \mathsf{MM}$).
 
+\andreas{What is $fl_i$?}
 % typed by a language 
 % $\mathsf{L}\in\mathbb{L}$, such that 
 % $\mathsf{LI} \;\rhd\; \mathsf{L}$, and $\mathsf{L}\rightsquigarrow F$, then one 
@@ -269,7 +315,7 @@ When clear from context, or unnecessarily detailed, we simply note the set of
 workflows $\mathbb{W}$, without any indication of languages or 
 transformations (sets).
 
-As illustration, the \textsc{Pm} in Fig. \ref{fig:OO_PM} is well-formed wrt. 
+For instance, the \textsc{Pm} in Fig. \ref{fig:OO_PM} is well-formed wrt. 
 the \textsc{Ftg} in Fig. \ref{fig:OO_FTG}: as established earlier, 
 $\mathsf{:\!Java}$ refers to a Java model, whose metamodel matches 
 $\mathsf{OO\_MM}$ and $\mathsf{javac}$ is an appropriate match for 
@@ -296,7 +342,7 @@ matching relying on the $\rightsquigarrow$ relationship.
 \label{sec:PS}
 
 Properties characterising a paradigm (as briefly described in Table 
-\ref{tab:Properties}) may span over all the previous elements: for example, 
+\ref{ParadigmProperties}) may span over all the previous elements: for example, 
 expressing the inheritance formally would require to have at disposal the 
 (template) metamodel of Fig. \ref{fig:InheritenceTemplate}, but also access to 
 its semantic domain to check that the state of a superclass becomes available 
@@ -356,14 +402,13 @@ properties spanning over all components of paradigmatic structures).
 \end{Definition}
 \noindent
 Paradigmatic properties may be expressed through \emph{pattern languages}, 
-e.g., 
-for ensuring the presence of certain concepts, or through \emph{dedicated 
+e.g., for ensuring the presence of certain concepts, or through \emph{dedicated 
 logics}, e.g., for ensuring semantic properties. 
 % We detail later in the examples how some properties described in Table 
 % \ref{tab:Properties} may be captured precisely.
-
-We finally associate a \emph{name} to a set of properties for referring to a 
+Finally, we associate a \emph{name} to a set of properties for referring to a 
 specific paradigm.
+
 \begin{Definition}{\label{def:Paradigm}Paradigm}
 Let $\mathsf{ParadigmName}$ be a set of (paradigm) names, that we associate to 
 properties through a function $\iota \in [\mathsf{IntentN} \to \Pi]$.

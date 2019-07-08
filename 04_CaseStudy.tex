@@ -1,36 +1,3 @@
-\section{Case Study: CookieCAD}
-\label{sec:CS}
-
-Computer-Aided Design (\textsc{Cad}) \cite{B:Groover-Zimmers:2008} promotes the 
-use of computer systems to assist the creation, modification, analysis and 
-optimisation of a design. 
-A design may describe any physical, 3D object like fossile engines or planes 
-for analysing heat and fluid transfers, bridges and wind mills to estimate the 
-dynamic response of the mechanical structure to various environmental 
-variations. \textsc{Cad} is often paired with Computer-Aided Manufacturing 
-(\textsc{Cam}) to help plan, manage and control the operations around the 
-process of bringing 3D designs to life. Historically, techniques and tools 
-heavily rely on geometry, solid and surface mathematical formalisms. This 
-particular set of processes operated over a selected bunch of formalisms and 
-languages makes \textsc{Cad} a paradigm on its own. 
-
-We propose to illustrate our formal framework with a simplified variant of 
-\textsc{Cad} named Cookie\textsc{Cad}(\textsc{CCad}): it helps design simple 
-cookie cutters, as illustrated in Fig. \ref{fig:CookieCAD}(a). A cookie cutter 
-adopts a simple shape (triangle, rectangle, etc.) represented by 2D geometric 
-lines (noted $L$) which are specified based on the definition of two points in 
-no particular order (noted $P$) placed in a cartesian plan (using x-/y- 
-coordinates). In order to be manufacturable, points shall not be placed too 
-close to each other (the exact distance tolerance depends on the machinery 
-used), and shall represent closed polygons that may share some lines (as 
-illustrated in Fig. \ref{fig:CookieCAD}(b) for a house-like cutter, with the 
-triangular roof placed over the rectangular base). Consequently, lines shall not 
-cross each others as illustrated in Fig. \ref{fig:CookieCAD}(c), which results 
-in an \emph{invalid} cookie cutter. At manufacturing time, such a design shall 
-be associated with a width to build a 3D physical objects: the precision of the 
-machine may finally discard some of the designs presented on Fig. 
-\ref{fig:CookieCAD}(a) if it is not able to cut or fold metal pieces that size.
-
 \begin{figure}[t]
    \centering
    \includegraphics[width=\columnwidth]{CookieCAD.pdf}
@@ -39,11 +6,45 @@ house-like shape sharing a line. (c) An invalid shape (due to overlaps).}%
    \label{fig:CookieCAD}
 \end{figure}
 
+\section{Case Study: CookieCAD}
+\label{sec:CS}
+
+Computer-Aided Design (\textsc{Cad}) \cite{B:Groover-Zimmers:2008} promotes the
+use of computer systems to assist the creation, modification, analysis and
+optimisation of a design.
+A design may describe any physical, 3D object, e.g., engines or planes for
+analysing heat and fluid transfers, bridges and wind mills to estimate the
+dynamic response of the mechanical structure to various environmental
+variations. \textsc{Cad} is often paired with Computer-Aided Manufacturing
+(\textsc{Cam}) to help plan, manage and control the operations around the
+process of bringing 3D designs to life. Historically, techniques and tools
+heavily rely on geometry, solid and surface mathematical formalisms. This
+particular set of processes operated over a selected bunch of formalisms and
+languages makes \textsc{Cad} a paradigm on its own.
+
+We propose to illustrate our formal framework with a simplified variant of 
+\textsc{Cad} named Cookie\textsc{Cad}(\textsc{CCad}): it helps design simple 
+cookie cutters, as illustrated in Fig.~\ref{fig:CookieCAD}(a). A cookie cutter 
+adopts a simple shape (triangle, rectangle, star, etc.) represented by 2D geometric 
+lines (noted $L$) which are specified based on the definition of two points in 
+no particular order (noted $P$) placed in a cartesian plan (using x-/y- 
+coordinates). In order to be manufacturable, points shall not be placed too 
+close to each other (the exact distance tolerance depends on the machinery 
+used), and shall represent closed polygons that may share some lines (as 
+illustrated in Fig.~\ref{fig:CookieCAD}(b) for a house-like cutter, with the 
+triangular roof placed over the rectangular base). Consequently, lines shall not 
+cross each others as illustrated in Fig. \ref{fig:CookieCAD}(c), which results 
+in an \emph{invalid} cookie cutter. At manufacturing time, such a design shall 
+be associated with a width to build a 3D physical objects: the precision of the 
+machine may finally discard some of the designs presented on Fig. 
+\ref{fig:CookieCAD}(a) if it is not able to cut or fold metal pieces that size.
+
 Figure \ref{fig:CCAD-FTG} depicts a possible, simplified x\textsc{Ftg} for 
 \textsc{CCad} named $\mathsf{FTG_{CCAD}}$. It includes four transformations 
 templates represented as double-rounded ellipses named $\mathsf{Design}$, 
 $\mathsf{Validate}$, $\mathsf{EstimateCosts}$ and $\mathsf{Manufacture}$. As an 
-example, a repository would have to retrieve a transformation corresponding to 
+example, a repository would have to retrieve a transformation corresponding to
+\andreas{Was $\angle \mathsf{CCAD}$ introduced?} 
 the following signature: $\mathsf{Validate} \mapsto 
 (\langle\mathsf{CCAD}\rangle, \angle \mathsf{CCAD}, \mathsf{Boolean}, 
 \mathsf{Trace}\rangle, \top)$, meaning that $\mathsf{Validate}$ is automatic and 
@@ -56,7 +57,7 @@ transformations that may additionnally decorate the target with information
 from the trace model to help \textsc{CCad} designers grasp their errors' 
 origins more easily, or keep traces and models cleanly separated, since both 
 behaviours match $\mathsf{Validate}$'s signature. All transformation and 
-metamodel names in Fig. \ref{fig:CCAD-FTG} are templates (meaning they belong 
+metamodel names in Fig.~\ref{fig:CCAD-FTG} are templates (meaning they belong 
 to $\mathsf{TMMName}$ or $\mathsf{TTName}$) except $\mathsf{Boolean}$ and 
 $\mathsf{Real}$, which is used as a source parameterising the width of the 
 cookie cutter design in order to produce the physical 3D cutter.
@@ -99,38 +100,61 @@ in an Euclidian plan between any pair of points defining a line.
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.98\columnwidth]{CCAD-MM}
-\caption{$\mathsf{CCAD}$: A template metamodel for \textsc{CCad}, as captured 
+\caption{$\mathsf{CCAD}$: A template metamodel for \textsc{CCad}, as captured
 by $\mathsf{FTG_{CCAD}}$ (cf. Fig. \ref{fig:CCAD-FTG}).}
 \label{fig:CCAD-MM}%
 \end{figure}
 
-Figures \ref{fig:CCAD-PM-Full} depicts a possible \textsc{Pm}s named 
-$\mathsf{PM_{Full}}$, that is well-formed regarding $\mathsf{FTG_{CCAD}}$. 
-It arranges three transformations from $\mathsf{FTG_{CCAD}}$ in a rather 
-sequential fashion: a designer starts from scratch to iteratively create a 
-design, then proceeds to manufacturing only when the design has been 
-validated. This would be a manager's nightmare, since it is possible to proceed 
-to manufacture even non-reasonable designs with prohibitive costs, since the 
-associated activity has been left out. Nontheless, $\mathsf{PM_{Full}}$ is 
-still well-formed wrt. $\mathsf{FTG_{CCAD}}$'s specification. Ensuring that 
-such a scenario would not arise in real-life requires specifying specific 
-properties on $\mathsf{PM_{Full}}$'s topology that would at least require the 
-presence of $\mathsf{EstimateCosts}$.
+\begin{figure}
+\centering
+%%
+\begin{subfigure}[t]{0.72\linewidth}
+\centering
+\includegraphics[width=0.98\textwidth]{CCAD_PM}
+%\caption{$\mathsf{PM_{Full}}$: a possible \textsc{Pm} manufacturing 
+%\textsc{CCad} designs at the expanse of your company!}
+\phantomcaption{} 
+\label{fig:CCAD-PM-Full}%
+\end{subfigure}
+%%
+\begin{subfigure}[t]{0.23\linewidth}
+\centering
+\includegraphics[width=\textwidth]{CCAD_Props}
+%\caption{$\mbox{CAD}_1$ and $\mbox{CAD}_2$ pattern properties.}
+\phantomcaption{}
+\label{fig:PatternProperties}
+\end{subfigure}
+%%
+\caption{Examples for a possible \textsc{Pm} manufacturing 
+\textsc{CCad} designs (left) and pattern properties for $\mbox{CAD}_1$ and $\mbox{CAD}_2$ (right)}
+\end{figure}
+
+Figures \ref{fig:CCAD-PM-Full} depicts a possible \textsc{Pm}s named
+$\mathsf{PM_{Full}}$, that is well-formed regarding $\mathsf{FTG_{CCAD}}$.
+It arranges three transformations from $\mathsf{FTG_{CCAD}}$ in a rather
+sequential fashion: a designer starts from scratch to iteratively create a
+design, then proceeds to manufacturing only when the design has been validated.
+This would be a manager's nightmare, since it is possible to proceed to
+manufacture even non-reasonable designs with prohibitive costs, since the
+associated activity has been left out. Nontheless, $\mathsf{PM_{Full}}$ is still
+well-formed wrt. $\mathsf{FTG_{CCAD}}$'s specification. Ensuring that such a
+scenario would not arise in real-life requires specifying specific properties on
+$\mathsf{PM_{Full}}$'s topology that would at least require the presence of
+$\mathsf{EstimateCosts}$.
+% \begin{wrapfigure}[11]{l}{0.1\textwidth}
+%   \begin{center}
+%     \includegraphics[width=0.1\textwidth]{CCAD_Props}
+%   \end{center}
+%   \caption{Pattern Properties for $\mbox{CAD}_1$ and $\mbox{CAD}_2$.}
+%   \label{fig:PatternProperties}
+% \end{wrapfigure}
 %
-\begin{wrapfigure}[11]{l}{0.1\textwidth}
-  \begin{center}
-    \includegraphics[width=0.1\textwidth]{CCAD_Props}
-  \end{center}
-  \caption{Pattern Properties for $\mbox{CAD}_1$ and $\mbox{CAD}_2$.}
-  \label{fig:OO_PM}
-\end{wrapfigure}
-%
-Table \ref{tab:Properties} enumerated some basic properties of \textsc{Cad} 
+Table \ref{ParadigmProperties} enumerated some basic properties of \textsc{Cad} 
 systems: $\mbox{CAD}_1$ and $\mbox{CAD}_2$ are easily recognised as property 
 patterns over a metamodel manipulating \textsc{Cad} designs; while 
 $\mbox{CAD}_3$ specifies a property characterising the existence of a 
-transformation that produces a final, real-life 3D product. Figure 
-\ref{fig:CCAD-Props} shows possible patterns for capturing them in a 
+transformation that produces a final, real-life 3D product. Fig.~\ref{fig:PatternProperties} 
+shows possible patterns for capturing them in a 
 \textsc{Mof}-like syntax. Assuming one has explicit and appropriate languages 
 for expressing all properties required, this would built a set of 
 paradigmatic properties $\pi_{\mathsf{CAD}}\in\Pi$ that would constitute part of 
@@ -142,7 +166,7 @@ We have built a paradigmatic structure $\mathsf{PS_{CCAD}} = (MM,
 \{\mathsf{W_{CCAD}}\})\in\PS$ with only one workflow $\mathsf{W_{CCAD}} = 
 (\mathsf{FTG_{CCAD}}, \mathsf{PM_{Full}})\in\mathbb{W}(TR, MM)$ relying on 
 transformation $TR$ and metamodel names $MM$ as described in Fig. 
-\ref{fig:CCAD-FTG}. \emph{Now, does $\mathsf{PS_{CCAD}}$ qualifies as a 
+\ref{fig:CCAD-FTG}. \emph{Now, does $\mathsf{PS_{CCAD}}$ qualify as a 
 $\mathsf{CAD}$ (simplified) paradigm?}
 
 Properties $\mbox{CAD}_1$ and $\mbox{CAD}_2$ are easily checked on the 
@@ -154,11 +178,10 @@ $\mathsf{CCAD}$ itself). Property $\mbox{CAD}_2$ may be matched to the
 transformation template $\mathsf{Manufacture}$, with a template 
 $\mathsf{Product}$ yet to be retrieved from the repository.  
 
-\begin{figure}[t]
-\centering 
-\includegraphics[width=0.98\columnwidth]{CCAD_PM}
-\vspace{-1em}
-\caption{$\mathsf{PM_{Full}}$: a possible \textsc{Pm} manufacturing 
-\textsc{CCad} designs at the expanse of your company!} 
-\label{fig:CCAD-PM-Full}%
-\end{figure}
+% \begin{figure}[t]
+% \centering 
+% \includegraphics[width=0.98\columnwidth]{CCAD_PM}
+% \caption{$\mathsf{PM_{Full}}$: a possible \textsc{Pm} manufacturing 
+% \textsc{CCad} designs at the expanse of your company!} 
+% \label{fig:CCAD-PM-Full}%
+% \end{figure}
