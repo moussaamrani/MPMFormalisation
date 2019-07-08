@@ -6,8 +6,8 @@ $\iota$ denoting a set of properties $\pi\in\Pi$.
 We define a \emph{paradigmatic structure} $\mathsf{PS}\in \PS$ as a candidate
 structure that \emph{qualifies}, or \emph{embodies}, or \emph{follows} the
 paradigm $\iota$ if $\mathsf{PS}$ satisfies $\pi$.
-$\mathsf{PS}$ describes a set of workflows that describe various activities that
-are seen to be desirable for realising $\iota$.
+$\mathsf{PS}$ describes a set of workflows that capture various activities seen
+to be desirable for realising $\iota$.
 
 Since every aspects of the paradigmatic structure needs to be explicitly
 modelled, we first introduce the two established notions to manipulate languages
@@ -273,26 +273,13 @@ $\mathsf{P} \blacktriangleright \mathsf{FTG}$) wrt. $\mathsf{FTG}$, i.e., for
 each $\mathsf{ActionNode}$ inside $\mathsf{P}$ with name 
 $tr$,
 \begin{itemize}
-   \item there exists a transformation (name) $\mathsf{t}\in 
-\Dom{\mathsf{FTG}}$ 
-%in the domain of $\mathsf{FTG}$, 
-that refers to a transformation $tr$ 
-%conforms to, up 
-and conforms 
-%%
-to a matching morphism (i.e.,
-$tr \rhd trans(\mathsf{t})$, or $tr \rhd \mathsf{MM}$ such that $\mathsf{MM} 
-\rightsquigarrow tt(\mathsf{tr})$).
-  
-   \item for each source or target $fl_i$ of $t$ at rank $i$ with (template) 
-metamodel $\mathsf{MM_i}$, there exists a $\mathsf{Pin}$ at rank $i$ connected 
-(as input or output) to an $\mathsf{ObjectNode}$ carrying a model 
-$model(\mathsf{mname}) \in \mathbb{M}$ conform to a metamodel $\mathsf{MM'}$ 
-(i.e.. $\mathsf{M} \rhd \mathsf{MM'}$) such that either $\mathsf{MM}$ is the 
-$i$-metamodel of $tr$ (i.e. $\mathsf{MM} = \mathsf{MM'}$), or it matches it 
-(i.e., $\mathsf{MM} \rightsquigarrow \mathsf{MM}$).
+   \item there exists a transformation name $\mathsf{t}\in \Dom{\mathsf{FTG}}$ 
+that refers to a transformation specification $\mathsf{T}$ (i.e. $trans(\mathsf{t}) = 
+\mathsf{T}$ or $tt(\mathsf{t}) = \mathsf{T}$) such that $tr$ conforms to $\mathsf{T}$ 
+(i.e. $tr_{_{\mathsf{T}}}\in\TE$)
 
-\andreas{What is $fl_i$?}
+   \item for each source or target $mm_i$ of $t$ (i.e. $\mathsf{FTG} = (\langle \ldots, mm_i, \ldots \rangle, \langle \ldots\rangle, b)$ or $\mathsf{FTG} = ( \langle \ldots\rangle, \langle \ldots, mm_i, \ldots \rangle, b)$) at rank $i$ refering to a (template) metamodel $\mathsf{MM_i}$ (i.e. $mmodel(mm_i) = \mathsf{MM_i}$ or $tmmodel(mm_i) = \mathsf{MM_i}$), there exists a $\mathsf{Pin}$ at rank $i$ connected (as input or output) to an input $\mathsf{ObjectNode}$ carrying a model name $\mathsf{mname}$ that refers to a model conforming to a metamodel $\mathsf{MM'}$ (i.e. $model(\mathsf{mname}) \rhd \mathsf{MM'}$, such that either $\mathsf{MM}$ is the source/target $i$-metamodel of $\mathsf{T}$ (i.e. $\mathsf{MM} = \mathsf{MM'}$), or it matches it (i.e., $\mathsf{MM} \rightsquigarrow \mathsf{MM}$).
+
 % typed by a language 
 % $\mathsf{L}\in\mathbb{L}$, such that 
 % $\mathsf{LI} \;\rhd\; \mathsf{L}$, and $\mathsf{L}\rightsquigarrow F$, then one 
