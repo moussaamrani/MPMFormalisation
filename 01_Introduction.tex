@@ -1,38 +1,37 @@
 \section{Introduction}
 \label{sec:Introduction}
 
-\moussa{Rewrite if needed!!!}
-
 Modern General-Purpose Programming Languages (\textsc{Gpl}s) are traditionally 
-classified according to their supporting paradigm. For example, Eiffel is 
-object-oriented, Prolog is declarative and Lisp is functional. Their paradigm 
-characterises the underlying semantic structures and principles that govern 
+classified according to their supporting paradigm(s). For example, Eiffel is 
+object-oriented and supports the contract-based-design paradigm, Prolog is declarative, and Lisp is functional. The paradigm 
+characterises the underlying syntactic and semantic structures and principles that govern 
 these \textsc{Gpl}s' execution: object orientation is imperative in nature and 
-imposes viewing the world through classes and communicating objects; while 
+imposes viewing the world in terms of classes and communicating objects; the 
 declarative style relies on term substitution and rewriting. But this has a 
 concrete consequence for users: a statement in Eiffel has very few 
 commonalities with a Prolog sentence. A programming paradigm directly 
-translates into different concepts materialised by the \textsc{Gpl}'s language 
-definition (known as a metamodel in the Model-Driven Engineering world). Very 
+translates into different concepts encoded in the \textsc{Gpl}'s language 
+syntax definition (known as a metamodel in the Model-Driven Engineering world). Very 
 naturally, the idea of combining several paradigms at the level of 
-\textsc{Gpl}s led to more expressive, powerful programming languages like Java 
+\textsc{Gpl}s led to more expressive, powerful programming languages such as Java 
 (which is imperative, object-oriented, concurrent, and real-time and, since 
-recently somehow functional) or Maude (which is declarative, object-oriented and 
+recently, somehow functional) or Maude (which is declarative, object-oriented and 
 also concurrent and real-time). 
-
+% HV: add citations to all the languages above
+% HV: add reference to the '90s multi-paradigm programming language Leda?
+%     https://www.goodreads.com/book/show/8129222-multiparadigm-programming-in-leda
 What is a \emph{paradigm} then? In a philosophical attempt, Kuhn 
 \cite{B:Kuhn:2012} defines it as an open-ended contribution that frames the 
 thinking of an object study with concepts, results and procedures that 
-structures future achievements. Although far from the concerns in the Computer 
-Science discipline, this definition nevertheless highlights the emergence of 
+structures future achievements. Although far from the concerns in the discipline of Computer Science, this definition nevertheless highlights the emergence of 
 a \emph{structure} that captures the object of discourse, and the notion of 
 \emph{procedure} that guides achievements. 
 
 Multi-Paradigm Modelling (\textsc{Mpm}) has been recognised lately as a 
 powerful paradigm that may be helpful in designing, reasoning about, 
 communicating on Cyber-Physical Systems (\textsc{Cps}), because such systems 
-integrate several components that are in and on themselves already complex: in 
-a \textsc{Cps}, a physical part interacts with a software and humans through 
+integrate several components that are themselves already complex: in 
+a \textsc{Cps} for example, a physical part interacts with software and humans through 
 networks to achieve difficult tasks such as medical monitoring, autonomous 
 cars, robotics in manufactures, etc. \textsc{Cps} are notoriously complex 
 because they mix cross-disciplinary models, which in turn produce inter-domain 
