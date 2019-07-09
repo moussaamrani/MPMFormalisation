@@ -1,8 +1,9 @@
 \begin{figure}[t]
    \centering
    \includegraphics[width=\columnwidth]{CookieCAD.pdf}
-   \caption{CookieCAD Examples: (a) A simple real-life cookie cutter. (b) A 
-house-like shape sharing a line. (c) An invalid shape (due to overlaps).}%  
+   \caption{CookieCAD: (a) Real-life cookie cutter. (b) House-like 
+shape with line-sharing. (c) Invalid shape (due to overlaps).}% 
+ 
    \label{fig:CookieCAD}
 \end{figure}
 
@@ -99,47 +100,24 @@ in an Euclidian plan between any pair of points defining a line.
 \begin{figure}[t]
 \centering
 \includegraphics[width=0.98\columnwidth]{CCAD-MM}
-\caption{$\mathsf{CCAD}$: A template metamodel for \textsc{CCad}, as captured
-by $\mathsf{FTG_{CCAD}}$ (cf. Fig. \ref{fig:CCAD-FTG}).}
+\caption{Template metamodel $\mathsf{CCAD}$ in $\mathsf{FTG_{CCAD}}$ 
+(cf. Fig. \ref{fig:CCAD-FTG}).}
 \label{fig:CCAD-MM}%
 \end{figure}
 
-\begin{figure}
-\centering
-%%
-\begin{subfigure}[t]{0.72\linewidth}
-\centering
-\includegraphics[width=0.98\textwidth]{CCAD_PM}
-%\caption{$\mathsf{PM_{Full}}$: a possible \textsc{Pm} manufacturing 
-%\textsc{CCad} designs at the expanse of your company!}
-\phantomcaption{} 
-\label{fig:CCAD-PM-Full}%
-\end{subfigure}
-%%
-\begin{subfigure}[t]{0.23\linewidth}
-\centering
-\includegraphics[width=\textwidth]{CCAD_Props}
-%\caption{$\mbox{CAD}_1$ and $\mbox{CAD}_2$ pattern properties.}
-\phantomcaption{}
-\label{fig:PatternProperties}
-\end{subfigure}
-%%
-\caption{Examples for a possible \textsc{Pm} manufacturing 
-\textsc{CCad} designs (left) and pattern properties for $\mbox{CAD}_1$ and $\mbox{CAD}_2$ (right)}
-\end{figure}
 
-Figures \ref{fig:CCAD-PM-Full} depicts a possible \textsc{Pm}s named
-$\mathsf{PM_{Full}}$, that is well-formed regarding $\mathsf{FTG_{CCAD}}$.
-It arranges three transformations from $\mathsf{FTG_{CCAD}}$ in a rather
-sequential fashion: a designer starts from scratch to iteratively create a
-design, then proceeds to manufacturing only when the design has been validated.
-This would be a manager's nightmare, since it is possible to proceed to
-manufacture even non-reasonable designs with prohibitive costs, since the
-associated activity has been left out. Nontheless, $\mathsf{PM_{Full}}$ is still
-well-formed wrt. $\mathsf{FTG_{CCAD}}$'s specification. Ensuring that such a
-scenario would not arise in real-life requires specifying specific properties on
-$\mathsf{PM_{Full}}$'s topology that would at least require the presence of
-$\mathsf{EstimateCosts}$.
+
+Figures \ref{fig:CCAD-PM-Full} depicts a candidate, well-formed \textsc{Pm}s 
+named $\mathsf{PM_{Full}}$.
+It arranges three transformations from $\mathsf{FTG_{CCAD}}$ in a sequential 
+fashion: starting from scratch, a designer starts iteratively create a
+design, then manufacture it once it has been validated. This workflow does not 
+prohibit manufacturing of expensive designs, since $\mathsf{EstimateCosts}$ is 
+left out.
+Enforcing such a scenario requires specifying properties specifically targeting 
+$\mathsf{PM_{Full}}$'s topology, asking at least $\mathsf{EstimateCosts}$'s 
+presence in the \textsc{Pm} in order to break $\mathsf{PM_{Full}}$ 
+well-formedness.
 % \begin{wrapfigure}[11]{l}{0.1\textwidth}
 %   \begin{center}
 %     \includegraphics[width=0.1\textwidth]{CCAD_Props}
@@ -148,8 +126,8 @@ $\mathsf{EstimateCosts}$.
 %   \label{fig:PatternProperties}
 % \end{wrapfigure}
 %
-Table \ref{ParadigmProperties} enumerated some basic properties of \textsc{Cad} 
-systems: $\mbox{CAD}_1$ and $\mbox{CAD}_2$ are easily recognised as property 
+Refering to Tab. \ref{tab:Properties}, $\mbox{CAD}_1$ and $\mbox{CAD}_2$ are 
+easily recognised as property 
 patterns over a metamodel manipulating \textsc{Cad} designs; while 
 $\mbox{CAD}_3$ specifies a property characterising the existence of a 
 transformation that produces a final, real-life 3D product. Fig.~\ref{fig:PatternProperties} 

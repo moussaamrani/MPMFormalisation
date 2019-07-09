@@ -1,99 +1,76 @@
 \section{Motivation}
 \label{sec:Motivation}
 
-\moussa{This is a copy/paste of Hans' email for now, and need to be rewritten 
-appropriately. It should at least:
-\begin{itemize}
-   \item Introduce the MPM motto (``model everything explicitly, with the most 
-appropriate formalisms, etc.'');
-   \item Introduce what would be the essence and role of the Modelverse (and 
-cite Yentl's Ph.D???);
-   \item Explain why a first step (namely, ``mono-paradigm'') is essential to 
-capture the essence of what a paradigm is, through our paradigmatic structure / 
-props, and therefore introduce Table \ref{ParadigmProperties}\end{itemize}}
+For developing a \textsc{Cps}, project managers and engineers need to figure 
+out what core properties the future system has, and select the most 
+appropriate development languages, software lifecycles and ``interfaces'' to 
+make the different views and components of their system communicate 
+appropriately. For example, when a manager knows that system/software 
+requirements are likely to change frequently during the project's course, 
+selecting an Agile development process may likely help handle evolution and 
+change. If the system's behaviour requires that operations are triggered when 
+data become available, similar to reactive systems, relying on Data Flow 
+languages may help handle the most critical part of the software behaviour. 
 
-- being able to give a "label/name" to a paradigm, i.e., a collection of 
-formalisms/abstractions/processes
-  satisfying certain properties makes it possible to reason about the 
-"appropriateness" of
-  that paradigm for a particular task.
-  If, for example, we wish to describe the behaviour of a system where 
-operations on data are
-  trigerred by the availability of data, then "data flow" seems most 
-appropriate.
-  Note that the "data flow" properties pertain to the formalism part of the 
-paradigm properties.
-  If, as another example, we know that at the start of a project, requirements 
-are certain and
-  that during the course of the project, requirements are likely to change 
-frequently,
-  then "agile" seems most appropriate.
-  Note that the "agile" properties pertain to the process/workflow part of the 
-paradigm properties.
-- based on a precise definition of a paradigm, one can design (software) 
-architectures
-  to support modelling in that paradigm. Given the common structure 
-formalisms/abstractions/processes
-  of a paradimg, such a (tool) architecture will have to support 
-formalisms/abstractions/processes.
-  The first (formalisms) means that the explicit modelling of concrete and 
-abstract syntax as
-  well as semantics is necessary (with subsequent synthesis of a 
-modelling/analysis/simulation/execution/debugging/...  (tool) environment).
-  This is also known as Modelling Language Engineering (though we would call it 
-Modelling Formalism Engineering).
-  The second (abstractions) means that some infrastructure must be provided for 
-relating models at different
-  levels of abstraction (with respect to the satisfaction of given set of 
-properties -- note that these properties
-  are model properties, not formalism/abstraction/process properties). At an 
-operational level, this
-  implies that model transformations will have to be supported. Such 
-transformations may be uni-directional or
-  more generally may rather be formalisations of the relationships that must 
-hold between the models.
-  The third (processes) means that explicit modelling of workflow, with 
-subsequent enactment, must be supported.
-  Here again, the need for explicit modelling of model transformations arises.
-- The FTG+PM, an artefact useful in the explicit modelling of 
-formalisms/abstractions/processes can be used in many ways:
-  (1) The FTG is obtained by querying the repository of all modelling artefacts 
-(system models, transformation models,
-      formalism models, workflow models, ...), aka the "Modelverse", for those 
-artefacts that are formalism specifications.
-      Note that it is thus (a) a projection of the full "Modelverse" and (b) a 
-snapshot, as the "Modelverse" will evolve over time.
-      Additional properties may be used in the query, asking for example only 
-for discrete-time formalisms.
-      The FTG can then be used to "chart" formalisms used as well as their 
-relationships (and which model properties
-      these relationships preserve). To give meaning to coupled models in which 
-the component models are described in
-      different formalisms, that chart can subsequently be used to find the most 
-appropriate ("highest") common formalism onto which
-      the models in diverse formalisms can be mapped. The assumption is that the 
-semantics of a coupled model with
-      all component models in the same formalism is known, or easier to specify.
-      Once the required mappings/transformations are obtained, the necessary 
-formalism transformation steps can be
-      included in an appropriate order, in the process model (PM).
-  (2) One may observe an existing workflow and supporting formalisms/tooling and 
-chart it in an FTG+PM.
-      This may require adding new formalisms in the "Modelverse".
-  (3) A PM may be used to (a) check conformance of engineers' activities with 
-it, (b) as a set of constraints
-      over engineers' activities, or (c) as a basis for "enactment".
-      Traditionally, these are called "descriptive", "proscriptive" and 
-"prescriptive" process models.
-      (c) is the basis for "toolchains" whereby existing 
-modelling/analysis/simulation tools are orchestrated
-      based on the PM using enablers such as OSLC.
-  (4) Possibly based on existing workflows, one may start with a PM and type it 
-appropriately with formalisms (for the
-      artefacts) and relations (for the activities) from the FTG.
-- it sets the stage for a formalization of the notion of multi-paradigm. 
+\textsc{Mpm} requires to \emph{model everything explicitly}, with \emph{the 
+most appropriate formalisms}, \emph{at the most appropriate abstraction level} 
+\cite{PhD:VanTandeloo:2017}. This suggest that a \emph{paradigm} is a 
+placeholder for describing the properties of each of the dimensions described 
+above: the \emph{formalisms}, the \emph{abstraction levels}, and the 
+\emph{processes} that enable interactions between all the basic modelling 
+activities. Ultimately, \textsc{Mpm} aims at providing the tool machinery and 
+support for helping managers and engineers select, organise and manage the 
+three dimensions above. We aim at clarifying the formal foundations of 
+\textsc{Mpm} to help design these tools. This paper represents a first step 
+where we ignore the abstraction dimension for now and focus on the others, but 
+we motivate here why those dimensions are necessary and how they integrate 
+together.
 
+\noindent
+\textbf{Formalisms/Languages.} The first dimension relate to what is otherwise 
+known as \emph{Modellng Languages Engineering}, i.e. the explicit modelling of 
+the key components of (modelling) languages: concrete and abstract (i.e. 
+metamodels) syntaxes, as well as semantics, together with the usual activities 
+around: analysis, simulation, execution, debugging, etc. that should be 
+supported by tools that may be largely synthesized from high-level 
+specifications of these languages and their usage. These multiple languages are 
+organised in a repository that we call the \emph{Modelverse} intended to be 
+dynamically evolving over time.
 
+\noindent
+\textbf{Abstraction / Viewpoints.} Since \textsc{Mpm} integrate multiple users 
+all with different concerns, an infrastructure should be provided for relating 
+models at different abstraction levels, while ensuring that certain 
+language-related properties still hold to ensure a consistent manipulation. 
+
+\noindent
+\textbf{Processes.} Many workflows govern the various \textsc{Mpm} activities 
+for engineering languages in a concern-consistent way, but also to support 
+lifecycles and development processes by connecting models in tool chains to 
+achieve larger workflows. To capture this dimension, we rely on a structure 
+called \textsc{Ftg+Pm} \cite{Mustafiz-etAl:2012} tightly connected to the 
+Modelverse: the Modelverse may be queried to obtain any modelling artefact 
+(related to languages of course, but also the processes themselves), providing 
+a snapshot at the current time of the relevant artefacts that may be helpful 
+(e.g. for the general tasks described above), or providing a partial projection 
+of the full Modelverse to be reasoned over. Processes play their full role: 
+they may be \emph{descriptive}, allowing to check that engineers follow the 
+appropriate activities towards project completion; \emph{proscriptive} by 
+putting limits and constraints on what engineers may consider as valid 
+activities; and \emph{prescriptive} by enacting the specific tasks to follow. 
+This \textsc{Ftg+Pm} also enables reasoning over shared parts of, and 
+relationships between languages to give meaning to various models aimed at 
+being used together: for example, finding the highest language (in terms of a 
+mathematical order over the formalisms supported by these languages) to which 
+all relevant models may be mapped, enabling easier reasoning, analysis or 
+(co-)execution.
+
+All three dimensions have at their core the use of \emph{model transformation}: 
+for achieving the various activities for engineering languages (cf. 
+\cite{J:Lucio-Amrani-etAl:2014}), for specifying the multiview relationships 
+between models, or for performing the various activities in their defining 
+processes. Furthermore, they may also provide the basic manipulations necessary 
+for querying, extracting and projecting the Modelverse.
 
 \begin{table}[t]
   \caption{Properties of two paradigms: Object Orientation ($\mathsf{OO} 
@@ -119,6 +96,5 @@ products\\
          \hline
       \end{tabular}
    \end{center}
-   \label{ParadigmProperties}
-   
+   \label{tab:Properties}
 \end{table}

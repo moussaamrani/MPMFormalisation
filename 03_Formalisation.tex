@@ -7,7 +7,8 @@ We define a \emph{paradigmatic structure} $\mathsf{PS}\in \PS$ as a candidate
 structure that \emph{qualifies}, or \emph{embodies}, or \emph{follows} the
 paradigm $\iota$ if $\mathsf{PS}$ satisfies $\pi$.
 $\mathsf{PS}$ describes a set of workflows that capture various activities seen
-to be desirable for realising $\iota$.
+to be desirable for realising $\iota$. Table \ref{tab:Properties} shows, for 
+illustrative purposes, some relevant properties for two possible paradigms.
 
 Since every aspects of the paradigmatic structure needs to be explicitly
 modelled, we first introduce the two established notions to manipulate languages
@@ -64,7 +65,7 @@ expressing high-level properties for metamodels and transformations
 % \end{wrapfigure}
 %%
 Suppose we want to formally specify property $\mbox{OO}_3$ for inheritance in 
-Table~\ref{ParadigmProperties}. 
+Table~\ref{tab:Properties}. 
 Figure~\ref{fig:InheritenceTemplate} presents a 
 minimal template defining the basic placeholders: to even allow discussing 
 about super- and sub-classes, one need at least distinguishing between 
@@ -150,14 +151,14 @@ into a signature.
 \begin{subfigure}[t]{0.3\linewidth}
 \centering
 \includegraphics[width=0.7\textwidth]{InheritenceTemplate}
-\caption{A class-property template capturing inheritance.}
+\caption{Template for expressing inheritance.}
   \label{fig:InheritenceTemplate}
 \end{subfigure}
 %%
 \begin{subfigure}[t]{0.35\linewidth}
 \centering
 \includegraphics[width=1\textwidth]{OO_FTG}
-\caption{Example \textsc{Ftg} for compilation and hierarchy extraction.}
+\caption{\textsc{Ftg} for compilation / hierarchy extraction.}
 \label{fig:OO_FTG}
 \end{subfigure}
 %%
@@ -167,7 +168,7 @@ into a signature.
 \caption{Compiling \textsc{PM}.}
 \label{fig:OO_PM}
 \end{subfigure}
-\caption{Examples for (a) template metamodels, (b) an FTG, and (c) a PM.}
+\caption{Examples for (a) Templates, (b) \textsc{Ftg}, and (c) \textsc{Pm}.}
 \end{figure}
 
 
@@ -329,7 +330,7 @@ matching relying on the $\rightsquigarrow$ relationship.
 \label{sec:PS}
 
 Properties characterising a paradigm (as briefly described in Table 
-\ref{ParadigmProperties}) may span over all the previous elements: for example, 
+\ref{tab:Properties}) may span over all the previous elements: for example, 
 expressing the inheritance formally would require to have at disposal the 
 (template) metamodel of Fig. \ref{fig:InheritenceTemplate}, but also access to 
 its semantic domain to check that the state of a superclass becomes available 
