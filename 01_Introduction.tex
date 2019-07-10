@@ -1,59 +1,66 @@
 \section{Introduction}
 \label{sec:Introduction}
 
-Modern General-Purpose Programming Languages (\textsc{Gpl}s) are traditionally 
-classified according to their supporting paradigm(s). For example, Eiffel is 
-object-oriented and supports the contract-based-design paradigm, Prolog is declarative, and Lisp is functional. The paradigm 
-characterises the underlying syntactic and semantic structures and principles that govern 
-these \textsc{Gpl}s' execution: object orientation is imperative in nature and 
-imposes viewing the world in terms of classes and communicating objects; the 
-declarative style relies on term substitution and rewriting. But this has a 
-concrete consequence for users: a statement in Eiffel has very few 
-commonalities with a Prolog sentence. A programming paradigm directly 
-translates into different concepts encoded in the \textsc{Gpl}'s language 
-syntax definition (known as a metamodel in the Model-Driven Engineering world). Very 
-naturally, the idea of combining several paradigms at the level of 
-\textsc{Gpl}s led to more expressive, powerful programming languages such as Java 
-(which is imperative, object-oriented, concurrent, and real-time and, since 
-recently, somehow functional) or Maude (which is declarative, object-oriented and 
-also concurrent and real-time). 
-% HV: add citations to all the languages above
-% HV: add reference to the '90s multi-paradigm programming language Leda?
-%     https://www.goodreads.com/book/show/8129222-multiparadigm-programming-in-leda
-What is a \emph{paradigm} then? In a philosophical attempt, Kuhn 
-\cite{B:Kuhn:2012} defines it as an open-ended contribution that frames the 
-thinking of an object study with concepts, results and procedures that 
-structures future achievements. Although far from the concerns in the discipline of Computer Science, this definition nevertheless highlights the emergence of 
-a \emph{structure} that captures the object of discourse, and the notion of 
-\emph{procedure} that guides achievements. 
+Modern General-Purpose Programming Languages (\textsc{gpl}s) are traditionally
+classified according to their supporting paradigm(s).
+For example, Eiffel is object-oriented and supports the contract-based-design
+paradigm, Prolog is declarative, and Lisp is functional. The paradigm
+characterises the underlying syntactic and semantic structures and principles
+that govern these \textsc{gpl}s: object orientation is imperative in nature and
+imposes viewing the world in terms of classes and communicating objects whereas the
+declarative style relies on term substitution and rewriting.
+This has a concrete consequence for users: a statement in Eiffel has very little
+in common with a Prolog sentence due to the very different view supported by
+both languages on the system under specification.
+A programming paradigm directly translates into different concepts encoded in
+the \textsc{gpl}'s language syntax definition (known as a metamodel in the
+Model-Driven Engineering world).
+Very naturally, the idea of combining several paradigms at the level of
+\textsc{gpl}s led to more expressive, powerful programming languages such as
+Java (which is imperative, object-oriented, concurrent, and real-time and,
+recently, functional) and Maude (which is declarative, object-oriented and also
+concurrent and real-time).
+% HV: add citations to all the languages above HV: add reference to the '90s
+% multi-paradigm programming language Leda?
+% https://www.goodreads.com/book/show/8129222-multiparadigm-programming-in-leda
+What is a \emph{paradigm} then? The science philosopher Kuhn \cite{B:Kuhn:2012}
+%while investigating how science evolves through paradigm shifts d
+defines it as an
+open-ended contribution that frames the thinking of an object study with
+concepts, results and procedures that structures future achievements. Though
+seemingly far from the concerns in the discipline of Computer Science, this
+definition nevertheless highlights the emergence of a \emph{structure} that
+captures the object of discourse, and the notion of \emph{procedure} that guides
+achievements.
 
-Multi-Paradigm Modelling (\textsc{Mpm}) has been recognised lately as a 
-powerful paradigm that may be helpful in designing, reasoning about, 
-communicating on Cyber-Physical Systems (\textsc{Cps}), because such systems 
-integrate several components that are themselves already complex: in 
-a \textsc{Cps} for example, a physical part interacts with software and humans through 
-networks to achieve difficult tasks such as medical monitoring, autonomous 
-cars, robotics in manufactures, etc. \textsc{Cps} are notoriously complex 
-because they mix cross-disciplinary models, which in turn produce inter-domain 
-interactions, in applications that are often safety-critical. 
+Multi-Paradigm Modelling (\textsc{mpm}) has been recognised lately as a powerful
+paradigm in its own right that may be helpful in designing, as well as
+communicating and reasoning about, Cyber-Physical Systems (\textsc{cps}).
+\textsc{cps} emerge from the networking of multi-physical  (mechanical,
+electrical, biochemical, \ldots) and computational (control, signal processing,
+logical inference, planning, \ldots) processes, often interacting with a highly
+uncertain environment, including human actors, in a socio-economic context.
+\textsc{cps} are notoriously complex because they cross discipline borders,
+leading to inter-domain interactions, in applications that are often
+safety-critical.
 
-In this paper, we intend to propose a formal framework aimed at capturing the 
-notion of \emph{paradigm}, as a first step towards a formal framework for 
-\textsc{Mpm} (with obvious application in \textsc{Cps}). Beyond the 
-mathematical specification, this formal framework aims at facilitating the 
-communication between experts for helping them better grasp the core of 
-how their \textsc{Cps} are built, but also at facilitating a formal comparison 
-of systems based on their core \textsc{Mpm} components. Ultimately, this formal 
-framework would support (meta-)tool building that would help practitioners 
-reason about \textsc{Cps} and figure out which tools are the most appropriate 
-to handle their task(s).
+We propose a formal framework capturing the notion of
+\emph{paradigm} as a first step towards a formal framework for \textsc{mpm}
+(with foremost application in \textsc{cps}).
+Beyond the mathematical specification, this formal framework aims to facilitate
+the communication between experts to help them better grasp the essence of how
+their \textsc{cps} are built, but also to facilitate a rigorous comparison of
+systems based on their core \textsc{mpm} components.
+Ultimately, this framework aims to support (meta-)tool builders who assist
+practitioners to reason about \textsc{cps} and figure out which formalisms,
+abstractions, workflows and supporting methods, techniques and tools are the
+\emph{most appropriate} to carry out their task(s).
 
-After further motivating our work in Section \ref{sec:Motivation}, we sketch a 
-proposal for a formal framework addressing the notion of paradigm in Section 
-\ref{sec:Formalisation}. We then present a small Case Study that illustrates 
-this notion on a simple, yet realistic \textsc{Cps} application in Section 
-\ref{sec:CS}. We then conclude in Section \ref{sec:Conclusion} with 
-Related Work and closing remarks.
+Section \ref{sec:Motivation} motivates our work.
+Section \ref{sec:Formalisation} sketches a 
+formal framework proposal addressing the notion of paradigms.
+Section \ref{sec:CS} introduces the small CookieCAD paradigm. 
+Section \ref{sec:Conclusion} discusses related work and concludes.
 
 % \hans{Explain the context: assuming MPM works for modelling CPS, why do we need a formalisation? Communication, Comparison, tool building}
 % \dominique{Explain the context: assuming MPM works for modelling CPS, why do we need a formalisation? Communication, Comparison, tool building}

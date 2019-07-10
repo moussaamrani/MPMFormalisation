@@ -10,21 +10,21 @@ shape with line-sharing. (c) Invalid shape (due to overlaps).}%
 \section{Case Study: CookieCAD}
 \label{sec:CS}
 
-Computer-Aided Design (\textsc{Cad}) \cite{B:Groover-Zimmers:2008} promotes the
+Computer-Aided Design (\textsc{cad}) \cite{B:Groover-Zimmers:2008} promotes the
 use of computer systems to assist the creation, modification, analysis and
 optimisation of a design.
 A design may describe any physical, 3D object, e.g., engines or planes for
 analysing heat and fluid transfers, bridges and wind mills to estimate the
 dynamic response of the mechanical structure to various environmental
-variations. \textsc{Cad} is often paired with Computer-Aided Manufacturing
+variations. \textsc{cad} is often paired with Computer-Aided Manufacturing
 (\textsc{Cam}) to help plan, manage and control the operations around the
 process of bringing 3D designs to life. Historically, techniques and tools
 heavily rely on geometry, solid and surface mathematical formalisms. This
 particular set of processes operated over a selected bunch of formalisms and
-languages makes \textsc{Cad} a paradigm on its own.
+languages makes \textsc{cad} a paradigm on its own.
 
 We propose to illustrate our formal framework with a simplified variant of 
-\textsc{Cad} named Cookie\textsc{Cad}(\textsc{CCad}): it helps design simple 
+\textsc{cad} named Cookie\textsc{cad} (\textsc{ccad}) that helps design simple 
 cookie cutters, as illustrated in Fig.~\ref{fig:CookieCAD}(a). A cookie cutter 
 adopts a simple shape (triangle, rectangle, star, etc.) represented by 2D geometric 
 lines (noted $L$) which are specified based on the definition of two points in 
@@ -40,8 +40,8 @@ be associated with a width to build a 3D physical objects: the precision of the
 machine may finally discard some of the designs presented on Fig. 
 \ref{fig:CookieCAD}(a) if it is not able to cut or fold metal pieces that size.
 
-Figure \ref{fig:CCAD-FTG} depicts a possible, simplified x\textsc{Ftg} for 
-\textsc{CCad} named $\mathsf{FTG_{CCAD}}$. It includes four transformations 
+Figure \ref{fig:CCAD-FTG} depicts a possible, simplified x\textsc{ftg} for 
+\textsc{ccad} named $\mathsf{FTG_{CCAD}}$. It includes four transformations 
 templates represented as double-rounded ellipses named $\mathsf{Design}$, 
 $\mathsf{Validate}$, $\mathsf{EstimateCosts}$ and $\mathsf{Manufacture}$. As an 
 example, a repository would have to retrieve a transformation corresponding to
@@ -54,7 +54,7 @@ boolean value, indicating whether the source model is valid or not, in which
 case a $\mathsf{Trace}$ model is produced. The target $\mathsf{CCAD}$ model may 
 be discarded by some tools, but nothing prevents a repository to select 
 transformations that may additionnally decorate the target with information 
-from the trace model to help \textsc{CCad} designers grasp their errors' 
+from the trace model to help \textsc{ccad} designers grasp their errors' 
 origins more easily, or keep traces and models cleanly separated, since both 
 behaviours match $\mathsf{Validate}$'s signature. All transformation and 
 metamodel names in Fig.~\ref{fig:CCAD-FTG} are templates (meaning they belong 
@@ -65,7 +65,7 @@ cookie cutter design in order to produce the physical 3D cutter.
 \begin{figure}[t]
    \centering
    \includegraphics[width=0.98\columnwidth]{CCAD_FTG}
-   \caption{$\mathsf{FTG_{CCAD}}$: an x\textsc{Ftg} for \textsc{CCad} 
+   \caption{$\mathsf{FTG_{CCAD}}$: an x\textsc{ftg} for \textsc{ccad} 
 activities.}%
    \label{fig:CCAD-FTG}%
 \end{figure}
@@ -97,15 +97,6 @@ in an Euclidian plan between any pair of points defining a line.
 %    \end{small}
 % \end{displaymath}
 
-\begin{figure}[t]
-\centering
-\includegraphics[width=0.98\columnwidth]{CCAD-MM}
-\caption{Template metamodel $\mathsf{CCAD}$ in $\mathsf{FTG_{CCAD}}$ 
-(cf. Fig. \ref{fig:CCAD-FTG}).}
-\label{fig:CCAD-MM}%
-\end{figure}
-
-
 
 Figures \ref{fig:CCAD-PM-Full} depicts a candidate, well-formed \textsc{Pm}s 
 named $\mathsf{PM_{Full}}$.
@@ -128,7 +119,7 @@ well-formedness.
 %
 Refering to Tab. \ref{tab:Properties}, $\mbox{CAD}_1$ and $\mbox{CAD}_2$ are 
 easily recognised as property 
-patterns over a metamodel manipulating \textsc{Cad} designs; while 
+patterns over a metamodel manipulating \textsc{cad} designs; while 
 $\mbox{CAD}_3$ specifies a property characterising the existence of a 
 transformation that produces a final, real-life 3D product. Fig.~\ref{fig:PatternProperties} 
 shows possible patterns for capturing them in a 
@@ -159,6 +150,14 @@ $\mathsf{Product}$ yet to be retrieved from the repository.
 % \centering 
 % \includegraphics[width=0.98\columnwidth]{CCAD_PM}
 % \caption{$\mathsf{PM_{Full}}$: a possible \textsc{Pm} manufacturing 
-% \textsc{CCad} designs at the expanse of your company!} 
+% \textsc{ccad} designs at the expanse of your company!} 
 % \label{fig:CCAD-PM-Full}%
 % \end{figure}
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=0.98\columnwidth]{CCAD-MM}
+\caption{Template metamodel $\mathsf{CCAD}$ in $\mathsf{FTG_{CCAD}}$ 
+(cf. Fig. \ref{fig:CCAD-FTG}).}
+\label{fig:CCAD-MM}%
+\end{figure}

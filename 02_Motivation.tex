@@ -1,81 +1,144 @@
 \section{Motivation}
 \label{sec:Motivation}
 
-For developing a \textsc{Cps}, project managers and engineers need to figure 
-out what core properties the future system has, and select the most 
+To develop a \textsc{cps}, project managers and engineers need to select the most 
 appropriate development languages, software lifecycles and ``interfaces'' to 
-make the different views and components of their system communicate 
-appropriately. For example, when a manager knows that system/software 
+specify the different views, components and their interactions of the system 
+with as little ``accidental complexity''  \cite{BrooksSilverBullet} as possible. 
+For example, when a manager knows that system/software 
 requirements are likely to change frequently during the project's course, 
-selecting an Agile development process may likely help handle evolution and 
+selecting an Agile development process may help cope with evolution and 
 change. If the system's behaviour requires that operations are triggered when 
-data become available, similar to reactive systems, relying on Data Flow 
-languages may help handle the most critical part of the software behaviour. 
+data become available, similar to reactive systems, Data Flow 
+languages may help specify the most critical parts of the software behaviour precisely, 
+making it amenable for timing analysis. 
 
-\textsc{Mpm} requires to \emph{model everything explicitly}, with \emph{the 
-most appropriate formalisms}, \emph{at the most appropriate abstraction level} 
+\textsc{mpm} requires to \emph{model everything explicitly}, using \emph{the 
+most appropriate formalism(s)}, \emph{at the most appropriate abstraction level(s)} 
 \cite{PhD:VanTandeloo:2017}. This suggest that a \emph{paradigm} is a 
-placeholder for describing the properties of each of the dimensions described 
+placeholder for the properties in each of the dimensions described 
 above: the \emph{formalisms}, the \emph{abstraction levels}, and the 
-\emph{processes} that enable interactions between all the basic modelling 
-activities. Ultimately, \textsc{Mpm} aims at providing the tool machinery and 
-support for helping managers and engineers select, organise and manage the 
-three dimensions above. We aim at clarifying the formal foundations of 
-\textsc{Mpm} to help design these tools. This paper represents a first step 
-where we ignore the abstraction dimension for now and focus on the others, but 
-we motivate here why those dimensions are necessary and how they integrate 
-together.
+\emph{processes} that link the basic modelling activities. 
+Ultimately, \textsc{mpm} aims to help managers and engineers select, organise and manage the 
+three dimensions above. We aim to clarify the formal foundations of 
+\textsc{mpm} to help design supporting tools. In this paper, we ignore the abstraction dimension 
+for now and focus on the others, but we do motivate here why the three dimensions are necessary and 
+how they are related.
 
 \noindent
-\textbf{Formalisms/Languages.} The first dimension relate to what is otherwise 
-known as \emph{Modellng Languages Engineering}, i.e. the explicit modelling of 
-the key components of (modelling) languages: concrete and abstract (i.e. 
-metamodels) syntaxes, as well as semantics, together with the usual activities 
-around: analysis, simulation, execution, debugging, etc. that should be 
-supported by tools that may be largely synthesized from high-level 
-specifications of these languages and their usage. These multiple languages are 
-organised in a repository that we call the \emph{Modelverse} intended to be 
-dynamically evolving over time.
+\textbf{Formalisms/Languages.} The first dimension relates to what is  
+known as \emph{Modelling Language Engineering}, i.e., the explicit modelling of 
+the key components of (modelling) languages: concrete and abstract (i.e., 
+metamodels) syntaxes, as well as semantics, together with the usual activities: 
+analysis, simulation, execution, debugging, etc. that should be 
+supported by tools. The latter may be largely synthesized from high-level 
+specifications of these languages and their usage. \emph{All} modelling artefacts, including 
+language specifications as well as their instances, are 
+organised in a repository which we call the \emph{Modelverse}.
+The state of this repository evolves over time as the artefacts in it are modified.
 
 \noindent
-\textbf{Abstraction / Viewpoints.} Since \textsc{Mpm} integrate multiple users 
-all with different concerns, an infrastructure should be provided for relating 
-models at different abstraction levels, while ensuring that certain 
-language-related properties still hold to ensure a consistent manipulation. 
+\textbf{Abstraction/Refinement, Architectural and View decomposition} 
+During the course of system development, three basic approaches are commonly combined to tackle 
+complexity. One particular combination of these approaches leads to Contract-Based System Design  \cite{SystemDesignContracts}.
+\begin{enumerate}
+    \item Model abstraction (and its dual, refinement) is used when focusing on 
+    a particular set of \emph{properties} of interest. A relationship $A$ between a detailed model 
+    $m_d$ and a more abstract model $m_a$ is an \emph{abstraction} with respect to a 
+    \emph{set of properties} $P$ if for all properties $p \in P$, the satisfaction of $p$ by the more abstract $m_a$ implies the satisfaction of $p$ by the more detailed $m_d$. 
+    % Note that the above refers to "Boolean properties". These are often constructed from
+    % the more general "value properties" by checking whether the latter lie in a given interval. 
+    % This requires an appropriate metric over the value properties' domain.
+    % The advantage of using Boolean properties is that logical inference can be used, using 
+    % the many implication relationships that exist between the (satisfaction of) the different properties.
+    % Different types of logic may be used. When reasoning with an "open world" assumption 
+    % for example, some Description Logic is typically used.
+    This allows one to \emph{substitute} $m_d$ by $m_a$ whenever questions about the properties in $P$ need to be answered. Substitution is useful as the analysis of properties on the more detailed model is usually more costly
+    % Less feasible in the case the model is a real-world artefact and the experiment 
+    % required to assess the properties is unethical or impractical.
+    % Costly may mean the difference between feasible in a reasonable time when 
+    % for example model checking, where there is a combinatorial state-space explosion.
+    than on the abstracted model.
+    % Note that the more detailed model does have some advantages. 
+    % First, it will allow correct assessment of a larger set of properties. 
+    % Correctness refers to the true semantics of the artefact in case of symbolic artefacts 
+    % and to validity with respect to the real world in case of physical artefacts.
+    % Second, and related to the first, the validity range of for example "first principle" models
+    % is much wider. Mechanical engineers will for example start from very detailed finite element
+    % models to get insight into whether an object can be treated as a rigid body.
+    % Once this has been determined, design alternatives will be explored using a rigid body abstraction.
+    Note that the abstraction relationship may hold between models in the same or in different formalisms, as long as for both, the semantics allows for the evaluation of the same properties.
+    % Although whether two models are related through abstraction with respect to a set of properties
+    % needs to, in principle, be checked through explicit computation of the properties (i.e., in the
+    % semantic domain), 
+    % formalisms are often designed such that the abstraction can be guaranteed if some syntactic 
+    % properties (such as insideness in formalisms with hierarchy) are satisfied.
+    \item Architectural decomposition (and its dual, component composition) is used when
+    the problem can be broken into parts, each with an appropriate \emph{interface}.
+    Such an encapsulation reduces a problem to (1) a number of sub-problems, each requiring 
+    the satisfaction of its own properties, and each leading to the 
+    design of a component and (2) the design of an appropriate architecture connecting the components
+    in such a way that the composition satisfies the original required properties.
+    Such a breakdown often comes naturally at some levels of abstraction, using appropriate formalisms
+    (which support hierarchy).
+    This is for example thanks to locality or continuity in the problem/solution domain.
+    % Note that the above describes a top-down workflow where decomposition of the requirements
+    % leads to design of components followed by architectural composition of these components.
+    % A bottom-up workflow is also possible, where existing components are combined to satisfy
+    % full-system requirements.
+    Note that the component models may be described in different formalisms, as long their interfaces match and the multi-formalism composition has a precise semantics.
+    \item View decomposition (and its dual, view merge) is used in the 
+    collaboration between multiple stakeholders, each with different concerns.
+    Each viewpoint allows the evaluation of a stakeholder-specific set of properties. 
+    When concrete views are merged, the conjunction of all the views' properties must hold.
+    In the software realm, IEEE Standard 1471 defines the relationships between viewpoints and 
+    their realisations, views.
+    Note that the views may be described in different formalisms.
+\end{enumerate}
 
 \noindent
-\textbf{Processes.} Many workflows govern the various \textsc{Mpm} activities 
-for engineering languages in a concern-consistent way, but also to support 
-lifecycles and development processes by connecting models in tool chains to 
-achieve larger workflows. To capture this dimension, we rely on a structure 
-called \textsc{Ftg+Pm} \cite{Mustafiz-etAl:2012} tightly connected to the 
-Modelverse: the Modelverse may be queried to obtain any modelling artefact 
-(related to languages of course, but also the processes themselves), providing 
-a snapshot at the current time of the relevant artefacts that may be helpful 
-(e.g. for the general tasks described above), or providing a partial projection 
-of the full Modelverse to be reasoned over. Processes play their full role: 
-they may be \emph{descriptive}, allowing to check that engineers follow the 
-appropriate activities towards project completion; \emph{proscriptive} by 
-putting limits and constraints on what engineers may consider as valid 
-activities; and \emph{prescriptive} by enacting the specific tasks to follow. 
-This \textsc{Ftg+Pm} also enables reasoning over shared parts of, and 
-relationships between languages to give meaning to various models aimed at 
-being used together: for example, finding the highest language (in terms of a 
-mathematical order over the formalisms supported by these languages) to which 
-all relevant models may be mapped, enabling easier reasoning, analysis or 
-(co-)execution.
+\textbf{Processes.} Workflows or life-cycles are processes relating the various \textsc{mpm} activities.
+In particular, the above three primitive activities are combined. This is often supported by
+a toolchain whereby different tools support different activities.
+% FTG+PM is not required here yet. 
+% 
+% To capture this dimension, we rely on a structure called \textsc{ftg+pm} \cite{Mustafiz-etAl:2012}. 
+% Modelverse may be queried to obtain 
+% related to modelling languages, but also the processes themselves), providing 
+% a snapshot at the current time of the relevant artefacts that may be helpful 
+% (e.g. for the general tasks described above), or providing a partial projection 
+%of the full Modelverse to be reasoned over. 
+Processes may be \emph{descriptive}, charting the sequence of activities carried out
+as well as the artefacts involved, \emph{proscriptive} by declaratively 
+specifying constraints on the allowed activities and their combinations,
+and \emph{prescriptive} allowing enactment.
 
-All three dimensions have at their core the use of \emph{model transformation}: 
-for achieving the various activities for engineering languages (cf. 
-\cite{J:Lucio-Amrani-etAl:2014}), for specifying the multiview relationships 
-between models, or for performing the various activities in their defining 
-processes. Furthermore, they may also provide the basic manipulations necessary 
-for querying, extracting and projecting the Modelverse.
+% FTG+PM is not required here yet. 
+% 
+%This \textsc{ftg+pm} also enables reasoning over shared parts of, and 
+%relationships between languages to give meaning to various models aimed at 
+%being used together: for example, finding the highest language (in terms of a 
+%mathematical order over the formalisms supported by these languages) to which 
+%all relevant models may be mapped, enabling easier reasoning, analysis or 
+%(co-)execution.
+
+% Does the FTG+PM get introduced elsewhere though?
+
+% Nice to add model transformations,but for lack of space, not mandatory.
+%
+%All three dimensions have at their core the use of \emph{model transformation}: 
+%for achieving the various activities for engineering languages (cf. 
+%\cite{J:Lucio-Amrani-etAl:2014}) and models in these languages, for specifying the 
+%multi-view relationships between models, or for performing the various activities.
+%Furthermore, they may also provide the basic manipulations necessary 
+%for querying, extracting and projecting the \emph{Modelverse}.
+
 
 \begin{table}[t]
   \caption{Properties of two paradigms: Object Orientation ($\mathsf{OO} 
   \cite{Wegner:1987}$) and Computer-Aided Design ($\mathsf{CAD} 
   \cite{B:Groover-Zimmers:2008}$)}
+   \vspace{-1em}
    \begin{center}
       \begin{tabular}[t]{c l}
          \hline

@@ -7,8 +7,8 @@ We define a \emph{paradigmatic structure} $\mathsf{PS}\in \PS$ as a candidate
 structure that \emph{qualifies}, or \emph{embodies}, or \emph{follows} the
 paradigm $\iota$ if $\mathsf{PS}$ satisfies $\pi$.
 $\mathsf{PS}$ describes a set of workflows that capture various activities seen
-to be desirable for realising $\iota$. Table \ref{tab:Properties} shows, for 
-illustrative purposes, some relevant properties for two possible paradigms.
+to be desirable for realising $\iota$. Table \ref{tab:Properties} illustrates
+some relevant properties for two paradigms.
 
 Since every aspects of the paradigmatic structure needs to be explicitly
 modelled, we first introduce the two established notions to manipulate languages
@@ -105,11 +105,11 @@ through a workflow.
 
 In our framework, workflows describe precisely the set of activities captured by
 a candidate paradigmatic structure. A workflow is composed of two elements:
-a \emph{Formalism Transformation Graph} (\textsc{Ftg}) describes explicitly the
+a \emph{Formalism Transformation Graph} (\textsc{ftg}) describes explicitly the
 links between formalisms / languages, stating which possible transformations may
 be used; and a \emph{Process Model} describes how language instances are
 combined together towards achieving a particular activity.
-Combining both elements results in a \textsc{Ftg+Pm}, as already described in
+Combining both elements results in an \textsc{ftg+pm}, as described in
 \cite{Mustafiz-etAl:2012,Lucio-Mustafiz-etAl:2013,TR:Lucio-Mustafiz-etAl:2012}.
 
 Instead of directly manipulating (meta-)models and/or transformations, our 
@@ -141,7 +141,7 @@ to retrieve appropriate items: for example, querying the repo with the template
 of Fig.~\ref{fig:InheritenceTemplate} would eventually allow the selection of 
 the Java metamodel if inheritance is required.
 
-To accomodate with templates, we introduce \emph{extended} \textsc{Ftg}s, 
+To accomodate with templates, we introduce \emph{extended} \textsc{ftg}s, 
 defined as a (name-restricted) mapping of (template) transformations (names) 
 into a signature.
 
@@ -158,7 +158,7 @@ into a signature.
 \begin{subfigure}[t]{0.35\linewidth}
 \centering
 \includegraphics[width=1\textwidth]{OO_FTG}
-\caption{\textsc{Ftg} for compilation / hierarchy extraction.}
+\caption{\textsc{ftg} for compilation / hierarchy extraction.}
 \label{fig:OO_FTG}
 \end{subfigure}
 %%
@@ -168,7 +168,7 @@ into a signature.
 \caption{Compiling \textsc{PM}.}
 \label{fig:OO_PM}
 \end{subfigure}
-\caption{Examples for (a) Templates, (b) \textsc{Ftg}, and (c) \textsc{Pm}.}
+\caption{Examples for (a) Templates, (b) \textsc{ftg}, and (c) \textsc{pm}.}
 \end{figure}
 
 
@@ -176,7 +176,7 @@ into a signature.
 % xFTG
 %%%%%%%%%%%%%%%%%%%%
 
-\begin{Definition}{(Extended) Formalism Transformation Graph (x\textsc{Ftg})}
+\begin{Definition}{(Extended) Formalism Transformation Graph (x\textsc{ftg})}
 An \emph{Extended Formalism Transformation Graph} $\mathsf{FTG} \in \FTG(TR, 
 MM)$ is a function  $\mathsf{FTG} \colon TR \to \langle MM \rangle \times 
 \langle MM \rangle \times \mathbb{B}$.
@@ -193,7 +193,7 @@ guided otherwise); and $mm_i$s (resp. $mm'_j$s) names are the \emph{source}
 %
 % we call the $tmm_i$s (resp. $tmm'_j$s) the 
 % \emph{source} (resp. \emph{target}) of $t$ in $\mathsf{FTG}$. 
-% Compared to the original definition of \textsc{Ftg} 
+% Compared to the original definition of \textsc{ftg} 
 % \cite{Mustafiz-etAl:2012,TR:Lucio-Mustafiz-etAl:2012}, the source(s) and/or 
 % target(s) of $t$ may be abstract formalisms instead of only languages: we 
 % require in this case that $t$ does not map to any transformation specification 
@@ -208,18 +208,18 @@ guided otherwise); and $mm_i$s (resp. $mm'_j$s) names are the \emph{source}
 %   \begin{center}
 %     \includegraphics[width=0.1\textwidth]{OO_FTG}
 %   \end{center}
-%   \caption{Simple \textsc{Ftg}: compilation and hierarchy extraction.}
+%   \caption{Simple \textsc{ftg}: compilation and hierarchy extraction.}
 %   \label{fig:OO_FTG}
 % \end{wrapfigure}
 %%
-Figure \ref{fig:OO_FTG} pictures a simple \textsc{Ftg} using two template, 
+Figure \ref{fig:OO_FTG} pictures a simple \textsc{ftg} using two template, 
 automatic transformations (names) (represented with double-rounded, white 
 items) called $\mathsf{Compile}, \mathsf{ExtractH}\in 
 \mathsf{TTransName}$ that respectively compile and extract the class hierarchy 
 of a template metamodel $\mathsf{OO\_MM}\in\mathsf{TMMName}$. 
 
 \medskip
-As its name indicates, a \textsc{Pm} describes a process, i.e., a set of 
+As its name indicates, a \textsc{pm} describes a process, i.e., a set of 
 activities that are combined together towards achieving a particular goal. 
 Instead of reinventing a Domain-Specific Language for this well-studied domain, 
 we simply specialise one standard and well-known language that covers our 
@@ -230,7 +230,7 @@ needs, namely \textsc{Uml}'s Activity Diagrams.
 % PROCESS MODEL
 %%%%%%%%%%%%%%%%%%%%
 
-\begin{Definition}[\label{def:PM}Process Model (\textsc{Pm})]
+\begin{Definition}[\label{def:PM}Process Model (\textsc{pm})]
 A \emph{process model} $\mathsf{P}\in\PM$ is an instance of a \textsc{Uml}
 Activity Diagram where
 \begin{itemize}
@@ -259,7 +259,7 @@ $\mathsf{javac}$.
 
 \medskip
 The following definition simply puts things together: a workflow is composed of 
-an \textsc{Ftg} together with a \emph{well-formed} \textsc{Pm}. 
+an \textsc{ftg} together with a \emph{well-formed} \textsc{pm}. 
 
 
 %%%%%%%%%%%%%%%%%%%%
@@ -303,14 +303,14 @@ When clear from context, or unnecessarily detailed, we simply note the set of
 workflows $\mathbb{W}$, without any indication of languages or 
 transformations (sets).
 
-For instance, the \textsc{Pm} in Fig. \ref{fig:OO_PM} is well-formed wrt. 
-the \textsc{Ftg} in Fig. \ref{fig:OO_FTG}: as established earlier, 
+For instance, the \textsc{pm} in Fig. \ref{fig:OO_PM} is well-formed wrt. 
+the \textsc{ftg} in Fig. \ref{fig:OO_FTG}: as established earlier, 
 $\mathsf{:\!Java}$ refers to a Java model, whose metamodel matches 
 $\mathsf{OO\_MM}$ and $\mathsf{javac}$ is an appropriate match for 
 $\mathsf{Compile}$; furthermore, no transformation (execution) are exhibited for 
 matching $\mathsf{ExtractH}$.
 
-Our definition for x\textsc{Ftg}s relies solely on \emph{names}: we heavily 
+Our definition for x\textsc{ftg}s relies solely on \emph{names}: we heavily 
 rely on the repository (Modelverse) capabilities in order to first retrieve the 
 appropriate items (metamodels, models and transformations) as well as checking 
 that matching between them is appropriately achieved. This was abstracted away 
@@ -330,16 +330,16 @@ matching relying on the $\rightsquigarrow$ relationship.
 \label{sec:PS}
 
 Properties characterising a paradigm (as briefly described in Table 
-\ref{tab:Properties}) may span over all the previous elements: for example, 
-expressing the inheritance formally would require to have at disposal the 
+\ref{tab:Properties}) may span all the previous element. For example, 
+expressing the inheritance formally would require the 
 (template) metamodel of Fig. \ref{fig:InheritenceTemplate}, but also access to 
 its semantic domain to check that the state of a superclass becomes available 
 to all objects of any subclass. Similarly, properties over transformations may 
-restrict or constraint its applicability (e.g., $\mathsf{ExtractH}$ would have 
+restrict or constraint their applicability (e.g., $\mathsf{ExtractH}$ would have 
 to define preconditions for object-oriented metamodels allowing multiple 
-inheritance, and have a postcondition on the datastructure of its output). 
+inheritance, and have a post-condition on the datastructure of its output). 
 Properties may also characterise the topology, the usage and the matching 
-process in an \textsc{Ftg} or its corresponding \textsc{Pm} (by, for example, 
+process in an \textsc{ftg} or its corresponding \textsc{pm} (by, for example, 
 ensuring frequent loops for the Agile paradigm). 
 
 We first collect all previous elements in a single mathematical structure 
