@@ -5,7 +5,7 @@ To develop a \textsc{cps}, project managers and engineers need to select the mos
 appropriate development languages, software lifecycles and ``interfaces'' to 
 specify the different views, components and their interactions of the system 
 with as little ``accidental complexity''  \cite{BrooksSilverBullet} as possible. 
-For example, when a manager knows that system/software 
+For example, when it is known that system/software 
 requirements are likely to change frequently during the project's course, 
 selecting an Agile development process may help cope with evolution and 
 change. If the system's behaviour requires that operations are triggered when 
@@ -15,7 +15,7 @@ making it amenable for timing analysis.
 
 \textsc{mpm} requires to \emph{model everything explicitly}, using \emph{the 
 most appropriate formalism(s)}, \emph{at the most appropriate abstraction level(s)} 
-\cite{PhD:VanTandeloo:2017}. This suggest that a \emph{paradigm} is a 
+\cite{PhD:VanTandeloo:2017}. This suggests that a \emph{paradigm} is a 
 placeholder for the properties in each of the dimensions described 
 above: the \emph{formalisms}, the \emph{abstraction levels}, and the 
 \emph{processes} that link the basic modelling activities. 
@@ -38,11 +38,29 @@ organised in a repository which we call the \emph{Modelverse}.
 The state of this repository evolves over time as the artefacts in it are modified.
 
 \noindent
+\textbf{Processes.} Workflows or life-cycles are processes relating the various \textsc{mpm} activities.
+In particular, the above three primitive activities are combined. This is often supported by
+a toolchain whereby different tools support different activities.
+% FTG+PM is not required here yet. 
+%
+% To capture this dimension, we rely on a structure called \textsc{ftg+pm} \cite{Mustafiz-etAl:2012}. 
+% Modelverse may be queried to obtain 
+% related to modelling languages, but also the processes themselves), providing 
+% a snapshot at the current time of the relevant artefacts that may be helpful 
+% (e.g. for the general tasks described above), or providing a partial projection 
+%of the full Modelverse to be reasoned over. 
+Processes may be \emph{descriptive}, charting the sequence of activities carried out
+as well as the artefacts involved, \emph{proscriptive} by declaratively 
+specifying constraints on the allowed activities and their combinations,
+and \emph{prescriptive} allowing enactment.
+
+\noindent
 \textbf{Abstraction/Refinement, Architectural and View decomposition} 
 During the course of system development, three basic approaches are commonly combined to tackle 
 complexity. One particular combination of these approaches leads to Contract-Based System Design  \cite{SystemDesignContracts}.
-\begin{enumerate}
-    \item Model abstraction (and its dual, refinement) is used when focusing on 
+
+\noindent
+\textbf{\emph{Model abstraction (and its dual, refinement)}} is used when focusing on 
     a particular set of \emph{properties} of interest. A relationship $A$ between a detailed model 
     $m_d$ and a more abstract model $m_a$ is an \emph{abstraction} with respect to a 
     \emph{set of properties} $P$ if for all properties $p \in P$, the satisfaction of $p$ by the more abstract $m_a$ implies the satisfaction of $p$ by the more detailed $m_d$. 
@@ -73,7 +91,9 @@ complexity. One particular combination of these approaches leads to Contract-Bas
     % semantic domain), 
     % formalisms are often designed such that the abstraction can be guaranteed if some syntactic 
     % properties (such as insideness in formalisms with hierarchy) are satisfied.
-    \item Architectural decomposition (and its dual, component composition) is used when
+    
+\noindent
+\textbf{\emph{Architectural decomposition (and its dual, component composition)}} is used when
     the problem can be broken into parts, each with an appropriate \emph{interface}.
     Such an encapsulation reduces a problem to (1) a number of sub-problems, each requiring 
     the satisfaction of its own properties, and each leading to the 
@@ -87,31 +107,17 @@ complexity. One particular combination of these approaches leads to Contract-Bas
     % A bottom-up workflow is also possible, where existing components are combined to satisfy
     % full-system requirements.
     Note that the component models may be described in different formalisms, as long their interfaces match and the multi-formalism composition has a precise semantics.
-    \item View decomposition (and its dual, view merge) is used in the 
+    
+\noindent
+\textbf{\emph{View decomposition (and its dual, view merge)}} is used in the 
     collaboration between multiple stakeholders, each with different concerns.
     Each viewpoint allows the evaluation of a stakeholder-specific set of properties. 
     When concrete views are merged, the conjunction of all the views' properties must hold.
     In the software realm, IEEE Standard 1471 defines the relationships between viewpoints and 
     their realisations, views.
     Note that the views may be described in different formalisms.
-\end{enumerate}
 
-\noindent
-\textbf{Processes.} Workflows or life-cycles are processes relating the various \textsc{mpm} activities.
-In particular, the above three primitive activities are combined. This is often supported by
-a toolchain whereby different tools support different activities.
-% FTG+PM is not required here yet. 
-% 
-% To capture this dimension, we rely on a structure called \textsc{ftg+pm} \cite{Mustafiz-etAl:2012}. 
-% Modelverse may be queried to obtain 
-% related to modelling languages, but also the processes themselves), providing 
-% a snapshot at the current time of the relevant artefacts that may be helpful 
-% (e.g. for the general tasks described above), or providing a partial projection 
-%of the full Modelverse to be reasoned over. 
-Processes may be \emph{descriptive}, charting the sequence of activities carried out
-as well as the artefacts involved, \emph{proscriptive} by declaratively 
-specifying constraints on the allowed activities and their combinations,
-and \emph{prescriptive} allowing enactment.
+
 
 % FTG+PM is not required here yet. 
 % 
@@ -140,6 +146,7 @@ and \emph{prescriptive} allowing enactment.
   \cite{B:Groover-Zimmers:2008}$)}
    \vspace{-1em}
    \begin{center}
+     \begin{small}
       \begin{tabular}[t]{c l}
          \hline
          \multicolumn{2}{l}{$\iota_1$: Object Orientation ($\mathsf{OO}$)}\\
@@ -158,6 +165,7 @@ operations \\
 products\\
          \hline
       \end{tabular}
+      \end{small}
    \end{center}
    \label{tab:Properties}
 \end{table}

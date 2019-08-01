@@ -1,14 +1,17 @@
 \begin{figure}[t]
    \centering
-   \includegraphics[width=\columnwidth]{CookieCAD.pdf}
+   \includegraphics[width=\columnwidth]{CookieCAD.pdf}%
+   \vspace{-1em}
    \caption{CookieCAD: (a) Real-life cookie cutter. (b) House-like 
-shape with line-sharing. (c) Invalid shape (due to overlaps).}% 
- 
+shape with line-sharing. (c) Invalid shape (due to overlaps).}%  
    \label{fig:CookieCAD}
 \end{figure}
 
 \section{Case Study: CookieCAD}
 \label{sec:CS}
+
+\enlargethispage{6pt}
+
 
 Computer-Aided Design (\textsc{cad}) \cite{B:Groover-Zimmers:2008} promotes the
 use of computer systems to assist the creation, modification, analysis and
@@ -28,7 +31,7 @@ We propose to illustrate our formal framework with a simplified variant of
 cookie cutters, as illustrated in Fig.~\ref{fig:CookieCAD}(a). A cookie cutter 
 adopts a simple shape (triangle, rectangle, star, etc.) represented by 2D geometric 
 lines (noted $L$) which are specified based on the definition of two points in 
-no particular order (noted $P$) placed in a cartesian plan (using x-/y- 
+no particular order (noted $P$) placed in a cartesian plane (using x-/y- 
 coordinates). In order to be manufacturable, points shall not be placed too 
 close to each other (the exact distance tolerance depends on the machinery 
 used), and shall represent closed polygons that may share some lines (as 
@@ -39,6 +42,14 @@ in an \emph{invalid} cookie cutter. At manufacturing time, such a design shall
 be associated with a width to build a 3D physical objects: the precision of the 
 machine may finally discard some of the designs presented on Fig. 
 \ref{fig:CookieCAD}(a) if it is not able to cut or fold metal pieces that size.
+
+\begin{figure}[t]
+   \centering
+   \includegraphics[width=0.98\columnwidth]{CCAD_FTG}
+   \caption{$\mathsf{FTG_{CCAD}}$: an x\textsc{ftg} for \textsc{ccad} 
+activities.}%
+   \label{fig:CCAD-FTG}%
+\end{figure}
 
 Figure \ref{fig:CCAD-FTG} depicts a possible, simplified x\textsc{ftg} for 
 \textsc{ccad} named $\mathsf{FTG_{CCAD}}$. It includes four transformations 
@@ -63,20 +74,22 @@ $\mathsf{Real}$, which is used as a source parameterising the width of the
 cookie cutter design in order to produce the physical 3D cutter.
 
 \begin{figure}[t]
-   \centering
-   \includegraphics[width=0.98\columnwidth]{CCAD_FTG}
-   \caption{$\mathsf{FTG_{CCAD}}$: an x\textsc{ftg} for \textsc{ccad} 
-activities.}%
-   \label{fig:CCAD-FTG}%
+\centering
+\includegraphics[width=0.98\columnwidth]{CCAD-MM}
+\caption{Template metamodel $\mathsf{CCAD}$ in $\mathsf{FTG_{CCAD}}$ 
+(cf. Fig. \ref{fig:CCAD-FTG}).}
+\label{fig:CCAD-MM}%
+
+\vspace{-0.5cm}
 \end{figure}
 
 These template transformations make a central use of the $\mathsf{CCAD}$ 
 language that would handle the visual representation, design, validation, 
-debugging, etc. of a cookie cutters designs, based on a template metamodel 
-depicted in Fig. \ref{fig:CCAD-MM}: a $\mathsf{CCAD}$ model is defined by a set 
+debugging, etc. of a cookie cutters designs, based on the template metamodel 
+of Fig. \ref{fig:CCAD-MM}: a $\mathsf{CCAD}$ model is defined by a set 
 of lines delimited by exactly two points, in no particular order, having real 
-coordinates on a 2D plan. The semantics of such a metamodel captures all points 
-in an Euclidian plan between any pair of points defining a line.
+coordinates on a 2D plane. The semantics of such a metamodel captures all points 
+in an Euclidian plane between any pair of points defining a line.
 % , as captured 
 % by the following semantic mapping (where $m = \frac{y'-y}{x'-x}$ and w.l.o.g. 
 % $x' \geq x$).
@@ -98,7 +111,9 @@ in an Euclidian plan between any pair of points defining a line.
 % \end{displaymath}
 
 
-Figures \ref{fig:CCAD-PM-Full} depicts a candidate, well-formed \textsc{Pm}s 
+
+
+Fig.~\ref{fig:CCAD-PM-Full} depicts a candidate, well-formed \textsc{Pm}s 
 named $\mathsf{PM_{Full}}$.
 It arranges three transformations from $\mathsf{FTG_{CCAD}}$ in a sequential 
 fashion: starting from scratch, a designer starts iteratively create a
@@ -121,11 +136,11 @@ Refering to Tab. \ref{tab:Properties}, $\mbox{CAD}_1$ and $\mbox{CAD}_2$ are
 easily recognised as property 
 patterns over a metamodel manipulating \textsc{cad} designs; while 
 $\mbox{CAD}_3$ specifies a property characterising the existence of a 
-transformation that produces a final, real-life 3D product. Fig.~\ref{fig:PatternProperties} 
+transformation that produces a final, real-life 3D product. Fig.~\ref{fig:CCAD-MM} 
 shows possible patterns for capturing them in a 
-\textsc{Mof}-like syntax. Assuming one has explicit and appropriate languages 
-for expressing all properties required, this would built a set of 
-paradigmatic properties $\pi_{\mathsf{CAD}}\in\Pi$ that would constitute part of 
+\textsc{Mof}-like syntax. Assuming one has explicit languages 
+for expressing the required properties, this would built a set of 
+paradigmatic properties $\pi_{\mathsf{CAD}}\in\Pi$ that constitute part of 
 our $\mathsf{CAD}$ paradigm (i.e. $\mathsf{CAD} \mapsto \pi_{\mathsf{CAD}}$ in 
 the sense of Def. \ref{def:Paradigm}).
 
@@ -154,10 +169,3 @@ $\mathsf{Product}$ yet to be retrieved from the repository.
 % \label{fig:CCAD-PM-Full}%
 % \end{figure}
 
-\begin{figure}[t]
-\centering
-\includegraphics[width=0.98\columnwidth]{CCAD-MM}
-\caption{Template metamodel $\mathsf{CCAD}$ in $\mathsf{FTG_{CCAD}}$ 
-(cf. Fig. \ref{fig:CCAD-FTG}).}
-\label{fig:CCAD-MM}%
-\end{figure}

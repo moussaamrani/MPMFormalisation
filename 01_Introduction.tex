@@ -1,19 +1,20 @@
 \section{Introduction}
 \label{sec:Introduction}
 
-Modern General-Purpose Programming Languages (\textsc{gpl}s) are traditionally
-classified according to their supporting paradigm(s).
+Modern General-Purpose Programming Languages (\textsc{gpl}s) can be
+classified according the paradigm(s) they support.
 For example, Eiffel is object-oriented and supports the contract-based-design
 paradigm, Prolog is declarative, and Lisp is functional. The paradigm
 characterises the underlying syntactic and semantic structures and principles
-that govern these \textsc{gpl}s: object orientation is imperative in nature and
+that govern these General Purpose Languages (\textsc{gpl}s): 
+object orientation is imperative in nature and
 imposes viewing the world in terms of classes and communicating objects whereas the
 declarative style relies on term substitution and rewriting.
-This has a concrete consequence for users: a statement in Eiffel has very little
+As a consequence, a statement in Eiffel has very little
 in common with a Prolog sentence due to the very different view supported by
-both languages on the system under specification.
+both languages.
 A programming paradigm directly translates into different concepts encoded in
-the \textsc{gpl}'s language syntax definition (known as a metamodel in the
+the \textsc{gpl}'s syntax definition (known as a metamodel in the
 Model-Driven Engineering world).
 Very naturally, the idea of combining several paradigms at the level of
 \textsc{gpl}s led to more expressive, powerful programming languages such as
@@ -21,7 +22,7 @@ Java (which is imperative, object-oriented, concurrent, and real-time and,
 recently, functional) and Maude (which is declarative, object-oriented and also
 concurrent and real-time).
 % HV: add citations to all the languages above HV: add reference to the '90s
-% multi-paradigm programming language Leda?
+% multi-paradigm programming language Leda
 % https://www.goodreads.com/book/show/8129222-multiparadigm-programming-in-leda
 What is a \emph{paradigm} then? The science philosopher Kuhn \cite{B:Kuhn:2012}
 %while investigating how science evolves through paradigm shifts d
@@ -29,32 +30,43 @@ defines it as an
 open-ended contribution that frames the thinking of an object study with
 concepts, results and procedures that structures future achievements. Though
 seemingly far from the concerns in the discipline of Computer Science, this
-definition nevertheless highlights the emergence of a \emph{structure} that
+definition does highlight the emergence of a \emph{structure} that
 captures the object of discourse, and the notion of \emph{procedure} that guides
 achievements.
 
-Multi-Paradigm Modelling (\textsc{mpm}) has been recognised lately as a powerful
-paradigm in its own right that may be helpful in designing, as well as
-communicating and reasoning about, Cyber-Physical Systems (\textsc{cps}).
-\textsc{cps} emerge from the networking of multi-physical  (mechanical,
-electrical, biochemical, \ldots) and computational (control, signal processing,
-logical inference, planning, \ldots) processes, often interacting with a highly
-uncertain environment, including human actors, in a socio-economic context.
+
+Cyber-Physical Systems \textsc{cps} emerge from the networking of multi-physical  (mechanical, electrical, biochemical, \ldots) and computational (control, signal processing, logical inference, planning, \ldots) processes, often interacting with a highly uncertain environment, including human actors, in a socio-economic context.
 \textsc{cps} are notoriously complex because they cross discipline borders,
 leading to inter-domain interactions, in applications that are often
 safety-critical.
 
-We propose a formal framework capturing the notion of
-\emph{paradigm} as a first step towards a formal framework for \textsc{mpm}
-(with foremost application in \textsc{cps}).
-Beyond the mathematical specification, this formal framework aims to facilitate
-the communication between experts to help them better grasp the essence of how
-their \textsc{cps} are built, but also to facilitate a rigorous comparison of
-systems based on their core \textsc{mpm} components.
+Multi-Paradigm Modelling (\textsc{mpm}) has been recognised lately as a powerful
+paradigm in its own right that may be helpful in designing, as well as
+communicating and reasoning about, \textsc{cps}. Originating
+from the Modelling and Simulation Community, the term \textsc{mpm} finds its origin
+in 1996, when the EU ESPRIT Basic Research Working Group 8467 formulated a series of simulation
+policy guidelines \cite{Vangheluwe-VansteenkisteKerckhoffs-1996} identifying the
+need for ``a multi-paradigm methodology to express model knowledge using a blend
+of different abstract representations rather than inventing some new
+super-paradigm'', and later on proposing a methodology focusing on combining multiple 
+formalisms \cite{Vangheluwe-Vansteenkiste1996}. 
+% Since 2004, during the yearly Computer 
+% Automated Multi-Paradigm Modelling (CAMPaM) Workshop series at McGill University's 
+% Bellairs Research Institute, many ideas surrounding \textsc{mpm} were developed. Since then, 
+% \textsc{mpm} became a well-recognised research field with large body of research produced 
+% and published, in particular in the \textsc{mpm} Workshop co-located with MoDELS. 
+The recent \textsc{cost} Action IC1404 \textsc{mpm4cps} (\url{http://mpm4cps.eu})
+surveyed some existing languages and tools commonly used for \textsc{cps}, and 
+related the languages and techniques for modelling \textsc{cps} in an ontology. 
+This work triggered the need to propose a theoretical, formal specification of \textsc{mpm}. 
+This formal framework aims to facilitate the communication between experts to help them 
+better grasp the essence of how their \textsc{cps} are built, but also to facilitate a 
+rigorous comparison of systems based on their core \textsc{mpm} components.
 Ultimately, this framework aims to support (meta-)tool builders who assist
 practitioners to reason about \textsc{cps} and figure out which formalisms,
-abstractions, workflows and supporting methods, techniques and tools are the
+abstractions, workflows and supporting methods, techniques and tools are
 \emph{most appropriate} to carry out their task(s).
+
 
 Section \ref{sec:Motivation} motivates our work.
 Section \ref{sec:Formalisation} sketches a 
