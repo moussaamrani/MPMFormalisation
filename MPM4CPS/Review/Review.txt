@@ -1,0 +1,92 @@
+****************************
+Review 1
+****************************
+
+0: (borderline paper)
+
+The paper proposes a formalization of a modeling paradigm in a theoretical
+framework. The formalization is built incrementally from the concept of
+templates (parametrized meta-models and transformation models), workflows (that
+include transformations) and finally the modeling paradigm itself. The paper
+introduces a case study example: a toy CAD domain.
+
+The paper is intellectually interesting -- this reviewer is glad that finally
+somebody wrote up these ideas, but the contribution is somewhat shallow. It may
+be caused by the heavy emphasis on formalization, but it is not clear what the
+actual, solid contribution is that allows further advancements in the field. Are
+we to use this formalization to define modeling paradigms? Is it a template for
+modeling paradigms? And the most important question (for MPM): how does this
+formalization allow the composition of modeling paradigms (so that one represent
+and/or discover interesting interactions among the various models)?
+
+
+****************************
+Review 2
+****************************
+
+2: (accept)
+
+The paper represents a first step towards a formalisation of multi-paradigm
+modelling. Authors motivate the approach in the Abstract, Introduction and
+Motivation sections. Section Formalisation details a formal description of an
+MPM. This proposition is illustrated by a simple case study CookieCAD.
+
+- In my opinion, Section Motivation could be extended and considered as a
+Bacground section.
+
+'This suggest that a paradigm is a placeholder for describing the properties of
+each of the dimensions described above: the formalisms, the abstraction levels,
+and the processes that enable interactions between all the basic modelling
+activities.'
+
+- Could you clarify if there are other dimensions or other solutions that
+consider differently the MPM approach.
+
+
+Typos:
+-page 2: 'This suggest' => This suggests
+-page 5: 'Figures 5a' => Fig.5
+-page 6: 'Fig. 5b' => Fig.5
+
+****************************
+Review 3
+****************************
+
+1: (weak accept)
+
+This paper aim to build a formal specification of a modeling paradigm, presented
+as a first step towards formalization of multi-paradigm modeling. In general, I
+appreciate the ideas the authors presented. At the same time, I feel like some
+of the ideas were presented in a rush, resulting in sections that are not easy
+to follow.
+
+Overall, the paper reads well until Definition 2 (page 3). From there until
+Definition 7, it was hard to follow where the authors were going. Since a large
+portion text is about a number of definitions, and formalization of these, the
+story needs to be simplified for readability.
+
+Technically, some of the content is very well written, as I said until page 3.
+Portions of page 4 could be improved.
+
+I like the CAD example -- I am left wishing providing adequate commentary on the
+figures of the example as they help communicate the message you are providing.
+For example, portion of Figure 3 about Money and Product are not adequately
+explained. Figure 5 is explained very briefly and some portions are skipped.
+
+I recommend to shorten the definition section, still to main concepts of
+paradigm and gain more space for illustrating them.
+
+
+The CAD example, as authors state is very basic, and one does not come out
+thinking how the idea of formalization of paradigm was illustrated through
+example. For instance, the model in figure 3 is quite trivial, so what do I gain
+by formalizing the paradigm in this case?
+
+The related work section in its current form can be removed, you can cite paper
+15 and 16 at other places in the paper.
+
+Overall, I really like the proposals but I am left wanting more info and
+exemplification. I rate this paper a weak accept.
+
+Please do a spell check, e.g. 'plane' is mentioned as 'plan' at multiple places
+on page 5.
